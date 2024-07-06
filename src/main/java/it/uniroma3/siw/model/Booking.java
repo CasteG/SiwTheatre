@@ -5,28 +5,23 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 
 @Entity
 public class Booking {
 	
-	public static final String DIR_PAGES_PREN = "information/booking/";
+	public static final String DIR_PAGES_BOOK = "information/booking/";
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
-	@ManyToOne
-	private Actor actor;
-	
-	@OneToOne
-	private Availability availability;
-	
+
 	@ManyToOne
 	private User user;
 	
 	@ManyToOne
 	private Play play;
+	
+	private int numTickets;
 
 	public Long getId() {
 		return id;
@@ -36,15 +31,6 @@ public class Booking {
 		this.id = id;
 	}
 
-	public Actor getActor() {
-		return this.actor;
-	}
-
-	public void setActor(Actor actor) {
-		this.actor = actor;
-	}
-
-	
 	public Play getPlay() {
 		return this.play;
 	}
@@ -53,20 +39,19 @@ public class Booking {
 		this.play = play;
 	}
 
-
-	public Availability getAvailability() {
-		return this.availability;
-	}
-
-	public void setAvailability(Availability availability) {
-		this.availability = availability;
-	}
-
 	public User getUser() {
 		return this.user;
 	}
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public int getNumTickets() {
+		return numTickets;
+	}
+
+	public void setNumTickets(int numTickets) {
+		this.numTickets = numTickets;
 	}
 }

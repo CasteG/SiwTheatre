@@ -1,183 +1,134 @@
 package it.uniroma3.siw.controller;
 
-import static it.uniroma3.siw.model.User.DIR_FOLDER_IMG;
+import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import it.uniroma3.siw.controller.validator.CredentialsValidator;
-import it.uniroma3.siw.controller.validator.UserValidator;
 import it.uniroma3.siw.model.Credentials;
+import it.uniroma3.siw.model.Image;
 import it.uniroma3.siw.model.User;
+import it.uniroma3.siw.repository.ImageRepository;
 import it.uniroma3.siw.service.CredentialsService;
-import it.uniroma3.siw.service.UserService;
-import it.uniroma3.siw.session.SessionData;
-import it.uniroma3.siw.utility.FileStore;
+import it.uniroma3.siw.validator.CredentialsValidator;
+import it.uniroma3.siw.validator.UserValidator;
 import jakarta.validation.Valid;
 
 @Controller
 public class AuthenticationController {
-	
+
 	@Autowired
 	private CredentialsService credentialsService;
-	
-	@Autowired
-	private UserService userService;
-	
-	@Autowired
-	private CredentialsValidator credentialsValidator;
-	
+
 	@Autowired
 	private UserValidator userValidator;
-	
+
 	@Autowired
-	private PasswordEncoder passwordEncoder;
-	
+	private CredentialsValidator credentialsValidator;
+
 	@Autowired
-	SessionData sessionData;
+	private ImageRepository imageRepository;
 	
 	@GetMapping("/register")
-	//@RequestMapping(value="/register", method=RequestMethod.GET)
 	public String showRegisterForm(Model model) {
 		model.addAttribute("user", new User());
 		model.addAttribute("credentials", new Credentials());
-		return "authentication/formRegisterUser";
+		return "formRegisterUser.html";
 	}
 	
+	 @PostMapping("/register")
+	    public String registerUser(@Valid @ModelAttribute("user") User user,
+	                 BindingResult userBindingResult,
+	                 @Valid @ModelAttribute("credentials") Credentials credentials,
+	                 BindingResult credentialsBindingResult, Model model,
+	                 @RequestParam("file") MultipartFile image) throws IOException {
+
+	        // valida user e credenziali
+	        this.userValidator.validate(user, userBindingResult);
+	        this.credentialsValidator.validate(credentials, credentialsBindingResult);
+
+	        //se entrambi passano la validazione, salvali nel database
+	        if(!userBindingResult.hasErrors() && ! credentialsBindingResult.hasErrors()) {
+	        	Image img = new Image(image.getBytes());
+				this.imageRepository.save(img);
+				user.setImage(img);
+				//imposta lo User e salva le credenziali
+	        	//lo User viene automaticamente salvato grazie a cascade.ALL
+				user.setCredentials(credentials);
+	            credentials.setUser(user);
+	            credentialsService.saveCredentials(credentials);
+	            model.addAttribute("user",user);
+	            return "registrationSuccessful.html";
+	        }
+	        model.addAttribute("user", user);
+	        model.addAttribute("credentials", credentials);
+	        return "formRegisterUser.html";
+	    }
+	
 	@GetMapping("/login")
-	//@RequestMapping(value="/login", method=RequestMethod.GET)
 	public String showLoginForm(Model model) {
-		return "authentication/formlogin";
+		return "formLogin.html";
+	}
+	
+	@GetMapping("/login/error")
+	public String showLoginErrorForm(Model model) {
+		/* passo alla form un messaggio di errore */
+		String errorMessage = new String("Username o password incorretti");
+		model.addAttribute("errorMessage", errorMessage);
+		return "formLogin.html";
 	}
 	
 	@GetMapping("/logout")
-	//@RequestMapping(value="/logout", method=RequestMethod.GET)
 	public String logout(Model model) {
-		return "index";
-	}
-	
-//	@GetMapping(value = "/") 
-//	public String index(Model model) {
-//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//		if (authentication instanceof AnonymousAuthenticationToken) {
-//	        return "index.html";
-//		}
-//		else {		
-//			UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//			Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-//			if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
-//				return "redirect:/admin/dipendente";
-//			}
-//		}
-//        return "index.html";
-//	}
-	
-	@GetMapping("/success")
-	public String defaultAfterLogin(Model model) {
-		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-//		if(credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
-//			return "redirect:/admin/dipendenti";
-//		}
-		
-		return this.profileUser(model);
-	}
-	
-	
-	@PostMapping(value= {"/register"})
-	public String registerUser(@Valid @ModelAttribute("user") User user,
-								BindingResult utenteBindingResult, 
-							   @Valid @ModelAttribute("credentials") Credentials credentials,
-							    BindingResult credentialsBindingResult,
-							    Model model) {
-		
-        // validazione user e credenziali
-        this.userValidator.validate(user, utenteBindingResult);
-        this.credentialsValidator.validate(credentials, credentialsBindingResult);
-        
-		if(!utenteBindingResult.hasErrors() && !credentialsBindingResult.hasErrors()) {
-			user.setImg("icon-default-user.png");
-			credentials.setUser(user);
-			credentialsService.saveCredentials(credentials);
-			return "authentication/registrationSuccessful";
-		}
-		return "authentication/formRegisterUser";
-	}
-	
-	@RequestMapping(value={"login/oauth2/user"}, method = RequestMethod.GET)
-	public String oAuth2Successful(Model model){
-		User loggedUser = this.sessionData.getLoggedUser();
-		model.addAttribute("user",loggedUser);
 		return "index.html";
 	}
 	
-	/* PROFILE */
-	@GetMapping("/profile")
-	public String profileUser(Model model) {
-		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-		User user = userService.getUser(credentials.getUser().getId());
-		model.addAttribute("user", user);
-		model.addAttribute("credentials", credentials);
-		return "authentication/profile";
+	@GetMapping("/")
+	public String index(Model model) {
+	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    
+	    if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
+	        // L'utente non è autenticato
+	        return "index.html";
+	    } else {
+	        // Ottieni il Principal e fai il cast a UserDetails
+	        Object principal = authentication.getPrincipal();
+	        if (principal instanceof UserDetails) {
+	            UserDetails userDetails = (UserDetails) principal;
+	            Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+
+	            // Verifica il ruolo dell'utente
+	            if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
+	                // L'utente è un amministratore
+	                return "admin/indexAdmin.html";
+	            } else {
+	                // L'utente è un utente normale
+	                return "user/indexUser.html";
+	            }
+	        }
+	    }
+	    return "index.html";
 	}
+
 	
-	@PostMapping("/changeUserAndPass/{idCred}")
-	public String changeUserAndPass(@Valid @ModelAttribute("credentials") Credentials credentials,
-									BindingResult credentialsBindingResult,
-									@PathVariable("idCred") Long id,
-									@RequestParam(name = "confirmPass") String pass,								
-									Model model) {
-		
-		credentials.setUsername("defaultUsernameForVa");
-		credentialsValidator.validate(credentials, credentialsBindingResult);
-		
-		if(!credentials.getPassword().equals(pass)) {
-			credentialsBindingResult.addError(new ObjectError("notMatchConfirmPassword", "Le password non coincidono"));
-		}
-		
-		Credentials c = credentialsService.getCredentials(id);
-		User user = userService.getUser(c.getUser().getId());
-		credentials.setUsername(c.getUsername());
-		credentials.setId(id);
-		
-		if(!credentialsBindingResult.hasErrors()) {
-			c.setPassword(this.passwordEncoder.encode(credentials.getPassword()));
-			credentialsService.save(c);
-			model.addAttribute("user", user);
-			model.addAttribute("credentials", c);
-			model.addAttribute("okChange", true);
-			return "authentication/profile";
-		}	
-		model.addAttribute("user", user);
-		model.addAttribute("credentials", credentials);
-		model.addAttribute("okChange", false);
-		return "authentication/profile";
-	}
+	@GetMapping("/success")
+    public String defaultAfterLogin(Model model) {
+    	UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    	Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+    	if(credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
+            return "admin/indexAdmin.html";
+        }
+        return "user/indexUser.html";
+    }
 	
-	@PostMapping("/changeImgProfile/{idUser}")
-	public String changeImgProfile(@PathVariable("idUser") Long id,
-								   @RequestParam("file") MultipartFile file, Model model) {
-		User user = userService.getUser(id);
-		if(!user.getImg().equals("icon-user-default.png")) {
-			FileStore.removeImg(DIR_FOLDER_IMG, user.getImg());
-		}
-		user.setImg(FileStore.store(file, DIR_FOLDER_IMG));
-		userService.save(user);
-		return this.profileUser(model);
-	}
 }

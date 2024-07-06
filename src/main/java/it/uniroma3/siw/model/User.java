@@ -43,9 +43,10 @@ public class User{
 	
 	private LocalDate dateOfBirth;
 	
-	private String img;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Image image;
 	
-	@OneToOne (mappedBy="user")
+	@OneToOne
 	private Credentials credentials;
 	
 	@Enumerated(EnumType.STRING)
@@ -58,7 +59,7 @@ public class User{
 	@UpdateTimestamp
 	private LocalDateTime lastUpdateTimestamp;
 	
-	@OneToMany (cascade = CascadeType.ALL)
+	@OneToMany (cascade = CascadeType.ALL, mappedBy="user")
 	private List<Booking> bookings;
 	
 	public Long getId() {
@@ -93,12 +94,12 @@ public class User{
 		this.dateOfBirth = dateOfBirth;
 	}
 
-	public String getImg() {
-		return img;
+	public Image getImage() {
+		return image;
 	}
 
-	public void setImg(String img) {
-		this.img = img;
+	public void setImage(Image img) {
+		this.image = img;
 	}
 
 	public Credentials getCredentials() {
@@ -148,4 +149,5 @@ public class User{
 	public void setUsername(String username) {
 		this.username = username;
 	}
+
 }

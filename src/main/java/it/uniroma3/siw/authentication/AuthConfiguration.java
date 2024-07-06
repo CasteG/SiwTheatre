@@ -1,8 +1,10 @@
 package it.uniroma3.siw.authentication;
 
 import static it.uniroma3.siw.model.Credentials.ADMIN_ROLE;
+import static it.uniroma3.siw.model.Credentials.DEFAULT_ROLE;
 
 import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -61,6 +63,8 @@ public class AuthConfiguration {
 		.requestMatchers(HttpMethod.GET,"/","/index","/register","/css/**", "/images/**", "favicon.ico", "information/**").permitAll()
 		// chiunque (autenticato o no) può mandare richieste POST al punto di accesso per login e register 
 		.requestMatchers(HttpMethod.POST,"/register", "/login").permitAll()
+		.requestMatchers(HttpMethod.GET,"/user/**").hasAnyAuthority(DEFAULT_ROLE)
+		.requestMatchers(HttpMethod.POST,"/user/**").hasAnyAuthority(DEFAULT_ROLE)
 		.requestMatchers(HttpMethod.GET,"/admin/**").hasAnyAuthority(ADMIN_ROLE)
 		.requestMatchers(HttpMethod.POST,"/admin/**").hasAnyAuthority(ADMIN_ROLE)
 		// tutti gli utenti autenticati possono accere alle pagine rimanenti 

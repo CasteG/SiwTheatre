@@ -2,12 +2,11 @@ package it.uniroma3.siw.repository;
 
 import org.springframework.data.repository.CrudRepository;
 
-import it.uniroma3.siw.model.User;
+import it.uniroma3.siw.model.Artist;
 
-public interface UserRepository extends CrudRepository<User, Long> {
+public interface ArtistRepository extends CrudRepository<Artist, Long> {
 
-	public User findByUsername(String username);
-	
 	boolean existsByNameAndSurname(String name, String surname);
+
 
 }
