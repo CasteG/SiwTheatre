@@ -11,9 +11,9 @@
 	</parent>
 	
 	<groupId>it.uniroma3.siw</groupId>
-	<artifactId>siw-theatre</artifactId>
+	<artifactId>SiwTheatre</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>siw-theatre</name>
+	<name>SiwTheatre</name>
 	<description>Gestione prenotazioni di compagnia teatrale</description>
 		<properties>
 		<java.version>17</java.version>
