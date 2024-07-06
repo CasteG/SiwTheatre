@@ -53,23 +53,23 @@ public class BookingController {
         model.addAttribute("idUser", id);
         return DIR_PAGES_PREN + "BookingPlayslist";
     }
-	
-	@GetMapping("/profile/booking/availability/{idU}/{idP}")
-	public String selectAvailability(@PathVariable("idU") Long idUser, 
-									  @PathVariable("idP") Long idPlay, 
-									  Model model) {
-		model.addAttribute("idUser", idUser);
-		model.addAttribute("idPlay", idPlay);
-		model.addAttribute("booking", new Booking());
-		
-		Actor p = this.playService.findById(idPlay).getActor();
-		
-		model.addAttribute("availabilityList", this.availabilityService.findByActorAndActive(p));
-		
-		
-		return DIR_PAGES_PREN + "bookingAvailabilityList";
-	}
-	
+//	
+//	@GetMapping("/profile/booking/availability/{idU}/{idP}")
+//	public String selectAvailability(@PathVariable("idU") Long idUser, 
+//									  @PathVariable("idP") Long idPlay, 
+//									  Model model) {
+//		model.addAttribute("idUser", idUser);
+//		model.addAttribute("idPlay", idPlay);
+//		model.addAttribute("booking", new Booking());
+//		
+//		Actor p = this.playService.findById(idPlay).getActor();
+//		
+//		model.addAttribute("availabilityList", this.availabilityService.findByActorAndActive(p));
+//		
+//		
+//		return DIR_PAGES_PREN + "bookingAvailabilityList";
+//	}
+//	
 	@GetMapping("/profile/booking/add/{idU}/{idP}/{idA}")
 	public String addBooking(@Valid @ModelAttribute("booking") Booking b,
 								  BindingResult bindingResult,

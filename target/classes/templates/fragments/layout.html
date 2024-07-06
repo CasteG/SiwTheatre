@@ -1,0 +1,201 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!-- ================================================================================= -->
+<!-- 							HEADER FILES          								   														 -->
+<!-- ================================================================================= -->
+<head th:fragment="headerfiles(title)">
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title th:text="${title}"></title>
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+
+<body>
+	<!-- ============================================================================ -->
+	<!-- 							HEADER                  					      												-->
+	<!-- ============================================================================ -->
+	<header>
+		<div th:fragment="navMenu" class="navigation-wrap bg-light start-header start-style">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<nav class="navbar navbar-expand-md navbar-light">
+
+							<a class="navbar-brand" href="/"><img src="/images/logo/logo-coccole-capelli.png"></a>	
+
+							<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+								<span class="navbar-toggler-icon"></span>
+							</button>
+
+							<div class="collapse navbar-collapse" id="navbarSupportedContent">
+								<ul class="navbar-nav ml-auto py-4 py-md-0">
+									<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 active">
+										<a class="nav-link" th:href="@{/}">Home</a>
+									</li>
+									<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+										<a class="nav-link" th:href="@{/servizi}">Servizi</a>
+									</li>
+									<!--li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+										<a class="nav-link" th:href="@{/profile}">Appuntamento</a>
+									</li-->
+										
+										<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+											<a class="nav-link" th:href="@{/dipendenti}">Dipendenti</a>
+										</li>
+										<li sec:authorize="!isAuthenticated()" class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+											<a class="btn btn-sm btn-success mb-2" th:href="@{/login}">Login</a>
+										</li>
+										<li sec:authorize="!isAuthenticated()" class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+											<a class="btn btn-sm btn-info" th:href="@{/register}">Register</a>
+										</li>
+										<li sec:authorize="isAuthenticated()" class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+											<a class="btn btn-sm btn-info mb-2" th:href="@{/profile}">Profilo</a>
+										</li>
+										<li sec:authorize="isAuthenticated()" class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+											<a class="btn btn-sm btn-danger" th:href="@{/logout}">LogOut</a>
+										</li>
+									</ul>
+								</div>
+
+							</nav>		
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<!-- ============================================================================ -->
+		<!-- 							IMAGE HERO                 					    												-->
+		<!-- ============================================================================ -->
+		<div th:fragment="image-hero" class="section full-height">
+			<div class="absolute-center">
+				<div class="section">
+					<div class="container">
+						<div class="row">
+							<div class="col-12 text-center">
+								<img style="width:62%;" class="mb-4" src="/images/homepage/slider.jpg">
+							</div>
+							<br>
+							<div class="col-12">
+								<h1>Coccole & Capelli</h1>
+								
+							</div>	
+						</div>		
+					</div>		
+				</div>
+			</div>
+		</div>
+
+		<!-- ============================================================================ -->
+		<!-- 							MODAL OPERAZIONI								  -->
+		<!-- ============================================================================ -->
+
+		<div th:fragment="modalOperations(oggetto, link1, link2, id)">
+			<!-- Button trigger modal -->
+			<button type="button" class="btn btn-info" data-toggle="modal" th:data-target="'#modalFor'+${oggetto}+${id}" th:text="${oggetto}">
+				
+			</button>
+
+			<!-- Modal -->
+			<div class="modal fade" th:id="'modalFor'+${oggetto}+${id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLongTitle">Seleziona l'operazione da effettuare</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div class="row ml-4">
+								<a class="btn btn-info mr-2 mb-2" th:href="@{${link1}}" th:text="'Aggiungi ' + ${oggetto}"></a>
+								<a class="btn btn-info mb-2" th:href="@{${link2}}" th:text="'Visualizza elenco ' + ${oggetto}"></a>   		
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-danger" data-dismiss="modal">Annulla</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<!-- ============================================================================ -->
+		<!-- 							MODAL CANCELLAZIONE                  					  								-->
+		<!-- ============================================================================ -->
+
+		<div th:fragment="modalDelete(nome, link,id)">
+			<!-- Button trigger modal -->
+			<button type="button" class="btn btn-danger" data-toggle="modal" th:data-target="'#modalForDelete'+${id}">
+				Delete
+			</button>
+
+			<!-- Modal -->
+			<div class="modal fade" th:id="'modalForDelete'+${id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLongTitle" th:text="'Sei sicuro di voler eliminare '+${nome}+' ?'"></h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<strong>ATTENZIONE.</strong> <em>Questa operazione è irreversibile.</em>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-info" data-dismiss="modal">Annulla</button>
+							<a class="btn btn-danger" th:href="@{${link}}">Delete</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- ============================================================================ -->
+		<!-- 							MAPPA                 					  												      -->
+		<!-- ============================================================================ -->
+		<section th:fragment="mappa" class="section-map">
+			<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2963.2451005154394!2d12.640667515444502!3d42.037924263376325!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x132f703795862df5%3A0x2ea3ca4222b94d4a!2sVia%20Arturo%20Massimi%2C%2015%2C%2000013%20Mentana%20RM!5e0!3m2!1sit!2sit!4v1655542059038!5m2!1sit!2sit" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+		</section>
+
+
+
+		<!-- ============================================================================ -->
+		<!-- 							BACK BUTTON                  					  												-->
+		<!-- ============================================================================ -->
+		<div th:fragment="backButton(back, text1, back2, text2)" class="row">
+			<a th:href="@{${back}}" class="btn btn-info mr-4" th:text="'« ' + ${text1}"></a>
+			<div th:if="${back2 != 'no'}">
+				<a th:href="@{${back2}}" class="btn btn-info" th:text="'« ' + ${text2}"></a>
+			</div>
+		</div>
+
+		<!-- ============================================================================ -->
+		<!-- 							FOOTER                  					      												-->
+		<!-- ============================================================================ -->   
+		<footer th:fragment="fondo" class="footer-ps text-center">
+			Realizzato Da <strong>Gaglione Giulia</strong> e <strong>Russo Emilia</strong><br>
+			Porgetto SIW 2023		
+		</footer>
+
+
+		<!-- ============================================================================ -->
+		<!-- 							FILES .JS                  					      -->
+		<!-- ============================================================================ -->
+		<div th:fragment="jsFiles">
+			<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+			<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+			<script type="text/javascript" src="/js/coccolecapelli.js"></script>
+		</div>
+
+	</body>
+	</html>

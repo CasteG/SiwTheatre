@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout.html :: headerfiles(title='Profilo Servizio')"></head>
+<body>
+	<header th:replace="fragments/layout.html :: navMenu"></header>
+	
+	<section class="servizio-background informations-section ">
+
+		<div th:if="${servizio.img == 'profili'}" class="img-profile-informations">
+			<img src="/images/servizio/taglio-capelli.jpg" alt="">
+		</div>
+		<div th:unless ="${servizio.img == 'profili'}" class="img-profile-informations">
+			<img th:src="'/images/servizio/profili/' + ${servizio.img}" alt="Profile Servizio">
+		</div>
+	</section>
+
+
+	<section class="generic_section">
+		<div class="container">
+			<div class="mb-4">
+				<h2 th:text="'Servizio ' + ${servizio.nome}"></h2>
+			</div>
+
+			<p th:text="'Descrizione: ' + ${servizio.descrizione}">Descrizione</p>
+			<p th:text="'Prezzo: ' + ${servizio.prezzo} + '€'"> Prezzo</p>
+			<p th:text="'Dipendente: ' + ${servizio.dipendente.nome}"> Dipendente</p>
+
+			<br>
+
+			<div th:replace="fragments/layout.html :: backButton(back='/', text1='Indietro', back2='no', text2=' ')"></div>
+		</div> <!-- end container -->
+	</section>
+
+	<footer th:replace="fragments/layout.html :: fondo"></footer>
+	<div th:replace="fragments/layout.html :: jsFiles"></div>
+</body>
+</html>

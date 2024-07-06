@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout.html :: headerfiles(title='Elenco Servizi')"></head>
+<body>
+	<header th:replace="fragments/layout.html :: navMenu"></header>
+	
+	<section class="generic_section">
+		<div class="container">
+			<div class="mb-4">
+				<h2>Elenco Servizi del Dipendente</h2>
+			</div>
+			<a class="btn btn-success btn-lg" th:href="@{'/admin/servizio/add/' + ${idDipendente}}">Aggiungi Nuovo Servizio</a>
+			<br><br>
+			<div class="table-responsive">
+				<table class="table table-striped table-hover">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Nome</th>
+							<th scope="col">Descrizione</th>
+							<th scope="col">Prezzo</th>
+							<th scope="col"></th>
+							<th scope="col"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="servizio : ${servizi}">
+							<th scope="row" th:text="${servizio.id}">1</th>
+							<th th:text="${servizio.nome}">Nome</th>
+							<th th:text="${servizio.descrizione}">Descrizione</th>
+							<th th:text="${servizio.prezzo}">Prezzo</th>
+							<th>
+								<a class="btn btn-success" th:href="@{'/admin/servizio/edit/' + ${servizio.id}}">Modifica Servizio</a>
+							</th>
+							<th>
+								<div th:replace="fragments/layout.html :: modalDelete(nome='il servizio ' + ${servizio.nome}, link='/admin/servizio/delete/' + ${servizio.id}, id=${servizio.id})"> </div>
+							</th>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<br>
+
+			<div th:replace="fragments/layout.html :: backButton(back='/admin/dipendenti', text1='Indietro', back2='no', text2=' ')"></div>
+		</div> <!-- end container -->
+	</section>
+
+	<footer th:replace="fragments/layout.html :: fondo"></footer>
+	<div th:replace="fragments/layout.html :: jsFiles"></div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout.html :: headerfiles(title='Modifica Dipendente')"> </head>
+<body>
+	<header th:replace="fragments/layout.html :: navMenu"></header>
+
+	<section class="generic_section layout_padding">
+		<div class="container">
+			<div class="mb-4">
+				<h2>Modifica Dipendente</h2>
+			</div>
+
+
+			<div class="form_container mb-5">
+				<form th:action="@{'/admin/dipendente/edit/' + *{id}}" method="post" th:object="${dipendente}">
+					<div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger" role="alert">
+						<h4 align="center" th:each="err : ${#fields.globalErrors()}" th:text="'Errore: ' + ${err}">...</h4>
+					</div>
+					<div class="form-group"><input type="text" class="form-control" placeholder="Nome" th:field="*{nome}"></div>
+					<div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="alert alert-danger" role="alert"></div>
+
+					<div class="form-group"><input type="text" class="form-control" placeholder="Cognome" th:field="*{cognome}"></div>
+					<div th:if="${#fields.hasErrors('cognome')}" th:errors="*{cognome}" class="alert alert-danger" role="alert"></div>
+
+					<div class="form-group"><input type="text" class="form-control" placeholder="Specializzazione" th:field="*{specializzazione}"></div>
+					<div th:if="${#fields.hasErrors('specializzazione')}" th:errors="*{specializzazione}" class="alert alert-danger" role="alert"></div>
+
+					<div class="form-group"><input type="text" class="form-control" placeholder="Partita IVA" th:field="*{partitaIVA}"></div>
+					<div th:if="${#fields.hasErrors('partitaIVA')}" th:errors="*{partitaIVA}" class="alert alert-danger" role="alert"></div>
+
+					<div><button type="submit" class="btn btn-success">Modifica</button></div>
+				</form>
+				<br><br>
+				<h3>Modifica Immagine Profilo Dipendente</h3><br>
+				<div class="form_container">
+					<form th:action="@{/admin/dipendente/changeImg/} + ${dipendente.id}" method="post" enctype="multipart/form-data">
+						<div><input type="file" class="form-control-file" name="file" required></div>
+
+						<div class="preview-img">
+							<h5><em>Immagine attuale:</em></h5>
+							<img th:if="${dipendente.img == 'profili'}" src="/images/dipendente/dipendente.jpg" alt="Profile dipendente">
+							<img th:unless ="${dipendente.img == 'profili'}" th:src="'/images/dipendente/profili/' + ${dipendente.img}" alt="Profile dipendente">
+						</div>
+
+						<div><button type="submit" class="btn btn-success">Cambia Immagine</button></div>
+					</form>
+				</div>
+			</div>
+
+			<div th:replace="fragments/layout.html :: backButton(back='/admin', 
+			text1='Dashboard',
+			back2='/admin/dipendenti',
+			text2='Elenco Dipendenti')"></div>
+		</div> <!-- end container -->
+	</section>
+
+	<footer th:replace="fragments/layout.html :: fondo"></footer>
+	<div th:replace="fragments/layout.html :: jsFiles"></div>
+</body>
+</html>

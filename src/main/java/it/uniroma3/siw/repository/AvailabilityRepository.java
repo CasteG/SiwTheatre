@@ -11,7 +11,7 @@ public interface AvailabilityRepository extends CrudRepository<Availability, Lon
 
 	public List<Availability> findByActor(Actor actor);
 	
-	public List<Availability> findByActorAndActiveTrueOrderByDateAndStartTime(Actor actor);
+	//public List<Availability> findByActorAndActiveTrueOrderByDateAndStartTime(Actor actor);
 
 	public boolean existsByDateAndStartTimeAndEndTimeAndActor(String date, String startTime, String endTime, Actor actor);
 

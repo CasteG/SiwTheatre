@@ -24,9 +24,9 @@ public class AvailabilityService {
 		return this.availabilityRepository.findById(idAvailability).get();
 	}
 	
-	public List<Availability> findByActorAndActive(Actor actor) {
-		return this.availabilityRepository.findByActorAndActiveTrueOrderByDateAndStartTime(actor);
-	}
+//	public List<Availability> findByActorAndActive(Actor actor) {
+//		return this.availabilityRepository.findByActorAndActiveTrueOrderByDateAndStartTime(actor);
+//	}
 	
 	public List<Availability> findByActor(Actor actor) {
 		return this.availabilityRepository.findByActor(actor);

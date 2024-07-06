@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout.html :: headerfiles(title='Elenco Prenotazioni')"></head>
+<body>
+	<header th:replace="fragments/layout.html :: navMenu"></header>
+	
+	<section class="generic_section">
+		<div class="container">
+			<div class="mb-4">
+				<h2>Elenco delle tue Prenotazioni</h2>
+			</div>
+			
+			<br><br>
+			<div class="table-responsive">
+				<table class="table table-striped table-hover">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Servizio</th>
+							<th scope="col">Dipendente</th>
+							<th scope="col">Giorno</th>
+							<th scope="col">Ora</th>
+							<th scope="col"></th>
+							<th scope="col"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="prenotazione : ${prenotazioni}">
+							<th scope="row" th:text="${prenotazione.id}">1</th>
+							<th th:text="${prenotazione.servizio.nome}"></th>
+							<th th:text="${prenotazione.dipendente.nome} + ' ' + ${prenotazione.dipendente.cognome}"></th>
+							<th th:text="${prenotazione.disponibilita.data}"></th>
+							<th th:text="${prenotazione.disponibilita.oraInizio} + '-' + ${prenotazione.disponibilita.oraFine}"></th>
+							<th>
+								<a class="btn btn-success" th:href="@{'/profile/prenotazione/edit/' + ${prenotazione.id}}">Modifica</a>
+							</th>
+							<th>
+								<div th:replace="fragments/layout.html :: modalDelete(nome=${prenotazione.servizio.nome}, link='/profile/delete/' + ${prenotazione.id}, id=${prenotazione.id})"> </div>
+							</th>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<br>
+
+			<div th:replace="fragments/layout.html :: backButton(back='/profile', text1='Indietro', back2='no', text2=' ')"></div>
+		</div> <!-- end container -->
+	</section>
+
+	<footer th:replace="fragments/layout.html :: fondo"></footer>
+	<div th:replace="fragments/layout.html :: jsFiles"></div>
+</body>
+</html>
