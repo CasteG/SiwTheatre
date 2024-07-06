@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import it.uniroma3.siw.model.Artist;
 import it.uniroma3.siw.model.Play;
 import it.uniroma3.siw.repository.PlayRepository;
 import jakarta.transaction.Transactional;
@@ -39,9 +38,6 @@ public class PlayService {
 		return this.playRepository.findById(id).get();
 	}
 	
-	public List<Play> findByArtist(Artist artist) {
-		return this.playRepository.findByArtist(artist);
-	}
 	
 	public List<Play> findAll() {
 		return (List<Play>) this.playRepository.findAll();

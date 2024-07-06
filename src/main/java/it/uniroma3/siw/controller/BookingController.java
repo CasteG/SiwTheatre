@@ -219,12 +219,12 @@ public class BookingController {
 		return "user/formUpdateBooking.html";
 	}
 	
-	@GetMapping("/admin/updatePlay/{idBooking}")
+	@GetMapping("/user/updatePlay/{idBooking}")
 	public String updatePlayUser(Model model, @PathVariable("idBooking") Long id) {
 		Booking booking = this.bookingService.findById(id);
 		model.addAttribute("booking", booking);
 		model.addAttribute("plays", this.playService.findAll());
-		return "admin/updatePlayBooking.html";
+		return "user/updatePlayBooking.html";
 	}
 	
 	@GetMapping("/user/removeBooking/{id}")
