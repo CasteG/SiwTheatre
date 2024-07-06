@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout.html :: headerfiles(title='Registration Successfuly')"> </head>
+<body>
+	<header th:replace="fragments/layout.html :: navMenu"></header>
+
+	  <section class="generic_section">
+	    <div class="container">
+		  <div class="alert alert-success" role="alert">
+		  	<h2>Registrazione avvenuta con successo!</h2>
+		  </div>
+	      <div th:replace="fragments/layout.html :: backButton(back='/', text1='Indietro', back2='no', text2=' ')"></div>
+	    </div> <!-- end container -->
+	  </section>
+	
+	<footer th:replace="fragments/layout.html :: fondo"></footer>
+	<div th:replace="fragments/layout.html :: jsFiles"></div>
+</body>
+</html>

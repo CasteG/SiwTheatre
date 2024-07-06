@@ -1,6 +1,10 @@
 Manifest-Version: 1.0
 Build-Jdk-Spec: 17
+<<<<<<< Updated upstream:siw-movie-02/target/classes/META-INF/MANIFEST.MF
 Implementation-Title: siw-movie-2
+=======
+Implementation-Title: siw-theatre
+>>>>>>> Stashed changes:target/classes/META-INF/MANIFEST.MF
 Implementation-Version: 0.0.1-SNAPSHOT
 Created-By: Maven Integration for Eclipse
 
