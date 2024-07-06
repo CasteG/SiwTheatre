@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Header</title>
+</head>
+<body>
+<!--------------------------------------------STYLESHEET------------------------------------------------------>
+<div th:fragment="Stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
+	rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
+	crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+	<script src="https://kit.fontawesome.com/cd21cc4b26.js" crossorigin="anonymous"></script>
+	<link href="/css/style.css" rel="stylesheet">
+</div>
+<!------------------------------------------NAVBAR CHECK------------------------------------------------------------->
+<div th:fragment="Navbar-check">
+<div th:if="${#authorization.expression('isAnonymous()')}">
+    <div th:replace="~{fragments :: Navbar}"></div>
+</div>
+<div th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+    <div th:replace="~{fragments :: Navbar-admin}"></div>
+</div>
+<div th:if="${#authorization.expression('hasRole(''USER'')')}">
+    <div th:replace="~{fragments :: Navbar-logged}"></div>
+</div>
+</div>
+<!--------------------------------------------NAVBAR Anonymous------------------------------------------------------>
+<nav class="navbar navbar-expand-lg custom-navbar sticky-top" th:fragment="Navbar">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">
+		  <img src="/images/logo/logo_orizzontale.png" width="180">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item ms-4">
+          <a class="nav-link" href="/recipes">Ricette</a>
+        </li>
+		<li class="nav-item ms-4">
+			<a class="nav-link" href="/cooks">Cuochi</a>
+		</li>
+		<li class="nav-item ms-4">
+			<a class="nav-link" href="/login"><i class="bi bi-person-circle"></i></a>
+		</li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!--------------------------------------------NAVBAR Logged------------------------------------------------------>
+<nav class="navbar navbar-expand-lg custom-navbar sticky-top" th:fragment="Navbar-logged">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">
+		<img src="/images/logo/logo_orizzontale.png" width="200">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item ms-4">
+          <a class="nav-link" href="/recipes">Ricette</a>
+        </li>
+		<li class="nav-item ms-4">
+			<a class="nav-link" href="/cooks">Cuochi</a>
+		</li>
+		<li class="nav-item dropdown ms-4">
+			<a class="nav-link dropdow-toggle" href="/login" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+				<i class="bi bi-person-circle"></i>
+			</a>
+		  <ul class="dropdown-menu dropdown-menu-end">
+			<li><a class="dropdown-item" href="/user/profile">Profilo</a></li>
+		    <li><a class="dropdown-item" href="/user/manageMyRecipes">Le tue ricette</a></li>
+			<li><hr class="dropdown-divider"></li>
+		    <li><a class="dropdown-item" href="/logout">Logout</a></li>
+		  </ul>
+		</li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+<!--------------------------------------------NAVBAR Admin------------------------------------------------------>
+<nav class="navbar navbar-expand-lg custom-navbar sticky-top" th:fragment="Navbar-admin">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">
+		<img src="/images/logo/logo_orizzontale.png" width="200">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item dropdown ms-4">
+          <a class="nav-link dropdow-toggle" href="/recipes" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+			Ricette
+		  </a>
+		  <ul class="dropdown-menu">
+		    <li><a class="dropdown-item" href="/admin/manageRecipes">Gestisci ricette</a></li>
+		  	<li><a class="dropdown-item" href="/admin/newRecipe">Aggiungi ricette</a></li>
+		  </ul>
+        </li>
+		
+		<li class="nav-item dropdown ms-4">
+			<a class="nav-link dropdow-toggle" href="/cooks" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+				Cuochi
+			</a>
+			<ul class="dropdown-menu dropdown-menu-end">
+			  <li><a class="dropdown-item" href="/admin/manageCooks">Gestisci cuochi</a></li>
+			  <li><a class="dropdown-item" href="/admin/newCook">Aggiungi cuochi</a></li>
+			</ul>
+		</li>
+		<li class="nav-item dropdown ms-4">
+			<a class="nav-link dropdow-toggle" href="/login" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+				<i class="bi bi-person-circle"></i>
+			</a>
+		  <ul class="dropdown-menu dropdown-menu-end">
+		    <li><a class="dropdown-item" href="/logout">Logout</a></li>
+		  </ul>
+		</li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-----------------------------------------------CAROUSEL-------------------------------------------------->
+<div id="carouselExampleDark" class="carousel carousel slide" data-bs-ride="carousel" th:fragment="Carousel-home">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+	<button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+	<button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="3" aria-label="Slide 4"></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active" data-bs-interval="2000">
+      <img src="/images/slider/Sogno-di-una-notte-di-mezza-estate-11.png" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item" data-bs-interval="3000">
+      <img src="/images/slider/A-christmas-carol-6.png" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item" data-bs-interval="3000">
+      <img src="/images/slider/Romeo-e-Giulietta-12.png" class="d-block w-100" alt="...">
+    </div>
+	<div class="carousel-item" data-bs-interval="3000">
+	      <img src="/images/slider/otello-1.jpg" class="d-block w-100" alt="...">
+	    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+<!-----------------------------------------------FOOTER---------------------------------------------------->
+<div th:fragment="Footer" id="footer">
+	<footer class="bg-orange text-center py-5">
+    <div class="container px-5">
+        <div class="text-white-50 small">
+            <div class="mb-2">&copy; SIW-Food-Ratatouille. Non-Commercial.</div>
+            <a class="text-cream" href="#!">Privacy</a>
+            <span class="mx-1">&middot;</span>
+            <a class="text-cream" href="#!">Terms</a>
+            <span class="mx-1">&middot;</span>
+            <a class="text-cream" href="#!">FAQ</a>
+        </div>
+    </div>
+  </footer>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script></div>
+</div>
+</body>
+</html>
