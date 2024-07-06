@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout.html :: headerfiles(title='Elenco Dipendenti')"></head>
+<body>
+	<header th:replace="fragments/layout.html :: navMenu"></header>
+	
+	<section class="generic_section">
+		<div class="container">
+			<div class="mb-4">
+				<h2>Elenco Dipendenti</h2>
+			</div>
+			<a class="btn btn-success btn-lg" th:href="@{/admin/dipendente/add}">Aggiungi Nuovo Dipendente</a>
+			<br><br>
+			<div class="table-responsive">
+				<table class="table table-striped table-hover">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Nome</th>
+							<th scope="col">Cognome</th>
+							<th scope="col">Dipendente</th>
+							<th scope="col">P.I.</th>
+							<th scope="col"></th>
+							<th scope="col"></th>
+							<th scope="col"></th>
+							<th scope="col"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="dipendente : ${dipendenti}">
+							<th scope="row" th:text="${dipendente.id}">1</th>
+							<th th:text="${dipendente.nome}">Nome</th>
+							<th th:text="${dipendente.cognome}">Cognome</th>
+							<th th:text="${dipendente.specializzazione}">Specializzazione</th>
+							<th th:text="${dipendente.partitaIVA}">partitaIVA</th>
+							<th>
+								<div th:replace="fragments/layout.html :: modalOperations(oggetto='servizi', 
+								link1='/admin/servizio/add/' + ${dipendente.id},
+								link2='/admin/servizi/' + ${dipendente.id},
+								id=${dipendente.id})"> </div>
+							</th>
+							<th>
+								<div th:replace="fragments/layout.html :: modalOperations(oggetto='Disponibilità', 
+								link1='/admin/disponibilita/add/' + ${dipendente.id},
+								link2='/admin/disponibilita/' + ${dipendente.id},
+								id=${dipendente.id})"> </div>
+							</th>
+							<th>
+								<a class="btn btn-success" th:href="@{'/admin/dipendente/edit/' + ${dipendente.id}}">Modifica</a>
+							</th>
+							<th>
+								<div th:replace="fragments/layout.html :: modalDelete(nome=${dipendente.nome}, link='/admin/dipendente/delete/' + ${dipendente.id}, id=${dipendente.id})"> </div>
+							</th>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<br>
+
+			<div th:replace="fragments/layout.html :: backButton(back='/', text1='Indietro', back2='no', text2=' ')"></div>
+		</div> <!-- end container -->
+	</section>
+
+	<footer th:replace="fragments/layout.html :: fondo"></footer>
+	<div th:replace="fragments/layout.html :: jsFiles"></div>
+</body>
+</html>

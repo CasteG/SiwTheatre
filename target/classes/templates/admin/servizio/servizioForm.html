@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout.html :: headerfiles(title='Aggiungi Servizio')"> </head>
+<body>
+	<header th:replace="fragments/layout.html :: navMenu"></header>
+
+	<section class="generic_section layout_padding">
+		<div class="container">
+			<div class="mb-4">
+				<h2>Aggiungi Nuovo Servizio</h2>
+			</div>
+
+
+			<div class="form_container mb-5">
+				<form th:action="@{/admin/servizio/add/} + ${id}" method="post" th:object="${servizio}" enctype="multipart/form-data">
+					<div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger" role="alert">
+						<h4 align="center" th:each="err : ${#fields.globalErrors()}" th:text="'Errore: ' + ${err}">...</h4>
+					</div>
+					<div class="form-group"><input type="text" class="form-control" placeholder="Nome" th:field="*{nome}"></div>
+					<div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="alert alert-danger" role="alert"></div>
+
+					<div class="form-group"><input type="text" class="form-control" placeholder="Descrizione" th:field="*{descrizione}"></div>
+					<div th:if="${#fields.hasErrors('descrizione')}" th:errors="*{descrizione}" class="alert alert-danger" role="alert"></div>
+
+					<div class="form-group"><input type="number" step="0.5" class="form-control" placeholder="Prezzo" th:field="*{prezzo}"></div>
+					<div th:if="${#fields.hasErrors('prezzo')}" th:errors="*{prezzo}" class="alert alert-danger" role="alert"></div>
+
+					<div class="form-group"><input type="file" class="form-control-file" name="file"></div>
+					<div><button type="submit" class="btn btn-success">Aggiungi</button></div>
+				</form>
+			</div>
+
+			<div th:replace="fragments/layout.html :: backButton(back='/admin', 
+																 text1='Dashboard',
+																 back2='/admin/servizi/' + ${id},
+																 text2='Elenco Servizi')"></div>
+		</div> <!-- end container -->
+	</section>
+
+	<footer th:replace="fragments/layout.html :: fondo"></footer>
+	<div th:replace="fragments/layout.html :: jsFiles"></div>
+</body>
+</html>

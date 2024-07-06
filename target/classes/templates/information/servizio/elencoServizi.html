@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout.html :: headerfiles(title='Elenco Servizi')"></head>
+<body>
+	<header th:replace="fragments/layout.html :: navMenu"></header>
+	
+	<section class="generic_section">
+		<div class="container">
+			<div class="mb-4">
+				<h2>Elenco Servizi</h2>
+			</div>
+
+			<ul class="card-list">
+
+				<li th:each="servizio : ${servizi}" class="card">
+
+					<div th:if="${servizio.img == 'profili'}">
+						<a class="card-image" th:href="@{'/servizio/' + ${servizio.id}}" data-image-full="/images/servizio/taglio-capelli.jpg">
+							<img src="/images/servizio/taglio-capelli.jpg" alt="Servizio" />
+						</a>			
+					</div>
+					<div th:unless ="${servizio.img == 'profili'}">
+						<a class="card-image" th:href="@{'/servizio/' + ${servizio.id}}" th:data-image-full="'/images/servizio/profili/' + ${servizio.img}">
+							<img th:src="'/images/servizio/profili/' + ${servizio.img}" alt="Servizio" />
+						</a>
+					</div>
+
+					<a class="card-description" th:href="@{'/servizio/' + ${servizio.id}}">
+						<h4 th:text="${servizio.nome}">Nome Servizio</h4>
+						<p th:text="'Descrizione: ' + ${servizio.descrizione}">Descrizione</p>
+						<p th:text="'Prezzo: ' + ${servizio.prezzo} + '€'"> Prezzo</p>
+						<p th:text="'Dipendente: ' + ${servizio.dipendente.nome}"> Dipendente</p>
+					</a>
+				</li>
+
+			</ul>
+
+			<br>
+
+			<div th:replace="fragments/layout.html :: backButton(back='/', text1='Indietro', back2='no', text2=' ')"> </div>
+		</div> <!-- end container -->
+	</section>
+
+	<footer th:replace="fragments/layout.html :: fondo"></footer>
+	<div th:replace="fragments/layout.html :: jsFiles"></div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout.html :: headerfiles(title='Modifica Disponibilità')"> </head>
+<body>
+	<header th:replace="fragments/layout.html :: navMenu"></header>
+
+	<section class="generic_section layout_padding">
+		<div class="container">
+			<div class="mb-4">
+				<h2>Modifica Disponibilit&agrave;</h2>
+			</div>
+
+
+			<div class="form_container mb-5">
+				<form th:action="@{'/admin/disponibilita/edit/' + *{id}}" method="post" th:object="${disponibilita}">
+					<div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger" role="alert">
+						<h4 align="center" th:each="err : ${#fields.globalErrors()}" th:text="'Errore: ' + ${err}">...</h4>
+					</div>
+					<div class="form-group"><input type="date" class="form-control" placeholder="Data" th:field="*{data}" required></div>
+					<div th:if="${#fields.hasErrors('data')}" th:errors="*{data}" class="alert alert-danger" role="alert"></div>
+
+					<div class="form-group"><input type="time" class="form-control" placeholder="Ora inizio" th:field="*{oraInizio}" required></div>
+					<div th:if="${#fields.hasErrors('oraInizio')}" th:errors="*{oraInizio}" class="alert alert-danger" role="alert"></div>
+
+					<div class="form-group"><input type="time" class="form-control" placeholder="Ora fine" th:field="*{oraFine}" required></div>
+					<div th:if="${#fields.hasErrors('oraFine')}" th:errors="*{oraFine}" class="alert alert-danger" role="alert"></div>
+
+					<div><button type="submit" class="btn btn-success">Modifica</button></div>
+				</form>
+			</div>
+
+			<div th:replace="fragments/layout.html :: backButton(back='/admin', 
+																 text1='Dashboard',
+																 back2='/admin/disponibilita/' + ${disponibilita.dipendente.id},
+																 text2='Elenco Disponibilità')"></div>
+		</div> <!-- end container -->
+	</section>
+
+	<footer th:replace="fragments/layout.html :: fondo"></footer>
+	<div th:replace="fragments/layout.html :: jsFiles"></div>
+</body>
+</html>
