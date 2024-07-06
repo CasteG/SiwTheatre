@@ -1,25 +1,29 @@
 package it.uniroma3.siw.controller;
 
-import static it.uniroma3.siw.model.Booking.DIR_PAGES_PREN;
+import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
-import it.uniroma3.siw.controller.validator.BookingValidator;
-import it.uniroma3.siw.model.Actor;
-import it.uniroma3.siw.model.Availability;
 import it.uniroma3.siw.model.Booking;
-import it.uniroma3.siw.model.Play;
+import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.User;
-import it.uniroma3.siw.service.AvailabilityService;
 import it.uniroma3.siw.service.BookingService;
+import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.service.PlayService;
 import it.uniroma3.siw.service.UserService;
+import it.uniroma3.siw.validator.BookingValidator;
 import jakarta.validation.Valid;
 
 @Controller
@@ -32,80 +36,202 @@ public class BookingController {
 	private PlayService playService;
 	
 	@Autowired
-	private AvailabilityService availabilityService;
-	
-	@Autowired
 	private BookingValidator bookingValidator;
 	
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private CredentialsService credentialsService;
 	
-	@GetMapping("/profile/bookings/{id}")
-	public String getBookings(@PathVariable("id") Long id, Model model) {
-		User user = this.userService.getUser(id);
-		model.addAttribute("bookings", user.getBookings());
-		return DIR_PAGES_PREN + "bookingsList";
-	}
-	
-	@GetMapping("/profile/booking/add/{id}")
-    public String addBooking(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("plays", this.playService.findAll());
-        model.addAttribute("idUser", id);
-        return DIR_PAGES_PREN + "BookingPlayslist";
-    }
-//	
-//	@GetMapping("/profile/booking/availability/{idU}/{idP}")
-//	public String selectAvailability(@PathVariable("idU") Long idUser, 
-//									  @PathVariable("idP") Long idPlay, 
-//									  Model model) {
-//		model.addAttribute("idUser", idUser);
-//		model.addAttribute("idPlay", idPlay);
-//		model.addAttribute("booking", new Booking());
-//		
-//		Actor p = this.playService.findById(idPlay).getActor();
-//		
-//		model.addAttribute("availabilityList", this.availabilityService.findByActorAndActive(p));
-//		
-//		
-//		return DIR_PAGES_PREN + "bookingAvailabilityList";
-//	}
-//	
-	@GetMapping("/profile/booking/add/{idU}/{idP}/{idA}")
-	public String addBooking(@Valid @ModelAttribute("booking") Booking b,
-								  BindingResult bindingResult,
-								  @PathVariable("idU") Long idUser, 
-								  @PathVariable("idP") Long idPlay,
-								  @PathVariable("idA") Long idAvailability,
-								  Model model) {
+
+	@PostMapping("/booking")
+	public String newBooking(@Valid @ModelAttribute("booking") Booking booking, 
+			BindingResult bindingResult, Model model,
+			@RequestParam("file") MultipartFile image) throws IOException {
 		
-		User u = this.userService.getUser(idUser);
-		Play p = this.playService.findById(idPlay);
-		Availability a = this.availabilityService.findById(idAvailability);
-		Actor actor = p.getActor();
-		b.setActor(actor);
-		b.setUser(u);
-		b.setAvailability(a);
-		b.setPlay(p); 
-		a.setActive(false);
+		this.bookingValidator.validate(booking, bindingResult);
 		
-		this.bookingValidator.validate(b, bindingResult);
-		if(!bindingResult.hasErrors()) {
-			this.userService.addBooking(u, b);			
-			return "redirect:/profile/bookings/" + u.getId();
+		/* controllo chi è che sta aggiungendo una prenotazione: default o admin */
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        // Ottieni il Principal e fai il cast a UserDetails
+        Object principal = authentication.getPrincipal();
+        UserDetails userDetails = (UserDetails) principal;
+        Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+         
+	     /* AGGIUNTA PRENOTAZIONE DA PARTE DI UN ADMIN */
+	     if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
+	    	 
+			if(bindingResult.hasErrors()) {
+				model.addAttribute("booking", booking);
+				model.addAttribute("plays", this.playService.findAll());
+				model.addAttribute("users", this.userService.findAll());
+				return "admin/formNewBooking.html";
+			}
+			
+			else {
+				this.bookingService.save(booking); 
+				model.addAttribute("booking", booking);
+				return "redirect:booking/"+booking.getId();	//dico al client fammi una richiesta all'url booking/{id} 
+			}
 		}
-		//da modellare in caso di errori
-		return DIR_PAGES_PREN + "bookingOverview";
+         /* AGGIUNTA PRENOTAZIONE DA PARTE DI UN UTENTE */
+         else {
+        	 
+        	if(bindingResult.hasErrors()) {
+     			model.addAttribute("booking", booking);
+     			model.addAttribute("plays", this.playService.findAll());
+     			return "user/formNewBooking.html";
+     		}
+        	 
+        	else {
+		         /* cerco lo user per poterlo settare come cliente della prenotazione */
+		         User user = this.userService.findById(credentials.getUser().getId());
+				 booking.setUser(user);
+		     	
+				this.bookingService.save(booking); 
+				model.addAttribute("booking", booking);
+				return "redirect:booking/"+booking.getId();	//dico al client fammi una richiesta all'url booking/{id} 
+     		}
+         }
 	}
 	
-	@GetMapping("/profile/delete/{id}")
-	public String deleteBooking(@PathVariable("id") Long id, Model model) {
-		Booking b = this.bookingService.findById(id);
-		User u = b.getUser();
-		Availability a = b.getAvailability();
-		
-		a.setActive(true);
-		this.userService.deleteBooking(u, b);
-		this.bookingService.delete(b);
-		return "redirect:/profile/bookings/" + u.getId();
+	
+	/*********************************************************************************************/
+	/**************************************** ADMIN ***********************************************/
+	/**********^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^**********************************************/
+	
+
+	@GetMapping("admin/booking/{id}")
+	public String getBooking(@PathVariable("id") Long id, Model model) {
+		Booking booking = this.bookingService.findById(id);
+		model.addAttribute("booking", booking);
+		return "admin/booking.html";
 	}
+	
+	@GetMapping("admin/booking")
+	public String showBookings(Model model) {
+		model.addAttribute("bookings", this.bookingService.findAll());
+		return "admin/bookings.html";
+	}
+
+	@GetMapping("admin/formSearchBooking")
+	public String formSearchBookings() {
+		return "admin/formSearchBooking.html";
+	}
+
+	@PostMapping("admin/searchBooking")
+	public String searchBookings(Model model, @RequestParam String username) {
+		/* cerco lo User in base allo username e poi prendo solo le ricette dello User in questione */
+		model.addAttribute("bookings", this.bookingService.findByUser(userService.findByUsername(username)));
+		return "bookings.html";
+	}
+	
+	@GetMapping("/admin/formNewBooking")
+	public String formNewBooking(Model model) {
+		model.addAttribute("booking", new Booking());
+		model.addAttribute("plays", this.playService.findAll());
+		model.addAttribute("users", this.userService.findAll());
+		return "admin/formNewBooking.html";
+	}
+	
+	@GetMapping("/admin/manageBookings")
+	public String manageBookings(Model model) {
+		model.addAttribute("bookings", this.bookingService.findAll());
+		return "admin/manageBookings.html";
+	}
+	
+	@GetMapping("/admin/formUpdateBooking/{id}")
+	public String formUpdateBooking(@PathVariable("id") Long id, Model model) {
+		model.addAttribute("booking", this.bookingService.findById(id));
+		model.addAttribute("plays", this.playService.findAll());
+		return "admin/formUpdateBooking.html";
+	}
+	
+	@GetMapping("/admin/updatePlay/{idBooking}")
+	public String updatePlay(Model model, @PathVariable("idBooking") Long id) {
+		Booking booking = this.bookingService.findById(id);
+		model.addAttribute("booking", booking);
+		model.addAttribute("plays", this.playService.findAll());
+		return "admin/updatePlayBooking.html";
+	}
+	
+	@GetMapping("/admin/removeBooking/{id}")
+	public String removeBooking(@PathVariable("id") Long id, Model model) {
+		this.bookingService.remove(this.bookingService.findById(id));
+		return "admin/successfulRemoval.html";
+	}
+	
+	
+	/*********************************************************************************************/
+	/**************************************** USER ***********************************************/
+	/**********^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^**********************************************/
+
+	
+	@GetMapping("user/booking")
+	public String showBookingsUser(Model model) {
+
+		/* prendo l'utente che sta facendo la richiesta per mostrargli solo le sue prenotazioni */
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        // Ottieni il Principal e fai il cast a UserDetails
+        Object principal = authentication.getPrincipal();
+        UserDetails userDetails = (UserDetails) principal;
+        Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+		
+		model.addAttribute("bookings", this.bookingService.findByUser(credentials.getUser()));
+		return "user/bookings.html";
+	}
+
+	
+	@GetMapping("user/booking/{id}")
+	public String getBookingUser(@PathVariable("id") Long id, Model model) {
+		Booking booking = this.bookingService.findById(id);
+		model.addAttribute("booking", booking);
+		return "user/booking.html";
+	}
+	
+	@GetMapping("/user/formNewBooking")
+	public String formNewBookingUser(Model model) {
+		model.addAttribute("booking", new Booking());
+		model.addAttribute("plays", this.playService.findAll());
+		return "user/formNewBooking.html";
+	}
+	
+	@GetMapping("/user/manageBookings")
+	public String manageBookingsUser(Model model) {
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        // Ottieni il Principal e fai il cast a UserDetails
+        Object principal = authentication.getPrincipal();
+        // se può accedere a questa risorsa vuol dire che è per forza utente
+        UserDetails userDetails = (UserDetails) principal;
+        Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+    	//è user default, puà modificare solo le sue ricette
+    	Iterable<Booking> userBookings= this.bookingService.findByUser(credentials.getUser());
+    	model.addAttribute("bookings", userBookings);
+    	return "user/manageBookings.html";
+	}
+	
+	@GetMapping("/user/formUpdateBooking/{id}")
+	public String formUpdateBookingUser(@PathVariable("id") Long id, Model model) {
+		model.addAttribute("booking", this.bookingService.findById(id));
+		model.addAttribute("plays", this.playService.findAll());
+		return "user/formUpdateBooking.html";
+	}
+	
+	@GetMapping("/admin/updatePlay/{idBooking}")
+	public String updatePlayUser(Model model, @PathVariable("idBooking") Long id) {
+		Booking booking = this.bookingService.findById(id);
+		model.addAttribute("booking", booking);
+		model.addAttribute("plays", this.playService.findAll());
+		return "admin/updatePlayBooking.html";
+	}
+	
+	@GetMapping("/user/removeBooking/{id}")
+	public String removeBookingUser(@PathVariable("id") Long id, Model model) {
+		this.bookingService.remove(this.bookingService.findById(id));
+		return "user/successfulRemoval.html";
+	}
+	
+
 }

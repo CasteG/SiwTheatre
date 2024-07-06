@@ -39,7 +39,8 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler{
         System.out.println("email: " + email );
         System.out.println("fullname: " + fullName );
 
-        User user= utenteService.getUsername(loginName);
+        /* RIGA MODIFICATA */
+        User user= utenteService.findByUsername(loginName);
 
         if(user == null){
             utenteService.registerNewCustomerAfterOAuthLoginSuccess(loginName,fullName,AuthenticationProvider.OAUTH);

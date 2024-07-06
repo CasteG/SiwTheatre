@@ -1,11 +1,15 @@
 package it.uniroma3.siw.model;
 
-import it.uniroma3.siw.utility.FileStore;
+import java.time.LocalDateTime;
+import java.util.Set;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
@@ -24,13 +28,22 @@ public class Play {
 	
 	private String description;
 	
-	/*@NotBlank*/
+	@ManyToMany(mappedBy="plays")
+	private Set<Artist> artists;
+	
+	private String category;
+	
+	private LocalDateTime date;
+	
+	private String location;
+	
+	private int availableTickets;
+	
 	private Float price;
 	
-	private String img;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Image image;
 	
-	@ManyToOne
-	private Actor actor;
 	
 	public Long getId() {
 		return id;
@@ -40,16 +53,12 @@ public class Play {
 		this.id = id;
 	}
 
-	public String getImg() {
-		return img;
+	public Image getImage() {
+		return image;
 	}
 
-	public void setImg(String img) {
-		this.img = img;
-	}
-	
-	public void deleteImage() {
-		FileStore.removeImg(DIR_FOLDER_IMG, this.getImg());
+	public void setImage(Image img) {
+		this.image = img;
 	}
 
 	public String getName() {
@@ -68,6 +77,46 @@ public class Play {
 		this.description = description;
 	}
 
+	public Set<Artist> getArtists() {
+		return artists;
+	}
+
+	public void setArtists(Set<Artist> artists) {
+		this.artists = artists;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public LocalDateTime getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDateTime date) {
+		this.date = date;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public int getAvailableTickets() {
+		return availableTickets;
+	}
+
+	public void setAvailableTickets(int availableTickets) {
+		this.availableTickets = availableTickets;
+	}
+
 	public Float getPrice() {
 		return price;
 	}
@@ -76,11 +125,5 @@ public class Play {
 		this.price = price;
 	}
 
-	public Actor getActor() {
-		return actor;
-	}
 
-	public void setActor(Actor actor) {
-		this.actor = actor;
-	}
 }

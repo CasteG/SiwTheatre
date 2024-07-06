@@ -56,10 +56,10 @@ public class SessionData {
         Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         CustomOAuth2User loggedOAuth2User = (CustomOAuth2User) object;
         try {
-            this.user = userRepository.findByUsername(loggedOAuth2User.getLogin()).get();
+            this.user = userRepository.findByUsername(loggedOAuth2User.getLogin());
         }
         catch( NoSuchElementException e ){
-            this.user = userRepository.findByUsername(loggedOAuth2User.getFullName()).get();
+            this.user = userRepository.findByUsername(loggedOAuth2User.getFullName());
         }
     }
 }
