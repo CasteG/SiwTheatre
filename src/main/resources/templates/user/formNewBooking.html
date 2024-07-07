@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>New Booking</title>
+    <link rel="stylesheet" href="/stile.css?version=3">
+</head>
+
+<body>
+    <div><a href="/">Home</a></div>
+<h1>Effettua una prenotazione</h1>
+<form th:action="@{/booking}" method="POST" th:object="${booking}">
+    <div th:if="${#fields.hasGlobalErrors()}">
+        <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
+    </div>
+
+    <div>
+        Spettacolo:
+        <span th:if="${plays.isEmpty()}">Non ci sono spettacoli nel sistema</span>
+        <span th:if="${!plays.isEmpty()}">
+            <select th:field="${booking.play}">
+                <option th:each="play : ${plays}" th:value="${play.id}" th:text="${play}">Seleziona uno spettacolo</option>
+            </select>
+        </span>
+    </div>
+    
+     <div>
+        Numero biglietti: <input type="text" th:field="${booking.numTickets}">
+        <span th:if="${#fields.hasErrors('numTickets')}" th:errors="*{numTickets}"></span>
+    </div>
+
+    
+    <span><button type="submit">Conferma</button></span>
+</form>
+
+</body>
+</html>
