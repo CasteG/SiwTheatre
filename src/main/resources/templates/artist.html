@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Artist</title>
+    <link rel="stylesheet" href="/stile.css?version=2" />
+</head>
+
+<body>
+    <div>
+    <div><a href="/">Home</a></div>
+    </div>
+    <div th:if="${artist}">
+        <h1 th:text="${artist.name} + ' ' + ${artist.surname} + ' (' + ${artist.dateOfBirth} + ')' "></h1>
+        <h2>Ruolo: <span th:text="${artist.role}"></span></h2>
+        <h2>Spettacoli: </h2>
+        <ul>
+      <li th:each="play : ${artist.plays}">
+        <a th:href="@{'/play' + '/' + ${play.id}}"
+           th:text="${play}"></a>
+      </li>
+    </ul>
+    </div>
+    <div th:unless="${artist}">Non esiste</div>
+</body>
+</html>

@@ -11,10 +11,11 @@
     </div>
     <div th:if="${play}">
         <h1 th:text="${play.name} + ' (' ${play.location} + ", " ${play.date} + ')' "></h1>
-        <h2>Numero biglietti: <span th:text="${booking.numTickets}"></span></h2>
-        <h2>Prezzo totale: <span th:text="${totalPrice}"></span></h2>
+        <h2>Numero biglietti disponibili: <span th:text="${play.availableTickets}"></span></h2>
+        <h2>Prezzo: <span th:text="${play.price}"></span>euro</h2>
+        <h2>Descrizione: <span th:text=${play.description}></span></h2>
     </div>
-    
+    <!-- itero sugli artisti dello spettacolo -->
      <h2>Artisti</h2>
             <div th:if="${play.artists.isEmpty()}">Nessun artista inserito</div>
             <div th:if="${!play.artists.isEmpty()}">
@@ -26,6 +27,6 @@
             </div>
         </div>
      
-    <div th:unless="${booking}">Non esiste</div>
+    <div th:unless="${play}">Non esiste</div>
 </body>
 </html>

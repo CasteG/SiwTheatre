@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
   <head>
     <title>Plays</title>
@@ -12,8 +12,9 @@
     <div th:if="${plays.isEmpty()}">Non ci sono spettacoli nel sistema</div>
     <ul>
       <li th:each="play : ${plays}">
-        <a th:href="@{'/play' + '/' + ${play.id}}"
-           th:text="${play}"></a>
+        <a th:href="@{'/play/' + ${play.id}}"
+           th:text="${play.name}"></a>
+        <span th:text=" ' (' + ${play.location} + ', ' + ${#temporals.format(play.date, 'dd-MM-yyyy')} + ')'"></span>
       </li>
     </ul>
   </body>
