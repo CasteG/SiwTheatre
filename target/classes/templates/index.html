@@ -11,10 +11,10 @@
 	<div th:replace="~{fragments :: Carousel-home}"></div>
 	
 	<!-- grid-->
-	<div id="grid">
+	<!--div id="grid">
 	    <div class="container-fluid p-3 mb-4">
 	        <div class="row g-3" id="grid-items">
-	            <div class="col-lg-4 col-sm-6" th:each="play : ${plays}" th:classappend="${loop.index gt 3} ? 'hidden'">
+	            <div class="col-lg-4 col-sm-6" th:each="play : ${plays}">
 	                <a class="grid-box" th:href="@{'/plays/' + ${play.id}}">
 	                    <img class="img-fluid rounded-top-4" th:src="@{'/uploadedImage/'+ ${play.image.id}}" />
 	                    <div class="grid-caption mt-n2 rounded-bottom-4">
@@ -28,11 +28,11 @@
 	            <button class="btn bg-red text-white fw-semibold" id="show-more">Mostra di più</button>
 	        </div>
 	    </div>
-	</div>
+	</div-->
 	
 	<div th:replace="~{fragments :: Footer}"></div>
 	
-	<script>
+	<!--script>
 	    document.getElementById('show-more').addEventListener('click', function() {
 	        var hiddenItems = document.querySelectorAll('.hidden');
 	        hiddenItems.forEach(function(item) {
@@ -40,6 +40,6 @@
 	        });
 	        this.style.display = 'none';
 	    });
-	</script>
+	</script-->
 </body>
 </html>

@@ -1,9 +1,10 @@
 package it.uniroma3.siw.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,12 +27,13 @@ public class Play {
 	@NotBlank
 	private String name;
 	
+	@Column(length = 2000)
 	private String description;
 	
 	@ManyToMany(mappedBy="plays")
 	private Set<Artist> artists;
 	
-	private LocalDateTime date;
+	private LocalDate date;
 	
 	private String location;
 	
@@ -83,11 +85,11 @@ public class Play {
 		this.artists = artists;
 	}
 
-	public LocalDateTime getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 
-	public void setDate(LocalDateTime date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 

@@ -1,6 +1,6 @@
 package it.uniroma3.siw.repository;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import org.springframework.data.repository.CrudRepository;
 
@@ -11,5 +11,5 @@ public interface PlayRepository extends CrudRepository<Play, Long> {
 	
 	public Play findByName(String name);
 
-	public boolean existsByNameAndDate(String name, LocalDateTime date);
+	public boolean existsByNameAndDate(String name, LocalDate localDate);
 }
