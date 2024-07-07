@@ -39,6 +39,8 @@ public class User{
 	@NotBlank
 	private String surname;
 	
+	private String email;
+	
 	private LocalDate dateOfBirth;
 	
     @OneToOne(cascade = CascadeType.ALL)
@@ -116,6 +118,14 @@ public class User{
 
 	public void setCredentials(Credentials credentials) {
 		this.credentials = credentials;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public List<Booking> getBookings() {
