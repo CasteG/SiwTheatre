@@ -54,4 +54,12 @@ public class Booking {
 	public void setNumTickets(int numTickets) {
 		this.numTickets = numTickets;
 	}
+
+	@Override
+	public String toString() {
+		if(numTickets==1)
+			return play.getName() + " (" + numTickets + "biglietto)";
+		else
+			return play.getName() + " (" + numTickets + "biglietti)";
+	}
 }

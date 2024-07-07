@@ -150,4 +150,9 @@ public class User{
 		this.lastUpdateTimestamp = lastUpdateTimestamp;
 	}
 
+	@Override
+	public String toString() {
+		return name + " " +  surname;
+	}
+
 }

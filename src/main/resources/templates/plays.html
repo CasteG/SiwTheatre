@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Plays</title>
+    <link rel="stylesheet" href="/stile.css?version=2" />
+  </head>
+
+  <body>
+    <div><a href="/">Home</a></div>
+    <h1>Spettacoli</h1>
+    <div th:if="${plays.isEmpty()}">Non ci sono spettacoli nel sistema</div>
+    <ul>
+      <li th:each="play : ${plays}">
+        <a th:href="@{'/play' + '/' + ${play.id}}"
+           th:text="${play}"></a>
+      </li>
+    </ul>
+  </body>
+
+</html>

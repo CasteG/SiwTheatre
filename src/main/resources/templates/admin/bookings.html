@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Bookings</title>
+    <link rel="stylesheet" href="/stile.css?version=2" />
+  </head>
+
+  <body>
+    <div><a href="/">Home</a></div>
+    <h1>Prenotazioni</h1>
+    <div th:if="${bookings.isEmpty()}">Non ci sono prenotazioni nel sistema</div>
+    <ul>
+      <li th:each="booking : ${bookings}">
+        <a th:href="@{'/booking' + '/' + ${booking.id}}"
+           th:text="${booking.play.name} + "( "+ ${user}" + ")"></a>
+      </li>
+    </ul>
+  </body>
+
+</html>

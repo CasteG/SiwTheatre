@@ -31,8 +31,6 @@ public class Play {
 	@ManyToMany(mappedBy="plays")
 	private Set<Artist> artists;
 	
-	private String category;
-	
 	private LocalDateTime date;
 	
 	private String location;
@@ -85,14 +83,6 @@ public class Play {
 		this.artists = artists;
 	}
 
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
-	}
-
 	public LocalDateTime getDate() {
 		return date;
 	}
@@ -123,6 +113,11 @@ public class Play {
 
 	public void setPrice(Float price) {
 		this.price = price;
+	}
+
+	@Override
+	public String toString() {
+		return name + "(" + location + ", " + date + ")";
 	}
 
 
