@@ -1,46 +1,38 @@
 <!DOCTYPE html>
-<html lang="it">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>New Artist</title>
-    <link rel="stylesheet" href="/stile.css?version=3">
+    <title>New Artist Form</title>
 </head>
-
 <body>
-    <div><a href="/">Home</a></div>
-<h1>Aggiungi un artista</h1>
-<form th:action="@{/artists}" method="POST" th:object="${artist}" enctype="multipart/form-data">
-    <div th:if="${#fields.hasGlobalErrors()}">
-        <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
-    </div>
-    
-     <div>
-        Nome: <input type="text" th:field="${name}">
-        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
-    </div>
-    <div>
-        Cognome: <input type="text" th:field="${surname}">
-        <span th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></span>
-    </div>
-    <div>
-		 <label>Data di Nascita:</label>
-            <span><input type="date" th:field="*{dateOfBirth}" /></span>
-            <!-- Sezione per la validazione -->
-            <span th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}" th:style="'color:red'" ></span>
-		</div>
-	<div>
-        Ruolo: <input type="text" th:field="${role}">
-        <span th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></span>
-    </div>
-    
-    <div>
-            <label>Carica immagine:</label>
-        	<input type="file" name="file" required>
+	<h1>Aggiungi artista</h1>
+    <form th:action="@{/artists}" th:object="${artist}" method="post" enctype="multipart/form-data">
+        <div>
+            <label for="name">Nome</label>
+            <input type="text" id="name" th:field="*{name}" />
+            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</span>
         </div>
-
-    
-    <span><button type="submit">Conferma</button></span>
-</form>
-
+        <div>
+            <label for="surname">Cognome</label>
+            <input type="text" id="surname" th:field="*{surname}" />
+            <span th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Surname Error</span>
+        </div>
+        <div>
+            <label for="dateOfBirth">Data di nascita</label>
+            <input type="date" id="dateOfBirth" th:field="*{dateOfBirth}" />
+            <span th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}">Date of Birth Error</span>
+        </div>
+        <div>
+            <label for="role">Ruolo</label>
+            <input type="text" id="role" th:field="*{role}" />
+            <span th:if="${#fields.hasErrors('role')}" th:errors="*{role}">Role Error</span>
+        </div>
+        <div>
+            <label for="file">Immagine</label>
+            <input type="file" id="file" name="file" />
+        </div>
+        <div>
+            <button type="submit">Conferma</button>
+        </div>
+    </form>
 </body>
 </html>
