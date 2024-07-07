@@ -102,5 +102,10 @@ public class Artist {
 	public void setDateOfBirth(LocalDate dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
+
+	@Override
+	public String toString() {
+		return name +" "+ surname + " (" + role + ")";
+	}
 	
 }
