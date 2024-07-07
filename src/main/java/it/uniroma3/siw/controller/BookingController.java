@@ -179,7 +179,7 @@ public class BookingController {
         Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
 		
 		model.addAttribute("bookings", this.bookingService.findByUser(credentials.getUser()));
-		return "user/bookings.html";
+		return "bookings.html";
 	}
 
 	
