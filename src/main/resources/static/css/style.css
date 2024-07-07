@@ -17,6 +17,7 @@ body{
   background-color: #54595F;
 }
 
+/**************************************NAVBAR***********************************/
 .custom-navbar {
   background-color: #141414;
   height: 6rem;
@@ -26,7 +27,6 @@ body{
   color: #FFFFFF; /* Colore del testo normale */
   font-size: x-large;
 }
-/********************************************GRID HOME*************************************************************/
 .navbar-nav .nav-link {
     color: white;
     position: relative;
@@ -51,8 +51,11 @@ body{
 
 .navbar-nav .nav-link:hover::before {
     width: 100%;
-
 }
+
+
+/********************************************GRID HOME*************************************************************/
+
 
 #portfolio .container-fluid, #portfolio .container-sm, #portfolio .container-md, #portfolio .container-lg, #portfolio .container-xl, #portfolio .container-xxl {
   max-width: 1920px;

@@ -37,14 +37,14 @@ public class PlayController {
 	private ImageRepository imageRepository;
 
 
-	@GetMapping("/play/{id}")
+	@GetMapping("/plays/{id}")
 	public String getPlay(@PathVariable("id") Long id, Model model) {
 		Play play = this.playService.findById(id);
 		model.addAttribute("play", play);
 		return "play.html";
 	}
 
-	@GetMapping("/play")
+	@GetMapping("/plays")
 	public String showPlays(Model model) {
 		model.addAttribute("plays", this.playService.findAll());
 		return "plays.html";
@@ -66,7 +66,7 @@ public class PlayController {
 	/**************************************** ADMIN **********************************************/
 	/**********^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^**********************************************/
 	
-	@PostMapping("/play")
+	@PostMapping("/plays")
 	public String newPlay(@Valid @ModelAttribute("play") Play play, 
 			BindingResult bindingResult, Model model,
 			@RequestParam("file") MultipartFile image) throws IOException {
@@ -85,7 +85,7 @@ public class PlayController {
 				play.setImage(img);
 				this.playService.save(play); 
 				model.addAttribute("play", play);
-				return "redirect:play/"+play.getId();	//dico al client fammi una richiesta all'url recipe/{id} 
+				return "redirect:plays/"+play.getId();	//dico al client fammi una richiesta all'url recipe/{id} 
 			}
 		
 	}
