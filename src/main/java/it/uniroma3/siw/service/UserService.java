@@ -38,11 +38,11 @@ public class UserService {
 	public void registerNewCustomerAfterOAuthLoginSuccess(String loginName, String fullName, AuthenticationProvider provider) {
         User user = new User();
         if(loginName != null) {
-            user.setUsername(loginName);
+        	user.setUsername(loginName);
             user.setName(fullName);
         }
         else{
-            user.setUsername(loginName);
+        	user.setUsername(loginName);
         }
         user.setCreationTimestamp(LocalDateTime.now());
         user.setoAuthProvider(provider);
@@ -54,7 +54,7 @@ public class UserService {
         user.setoAuthProvider(provider);
         userRepository.save(user);
     }
-
+	
 	public User findByUsername(String username) {
 		return this.userRepository.findByUsername(username);
 	}
@@ -66,4 +66,5 @@ public class UserService {
 	public User findById(Long id) {
 		return this.userRepository.findById(id).get();
 	}
+
 }

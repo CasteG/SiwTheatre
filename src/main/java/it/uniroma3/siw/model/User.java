@@ -36,12 +36,6 @@ public class User{
 	@NotBlank
 	private String name;
 	
-	private String username;
-	
-
-	private String email;
-
-	
 	@NotBlank
 	private String surname;
 	
@@ -49,7 +43,17 @@ public class User{
 	
     @OneToOne(cascade = CascadeType.ALL)
     private Image image;
+    
+    private String username;
 	
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
 	@OneToOne
 	private Credentials credentials;
 	
@@ -154,12 +158,9 @@ public class User{
 		this.lastUpdateTimestamp = lastUpdateTimestamp;
 	}
 
-	public String getUsername() {
-		return this.username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
+	@Override
+	public String toString() {
+		return name + " " +  surname;
 	}
 
 }

@@ -123,7 +123,7 @@ public class BookingController {
 	@PostMapping("admin/searchBooking")
 	public String searchBookings(Model model, @RequestParam String username) {
 		/* cerco lo User in base allo username e poi prendo solo le ricette dello User in questione */
-		model.addAttribute("bookings", this.bookingService.findByUser(userService.findByUsername(username)));
+		model.addAttribute("bookings", this.bookingService.findByUser(credentialsService.findByUsername(username)));
 		return "bookings.html";
 	}
 	
