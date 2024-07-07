@@ -12,7 +12,7 @@
     <div th:if="${bookings.isEmpty()}">Non ci sono prenotazioni nel sistema</div>
     <ul>
       <li th:each="booking : ${bookings}">
-        <a th:href="@{'/booking' + '/' + ${booking.id}}"
+        <a th:href="@{'/bookings' + '/' + ${booking.id}}"
            th:text="${booking.play.name} + "( "+ ${booking.user}" + ")"></a>
       </li>
     </ul>

@@ -1,7 +1,5 @@
 package it.uniroma3.siw.controller;
 
-import java.io.IOException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.siw.model.Booking;
 import it.uniroma3.siw.model.Credentials;
@@ -45,10 +42,9 @@ public class BookingController {
 	private CredentialsService credentialsService;
 	
 
-	@PostMapping("/booking")
+	@PostMapping("/bookings")
 	public String newBooking(@Valid @ModelAttribute("booking") Booking booking, 
-			BindingResult bindingResult, Model model,
-			@RequestParam("file") MultipartFile image) throws IOException {
+			BindingResult bindingResult, Model model) {
 		
 		this.bookingValidator.validate(booking, bindingResult);
 		

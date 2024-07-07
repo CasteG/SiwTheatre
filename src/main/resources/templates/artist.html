@@ -10,12 +10,12 @@
     <div><a href="/">Home</a></div>
     </div>
     <div th:if="${artist}">
-        <h1 th:text="${artist.name} + ' ' + ${artist.surname} + ' (' + ${artist.dateOfBirth} + ')' "></h1>
+        <h1 th:text="${artist.name} + ' ' + ${artist.surname} + ' (' + ${#temporals.format(artist.dateOfBirth, 'dd-MM-yyyy')} + ')' "></h1>
         <h2>Ruolo: <span th:text="${artist.role}"></span></h2>
         <h2>Spettacoli: </h2>
         <ul>
       <li th:each="play : ${artist.plays}">
-        <a th:href="@{'/play' + '/' + ${play.id}}"
+        <a th:href="@{'/plays' + '/' + ${play.id}}"
            th:text="${play}"></a>
       </li>
     </ul>

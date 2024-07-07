@@ -9,7 +9,7 @@
 <body>
     <div><a href="/">Home</a></div>
 <h1>Aggiungi un artista</h1>
-<form th:action="@{/artist}" method="POST" th:object="${artist}" enctype="multipart/form-data">
+<form th:action="@{/artists}" method="POST" th:object="${artist}" enctype="multipart/form-data">
     <div th:if="${#fields.hasGlobalErrors()}">
         <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
     </div>

@@ -9,7 +9,7 @@
 <body>
     <div><a href="/">Home</a></div>
 <h1>Effettua una prenotazione</h1>
-<form th:action="@{/booking}" method="POST" th:object="${booking}">
+<form th:action="@{/bookings}" method="POST" th:object="${booking}">
     <div th:if="${#fields.hasGlobalErrors()}">
         <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
     </div>

@@ -12,7 +12,7 @@
     <div th:if="${bookings.isEmpty()}">Non hai effettuato alcuna prenotazione</div>
     <ul>
       <li th:each="booking : ${bookings}">
-        <a th:href="@{'/booking' + '/' + ${booking.id}}"
+        <a th:href="@{'/bookings' + '/' + ${booking.id}}"
            th:text="${booking}"></a>
       </li>
     </ul>
