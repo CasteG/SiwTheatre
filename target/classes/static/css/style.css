@@ -18,14 +18,14 @@ body{
 }
 
 .custom-navbar {
-  background-color: #141414; /* Arancione */
+  background-color: #141414;
+  height: 6rem;
 }
 .custom-navbar .navbar-brand,
 .custom-navbar .nav-link {
   color: #FFFFFF; /* Colore del testo normale */
   font-size: x-large;
 }
-
 /********************************************GRID HOME*************************************************************/
 .navbar-nav .nav-link {
     color: white;
@@ -185,3 +185,4 @@ main.flex-fill {
 .icon-pref{
   text-align:center;
 }
+

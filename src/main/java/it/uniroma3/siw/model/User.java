@@ -38,6 +38,10 @@ public class User{
 	
 	private String username;
 	
+
+	private String email;
+
+	
 	@NotBlank
 	private String surname;
 	
@@ -108,6 +112,14 @@ public class User{
 
 	public void setCredentials(Credentials credentials) {
 		this.credentials = credentials;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public List<Booking> getBookings() {

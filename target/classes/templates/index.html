@@ -12,6 +12,37 @@
 	<div th:if="${#authorization.expression('isAnonymous()')}"><div th:replace="~{fragments :: Navbar}"></div></div>
 
 	<div th:replace="~{fragments :: Carousel-home}"></div>
-
+	
+	<!-- grid-->
+	<div id="grid">
+	    <div class="container-fluid p-3 mb-4">
+	        <div class="row g-3" id="grid-items">
+	            <div class="col-lg-4 col-sm-6" th:each="play : ${plays}" th:classappend="${loop.index gt 3} ? 'hidden'">
+	                <a class="grid-box" th:href="@{'/plays/' + ${play.id}}">
+	                    <img class="img-fluid rounded-top-4" th:src="@{'/uploadedImage/'+ ${play.image.id}}" />
+	                    <div class="grid-caption mt-n2 rounded-bottom-4">
+	                        <div class="grid-caption-heading text-cream" th:text="${play.name}">Otello</div>
+	                        <div class="grid-caption-subheading text-muted" th:text="${play.date}+' '+'('+${play.location}+')'">27/07/24 (Roma)</div>
+	                    </div>
+	                </a>
+	            </div>
+	        </div>
+	        <div class="text-center mt-4">
+	            <button class="btn bg-red text-white fw-semibold" id="show-more">Mostra di più</button>
+	        </div>
+	    </div>
+	</div>
+	
+	<div th:replace="~{fragments :: Footer}"></div>
+	
+	<script>
+	    document.getElementById('show-more').addEventListener('click', function() {
+	        var hiddenItems = document.querySelectorAll('.hidden');
+	        hiddenItems.forEach(function(item) {
+	            item.classList.remove('hidden');
+	        });
+	        this.style.display = 'none';
+	    });
+	</script>
 </body>
 </html>

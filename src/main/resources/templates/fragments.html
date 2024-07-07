@@ -38,10 +38,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item ms-4">
-          <a class="nav-link" href="/recipes">Ricette</a>
+          <a class="nav-link" href="/recipes">Spettacoli</a>
         </li>
 		<li class="nav-item ms-4">
-			<a class="nav-link" href="/cooks">Cuochi</a>
+			<a class="nav-link" href="/cooks">Artisti</a>
 		</li>
 		<li class="nav-item ms-4">
 			<a class="nav-link" href="/login"><i class="bi bi-person-circle"></i></a>
@@ -146,7 +146,7 @@
       <img src="/images/slider/Romeo-e-Giulietta-12.png" class="d-block w-100" alt="...">
     </div>
 	<div class="carousel-item" data-bs-interval="3000">
-	      <img src="/images/slider/otello-1.jpg" class="d-block w-100" alt="...">
+	      <img src="/images/slider/otello-1.png" class="d-block w-100" alt="...">
 	    </div>
   </div>
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
@@ -161,18 +161,22 @@
 
 <!-----------------------------------------------FOOTER---------------------------------------------------->
 <div th:fragment="Footer" id="footer">
-	<footer class="bg-orange text-center py-5">
-    <div class="container px-5">
-        <div class="text-white-50 small">
-            <div class="mb-2">&copy; SIW-Food-Ratatouille. Non-Commercial.</div>
-            <a class="text-cream" href="#!">Privacy</a>
-            <span class="mx-1">&middot;</span>
-            <a class="text-cream" href="#!">Terms</a>
-            <span class="mx-1">&middot;</span>
-            <a class="text-cream" href="#!">FAQ</a>
-        </div>
-    </div>
-  </footer>
+	<footer class="footer text-center bg-black py-5">
+	    <div class="container">
+	        <h1 class="contact fw-bold text-white">CONTATTACI:</h1>
+			<div class="social-icons mt-4">
+			    <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook fa-2xl me-2 text-red"></i></a>
+			    <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram fa-2xl ms-2 text-red"></i></a>
+			</div>
+
+	        <div class="info text-white mt-4">
+	            <div>PEC: compagniacontrotempo@pec.it</div>
+	            <div>Associazione/compagnia teatrale Controtempo ETS</div>
+	            <div>Via Antonio Cantele, 19 00123 Roma (RM)</div>
+	            <div>P.I. 14896631000 C.F. 97894200589</div>
+	        </div>
+	    </div>
+	</footer>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script></div>
