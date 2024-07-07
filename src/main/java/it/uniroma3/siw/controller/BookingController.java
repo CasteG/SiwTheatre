@@ -72,7 +72,7 @@ public class BookingController {
 			else {
 				this.bookingService.save(booking); 
 				model.addAttribute("booking", booking);
-				return "redirect:booking/"+booking.getId();	//dico al client fammi una richiesta all'url booking/{id} 
+				return "redirect:bookings/"+booking.getId();	//dico al client fammi una richiesta all'url booking/{id} 
 			}
 		}
          /* AGGIUNTA PRENOTAZIONE DA PARTE DI UN UTENTE */
@@ -91,7 +91,7 @@ public class BookingController {
 		     	
 				this.bookingService.save(booking); 
 				model.addAttribute("booking", booking);
-				return "redirect:booking/"+booking.getId();	//dico al client fammi una richiesta all'url booking/{id} 
+				return "redirect:bookings/"+booking.getId();	//dico al client fammi una richiesta all'url booking/{id} 
      		}
          }
 	}
@@ -102,14 +102,14 @@ public class BookingController {
 	/**********^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^**********************************************/
 	
 
-	@GetMapping("admin/booking/{id}")
+	@GetMapping("admin/bookings/{id}")
 	public String getBooking(@PathVariable("id") Long id, Model model) {
 		Booking booking = this.bookingService.findById(id);
 		model.addAttribute("booking", booking);
 		return "admin/booking.html";
 	}
 	
-	@GetMapping("admin/booking")
+	@GetMapping("admin/bookings")
 	public String showBookings(Model model) {
 		model.addAttribute("bookings", this.bookingService.findAll());
 		return "admin/bookings.html";
@@ -168,7 +168,7 @@ public class BookingController {
 	/**********^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^**********************************************/
 
 	
-	@GetMapping("user/booking")
+	@GetMapping("user/bookings")
 	public String showBookingsUser(Model model) {
 
 		/* prendo l'utente che sta facendo la richiesta per mostrargli solo le sue prenotazioni */
@@ -183,7 +183,7 @@ public class BookingController {
 	}
 
 	
-	@GetMapping("user/booking/{id}")
+	@GetMapping("user/bookings/{id}")
 	public String getBookingUser(@PathVariable("id") Long id, Model model) {
 		Booking booking = this.bookingService.findById(id);
 		model.addAttribute("booking", booking);

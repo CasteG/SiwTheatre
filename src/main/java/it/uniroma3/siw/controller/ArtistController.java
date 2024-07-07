@@ -33,7 +33,7 @@ public class ArtistController {
 	private ImageRepository imageRepository;
 	
 	
-	@GetMapping("/artist")
+	@GetMapping("/artists")
 	public String showArtists(Model model) {
 		model.addAttribute("artists", artistService.findAll());
 		return "artists.html";
@@ -57,7 +57,7 @@ public class ArtistController {
 		return "admin/formNewArtist.html";
 	}
 	
-	@PostMapping("/artist")
+	@PostMapping("/artists")
 	public String newArtist(@Valid @ModelAttribute("artist") Artist artist, 
 			BindingResult bindingResult, Model model,
 			@RequestParam("file") MultipartFile image) throws IOException {
@@ -70,7 +70,7 @@ public class ArtistController {
 			artist.setImage(img);
 			this.artistService.save(artist);
 			model.addAttribute("artist", artist);
-			return "redirect:artist/"+artist.getId();
+			return "redirect:artists/"+artist.getId();
 		}
 		else 
 			model.addAttribute("artists", this.artistService.findAll());
