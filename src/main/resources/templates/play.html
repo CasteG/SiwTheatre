@@ -9,7 +9,7 @@
         <div><a href="/">Home</a></div>
     </div>
     <div th:if="${play}">
-        <h1 th:text="${play.name} + ' (' + ${play.location} + ', ' + ${play.date} + ')'"></h1>
+        <h1 th:text="${play.name} + ' (' + ${play.location} + ', ' + ${#temporals.format(play.date, 'dd-MM-yyyy')} + ')'"></h1>
         <h2>Numero biglietti disponibili: <span th:text="${play.availableTickets}"></span></h2>
         <h2>Prezzo: <span th:text="${play.price}"></span> euro</h2>
         <h2>Descrizione: <span th:text="${play.description}"></span></h2>
