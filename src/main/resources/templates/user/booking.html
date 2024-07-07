@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Booking</title>
+    <link rel="stylesheet" href="/stile.css?version=2" />
+</head>
+
+<body>
+    <div>
+    <div><a href="/">Home</a></div>
+    </div>
+    <div th:if="${booking}">
+        <h1 th:text="${booking.play.name} + ' (' + ${booking.play.date} + ')' "></h1>
+        <h2>Numero biglietti: <span th:text="${booking.numTickets}"></span></h2>
+        <h2>Prezzo totale: <span th:text="${totalPrice}"></span></h2>
+    </div>
+    <div th:unless="${booking}">Non esiste</div>
+</body>
+</html>

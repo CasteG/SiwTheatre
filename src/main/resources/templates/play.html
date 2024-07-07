@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Play</title>
+    <link rel="stylesheet" href="/stile.css?version=2" />
+</head>
+
+<body>
+    <div>
+    <div><a href="/">Home</a></div>
+    </div>
+    <div th:if="${play}">
+        <h1 th:text="${play.name} + ' (' ${play.location} + ", " ${play.date} + ')' "></h1>
+        <h2>Numero biglietti: <span th:text="${booking.numTickets}"></span></h2>
+        <h2>Prezzo totale: <span th:text="${totalPrice}"></span></h2>
+    </div>
+    
+     <h2>Artisti</h2>
+            <div th:if="${play.artists.isEmpty()}">Nessun artista inserito</div>
+            <div th:if="${!play.artists.isEmpty()}">
+                <ul>
+                    <li th:each="artist : ${play.artists}">
+                        <span th:text="${artist}"></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+     
+    <div th:unless="${booking}">Non esiste</div>
+</body>
+</html>
