@@ -1,7 +1,8 @@
 package it.uniroma3.siw.model;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -45,7 +46,11 @@ public class Artist {
 	private Image image;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
-	private List<Play> plays;
+	private Set<Play> plays;
+	
+	public Artist() {
+		this.plays = new HashSet<>();
+	}
 
 	public Long getId() {
 		return id;
@@ -79,11 +84,11 @@ public class Artist {
 		this.role = role;
 	}
 
-	public List<Play> getPlays() {
+	public Set<Play> getPlays() {
 		return this.plays;
 	}
 
-	public void setPlays(List<Play> plays) {
+	public void setPlays(Set<Play> plays) {
 		this.plays = plays;
 	}
 	

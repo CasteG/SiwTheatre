@@ -12,7 +12,7 @@
     <div th:if="${artists.isEmpty()}">Non ci sono artisti nel sistema</div>
     <ul>
       <li th:each="artist : ${artists}">
-        <a th:href="@{'/artist' + '/' + ${artist.id}}"
+        <a th:href="@{'/artists' + '/' + ${artist.id}}"
            th:text="${artist}"></a>
       </li>
     </ul>

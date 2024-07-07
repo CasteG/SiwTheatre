@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title>Search Booking</title>
+  <link rel="stylesheet" href="/css/stile.css" />
+ </head>
+
+ <body>
+    <div><a href="/">Home</a></div>
+  <h1>Cerca prenotazione per username</h1>
+  <form th:action="@{/searchBooking}" method="post">
+   <div>Username: <input type="text" th:value="${username}" name="username" />
+   </div>
+   <div><input type="submit" /></div>
+  </form>
+ </body>
+</html>
