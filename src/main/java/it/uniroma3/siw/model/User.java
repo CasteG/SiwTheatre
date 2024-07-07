@@ -39,6 +39,8 @@ public class User{
 	@NotBlank
 	private String surname;
 	
+	private String email;
+	
 	private LocalDate dateOfBirth;
 	
     @OneToOne(cascade = CascadeType.ALL)
