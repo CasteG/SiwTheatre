@@ -14,15 +14,19 @@
         <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
     </div>
 
-    <div>
-        Spettacolo:
-        <span th:if="${plays.isEmpty()}">Non ci sono spettacoli nel sistema</span>
-        <span th:if="${!plays.isEmpty()}">
-            <select th:field="${booking.play}">
-                <option th:each="play : ${plays}" th:value="${play.id}" th:text="${play}">Seleziona uno spettacolo</option>
-            </select>
-        </span>
-    </div>
+   <div>
+            Spettacolo:
+            <span th:if="${plays.isEmpty()}">Non ci sono spettacoli nel sistema</span>
+            <span th:if="${!plays.isEmpty()}">
+                <select th:field="${booking.play}">
+                    <option th:each="play : ${plays}" 
+                            th:value="${play.id}" 
+                            th:text="${play.name} + ' (' + ${play.location} + ', ' + ${#temporals.format(play.date, 'dd-MM-yyyy')} + ', ' + ${#temporals.format(play.date, 'HH:mm')} + ')'">
+                        Seleziona uno spettacolo
+                    </option>
+                </select>
+            </span>
+        </div>
     
      <div>
         Numero biglietti: <input type="text" th:field="${booking.numTickets}">

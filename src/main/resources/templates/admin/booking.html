@@ -10,7 +10,7 @@
     <div><a href="/">Home</a></div>
     </div>
     <div th:if="${booking}">
-        <h1 th:text="${booking.play.name} + ' (' + ${booking.play.date} + ')' "></h1>
+        <h1 th:text="${booking.play.name} + ' (' + ${#temporals.format(booking.play.date, 'dd-MM-yyyy')} + ', ' + ${#temporals.format(booking.play.date, 'HH:mm')} + ')' "></h1>
         <h2>Utente: <span th:text="${booking.user}"></span></h2>
         <h2>Numero biglietti: <span th:text="${booking.numTickets}"></span></h2>
         <h2>Prezzo totale: <span th:text="${totalPrice}"></span></h2>

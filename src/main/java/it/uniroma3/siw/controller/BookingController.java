@@ -68,7 +68,7 @@ public class BookingController {
 			else {
 				this.bookingService.save(booking); 
 				model.addAttribute("booking", booking);
-				return "redirect:bookings/"+booking.getId();	//dico al client fammi una richiesta all'url booking/{id} 
+				return "redirect:admin/bookings/"+booking.getId();	//dico al client fammi una richiesta all'url booking/{id} 
 			}
 		}
          /* AGGIUNTA PRENOTAZIONE DA PARTE DI UN UTENTE */
@@ -168,7 +168,7 @@ public class BookingController {
 	/**********^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^**********************************************/
 
 	
-	@GetMapping("user/bookings")
+	@GetMapping("bookings")
 	public String showBookingsUser(Model model) {
 
 		/* prendo l'utente che sta facendo la richiesta per mostrargli solo le sue prenotazioni */
@@ -183,7 +183,7 @@ public class BookingController {
 	}
 
 	
-	@GetMapping("user/bookings/{id}")
+	@GetMapping("bookings/{id}")
 	public String getBookingUser(@PathVariable("id") Long id, Model model) {
 		Booking booking = this.bookingService.findById(id);
 		/* calcolo il prezzo totale della prenotazione */
