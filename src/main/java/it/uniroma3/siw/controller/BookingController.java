@@ -105,7 +105,11 @@ public class BookingController {
 	@GetMapping("admin/booking/{id}")
 	public String getBooking(@PathVariable("id") Long id, Model model) {
 		Booking booking = this.bookingService.findById(id);
+		/* calcolo il prezzo totale della prenotazione */
+		float totalPrice = booking.getNumTickets() * booking.getPlay().getPrice();
+		
 		model.addAttribute("booking", booking);
+		model.addAttribute("totalPrice", totalPrice);
 		return "admin/booking.html";
 	}
 	
@@ -186,7 +190,11 @@ public class BookingController {
 	@GetMapping("user/booking/{id}")
 	public String getBookingUser(@PathVariable("id") Long id, Model model) {
 		Booking booking = this.bookingService.findById(id);
+		/* calcolo il prezzo totale della prenotazione */
+		float totalPrice = booking.getNumTickets() * booking.getPlay().getPrice();
+		
 		model.addAttribute("booking", booking);
+		model.addAttribute("totalPrice", totalPrice);
 		return "user/booking.html";
 	}
 	
