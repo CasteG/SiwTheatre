@@ -117,7 +117,7 @@ public class Play {
 
 	@Override
 	public String toString() {
-		return name + "(" + location + ", " + date + ")";
+		return name + " (" + location + ", " + date + ")";
 	}
 
 
