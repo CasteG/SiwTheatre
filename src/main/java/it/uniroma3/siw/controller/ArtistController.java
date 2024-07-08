@@ -50,7 +50,6 @@ public class ArtistController {
 	/************************** ADMIN ***********************************/
 	/********************************************************************/
 
-	
 	@GetMapping("/admin/formNewArtist")
 	public String formNewArtist(Model model) {
 		model.addAttribute("artist", new Artist());
