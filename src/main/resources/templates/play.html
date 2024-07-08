@@ -2,9 +2,26 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Play</title>
-    <link rel="stylesheet" href="/stile.css?version=2" />
+	<div th:replace="~{fragments :: Stylesheet}"></div>
 </head>
 <body>
+	<div th:if="${role!=null && role=='ADMIN'}"><div th:replace="~{fragments :: Navbar-admin}"></div></div>
+	<div th:if="${role!=null && role=='DEFAULT'}"><div th:replace="~{fragments :: Navbar-logged}"></div></div>
+	<div th:if="${#authorization.expression('isAnonymous()')}"><div th:replace="~{fragments :: Navbar}"></div></div>
+	<div class="wrapper d-flex flex-column min-vh-100">
+	<main class="flex-fill">
+		<div class="container my-5">
+			<h1 class="text-center text-uppercase fw-bolder pt-3" th:text="${play.name}">Presentazione Cuoco</h1>
+			<h2 class="text-primary text-center pb-3" th:text="${play.date}">01/01/1970</h2>
+
+		    <div class="row justify-content-center">
+		        <div class="col-md-4 text-center">
+		            <img th:src="@{'/image/'+ ${play.image.id}}" class="img-fluid rounded" alt="Immagine del Cuoco">
+		        </div>
+		    </div>
+		</div>
+
+
     <div>
         <div><a href="/">Home</a></div>
     </div>
@@ -25,5 +42,8 @@
         </ul>
     </div>
     <div th:unless="${play}">Non esiste</div>
+	</main>
+	<div th:replace="~{fragments :: Footer}"></div>
+	</div>
 </body>
 </html>

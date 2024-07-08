@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+    <title>Nuovo Spettacolo</title>
+	<div th:replace="~{fragments :: Stylesheet}"></div>
+    </head>
+  <body>
+	<div th:if="${role!=null && role=='ADMIN'}"><div th:replace="~{fragments :: Navbar-admin}"></div></div>
+	<div th:if="${role!=null && role=='DEFAULT'}"><div th:replace="~{fragments :: Navbar-logged}"></div></div>
+
+	<section class="generic_section">
+			<div class="container">
+				<div class="mt-2">
+					<h1 class="text-center text-uppercase fw-bolder pt-3">Nuovo Spettacolo</h1>
+				</div>
+					
+
+				<div class="row justify-content-center">
+					<div class="col-md-6 mb-5">
+
+						<div th:if="${param.error} and ${session}" th:with="errorMsg=${session['SPRING_SECURITY_LAST_EXCEPTION']}">
+							<div class="alert alert-dismissible alert-danger error mb-5">
+								OPS! Errore nella creazione, controlla di aver inserito correttamente i dati!
+							</div>
+						</div>
+
+						<div class="container my-3">
+						        <div class="form_container">
+						            <form th:action="@{'/admin/formUpdatePlay/' + ${play.id}}" method="post" th:object="${play}" enctype="multipart/form-data">
+										<div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger" role="alert">
+											<h4 class="text-orange fw-semibold" align="center" th:each="err : ${#fields.globalErrors()}" th:text="'Errore: ' + ${err}">...</h4>
+										</div>
+					                
+										<div class="mb-2">
+										  <label for="name" class="form-label">Nome:</label>
+										  <input type="text" th:field="${play.name}" class="form-control" name="name" id="name" placeholder="Otello">
+										  <span class="text-orange" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+										</div>
+										<div class="mb-2">
+										  <label for="description" class="form-label">Descrizione:</label>
+										  <textarea class="form-control"  id="description" rows="3" th:field="${play.description}"
+										  placeholder="Otello è il dramma della gelosia. Shakespeare scrisse quest’opera probabilmente immaginandosi di aggrovigliare se stesso ed il lettore nella morsa delle ossessioni e della gabbia figlie delle gelosia, un sentimento assaporato, conosciuto e “subito” da tutti.&#10;Il generale Otello è un uomo sicuro di sé e dell’amore che prova verso la sua Desdemona. Sfida i pregiudizi del tempo e sposa una donna bianca contro il volere di Brabanzio, senatore di Venezia e padre della giovane. Il Moro diventa vittima della gelosia per opera del suo alfiere Iago, colpito nell’orgoglio e assalito dall’invidia dopo che il generale ha preferito Michele Cassio a lui nel grado di luogotenente."></textarea>
+										  <span class="text-orange" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
+										</div>
+										<div class="mb-2">
+										  <label for="date" class="form-label">Data:</label>
+										  <input type="date" th:field="${play.date}" class="form-control" name="date" id="date" placeholder="Otello">
+										  <span class="text-orange" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></span>
+										</div>
+										<div class="mb-2">
+										  <label for="time" class="form-label">Orario:</label>
+										  <input type="time" th:field="${play.time}" class="form-control" name="time" id="time" placeholder="21:55">
+										  <span class="text-orange" th:if="${#fields.hasErrors('time')}" th:errors="*{time}"></span>
+										</div>
+										<div class="mb-2">
+										  <label for="city" class="form-label">Città:</label>
+										  <input type="text" th:field="${play.city}" class="form-control" name="city" id="city" placeholder="Roma">
+										  <span class="text-orange" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></span>
+										</div>
+										<div class="mb-2">
+										  <label for="location" class="form-label">Location:</label>
+										  <input type="text" th:field="${play.location}" class="form-control" name="location" id="location" placeholder="Teatro Brancaccio:  Via Merulana, 244, 00185">
+										  <span class="text-orange" th:if="${#fields.hasErrors('location')}" th:errors="*{location}"></span>
+										</div>
+										<div class="mb-2">
+										  <label for="availableTickets" class="form-label">Biglietti Disponibili:</label>
+										  <input type="number" th:field="${play.availableTickets}" class="form-control" name="availableTickets" id="availableTickets" placeholder="500">
+										  <span class="text-orange" th:if="${#fields.hasErrors('availableTickets')}" th:errors="*{availableTickets}"></span>
+										</div>
+										<div class="mb-2">
+										  <label for="price" class="form-label">Costo biglietto:</label>
+										  <input type="number" step="0.01" th:field="${play.price}" class="form-control" name="price" id="price" placeholder="23,50">
+										  <span class="text-orange" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
+										</div>
+
+										
+										<div class="mb-2">
+										  <label class="form-label">Carica immagine (si consiglia max 500x500):</label>
+										  <input type="file" name="file" class="form-control" required>
+										</div>
+										
+
+										<div class="d-flex justify-content-end align-items-center">
+										    <div>
+										        <button type="submit" class="btn btn-success mt-3">Conferma</button>
+										    </div>
+										</div>
+						            </form>
+						        </div>
+						    </div>							
+						 </div>
+				</div>
+
+				<br>
+			</div>
+		</section>
+	<div th:replace="~{fragments :: Footer}"></div>
+  </body>
+</html>

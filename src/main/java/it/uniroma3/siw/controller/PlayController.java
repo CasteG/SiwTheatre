@@ -23,13 +23,13 @@ import jakarta.validation.Valid;
 
 @Controller
 public class PlayController {
-	
+
 	@Autowired
 	private PlayService playService;
-	
+
 	@Autowired
 	private PlayValidator playValidator;
-	
+
 	@Autowired
 	private ArtistService artistService;
 
@@ -60,88 +60,102 @@ public class PlayController {
 		model.addAttribute("plays", this.playService.findByName(name));
 		return "plays.html";
 	}
-	
-	
+
+
 	/*********************************************************************************************/
 	/**************************************** ADMIN **********************************************/
 	/**********^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^**********************************************/
-	
+
 	@PostMapping("/plays")
 	public String newPlay(@Valid @ModelAttribute("play") Play play, 
 			BindingResult bindingResult, Model model,
 			@RequestParam("file") MultipartFile image) throws IOException {
-		
+
 		this.playValidator.validate(play, bindingResult);
-		
-			if(bindingResult.hasErrors()) {
-				model.addAttribute("play", play);
-				model.addAttribute("artists", this.artistService.findAll());
-				return "admin/formNewPlay.html";
-			}
-			
-			else {
-				Image img = new Image(image.getBytes());
-				this.imageRepository.save(img);
-				play.setImage(img);
-				this.playService.save(play); 
-				model.addAttribute("play", play);
-				return "redirect:plays/"+play.getId();	//dico al client fammi una richiesta all'url recipe/{id} 
-			}
-		
+
+		if(bindingResult.hasErrors()) {
+			model.addAttribute("play", play);
+			model.addAttribute("artists", this.artistService.findAll());
+			return "admin/formNewPlay.html";
+		}
+
+		else {
+			Image img = new Image(image.getBytes());
+			this.imageRepository.save(img);
+			play.setImage(img);
+			this.playService.save(play); 
+			model.addAttribute("play", play);
+			return "redirect:plays/"+play.getId();	//dico al client fammi una richiesta all'url recipe/{id} 
+		}
+
 	}
-	
+
 	@GetMapping("/admin/formNewPlay")
 	public String formNewPlay(Model model) {
 		model.addAttribute("play", new Play());
 		model.addAttribute("artists", this.artistService.findAll());
 		return "admin/formNewPlay.html";
 	}
-	
+
 	@GetMapping("/admin/managePlays")
 	public String managePlays(Model model) {
 		model.addAttribute("plays", this.playService.findAll());
 		return "admin/managePlays.html";
 	}
-	
+
 	@GetMapping("/admin/formUpdatePlay/{id}")
-	public String updatePlay(@PathVariable("id") Long id, Model model) {
+	public String getUpdatePlay(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("play", this.playService.findById(id));
 		return "admin/formUpdatePlay.html";
 	}
-	
-	@GetMapping("/admin/removePlay/{id}")
-	public String removePlay(@PathVariable("id") Long id, Model model) {
-		this.playService.remove(this.playService.findById(id));
-		return "admin/successfulRemoval.html";
-	}
 
-	@GetMapping("/admin/updateArtists/{idPlay}")
-	public String updateArtists(Model model, @PathVariable("idPlay") Long id) {
-		Play play = this.playService.findById(id);
+	@PostMapping("/admin/formUpdatePlay/{id}")
+	public String updatePlay(@Valid @ModelAttribute("play") Play play, Model model,
+			@RequestParam("file") MultipartFile image, @PathVariable("id") Long id) throws IOException {
+		//TODO: implement binding and validation (excluding duplicate check)
+		Image img = new Image(image.getBytes());
+		//this.imageRepository.delete(play.getImage());
+		this.imageRepository.save(img);
+		play.setImage(img);  // Set new image to existing play
+		this.playService.save(play);  // Save the updated play
 		model.addAttribute("play", play);
-		model.addAttribute("artists", this.artistService.findAvailableArtists(play.getArtists()));
-		return "admin/updateArtists.html";
-	}
-	
-	@GetMapping("/admin/setArtistToPlay/{idArtist}/{idPlay}")
-	public String setArtistToPlay(Model model, @PathVariable("idArtist") Long idArt, @PathVariable("idPlay") Long idPlay) {
-		Play play = this.playService.findById(idPlay);
-		play.getArtists().add(this.artistService.findById(idArt));
-		this.playService.save(play);
-		model.addAttribute("play", play);
-		model.addAttribute("artists", this.artistService.findAvailableArtists(play.getArtists()));
-		return "admin/updateArtists.html";
-	}
-	
-	@GetMapping("/admin/removeArtistFromPlay/{idArt}/{idPlay}")
-	public String removeArtistFromPlay(Model model,@PathVariable("idArt") Long idArt, @PathVariable("idPlay") Long idPlay) {
-		Play play = this.playService.findById(idPlay);
-		play.getArtists().remove(this.artistService.findById(idArt));
-		this.playService.save(play);
-		model.addAttribute("play", play);
-		model.addAttribute("artists", this.artistService.findAvailableArtists(play.getArtists()));
-		return "admin/updateArtists.html";
-	}
+		return "redirect:/plays/" + play.getId();  // Redirect to the updated play
+}
 
-	
+
+@GetMapping("/admin/removePlay/{id}")
+public String removePlay(@PathVariable("id") Long id, Model model) {
+	this.playService.remove(this.playService.findById(id));
+	return "admin/successfulRemoval.html";
+}
+
+@GetMapping("/admin/updateArtists/{idPlay}")
+public String updateArtists(Model model, @PathVariable("idPlay") Long id) {
+	Play play = this.playService.findById(id);
+	model.addAttribute("play", play);
+	model.addAttribute("artists", this.artistService.findAvailableArtists(play.getArtists()));
+	return "admin/updateArtists.html";
+}
+
+@GetMapping("/admin/setArtistToPlay/{idArtist}/{idPlay}")
+public String setArtistToPlay(Model model, @PathVariable("idArtist") Long idArt, @PathVariable("idPlay") Long idPlay) {
+	Play play = this.playService.findById(idPlay);
+	play.getArtists().add(this.artistService.findById(idArt));
+	this.playService.save(play);
+	model.addAttribute("play", play);
+	model.addAttribute("artists", this.artistService.findAvailableArtists(play.getArtists()));
+	return "admin/updateArtists.html";
+}
+
+@GetMapping("/admin/removeArtistFromPlay/{idArt}/{idPlay}")
+public String removeArtistFromPlay(Model model,@PathVariable("idArt") Long idArt, @PathVariable("idPlay") Long idPlay) {
+	Play play = this.playService.findById(idPlay);
+	play.getArtists().remove(this.artistService.findById(idArt));
+	this.playService.save(play);
+	model.addAttribute("play", play);
+	model.addAttribute("artists", this.artistService.findAvailableArtists(play.getArtists()));
+	return "admin/updateArtists.html";
+}
+
+
 }
