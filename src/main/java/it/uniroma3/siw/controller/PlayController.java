@@ -120,42 +120,42 @@ public class PlayController {
 		this.playService.save(play);  // Save the updated play
 		model.addAttribute("play", play);
 		return "redirect:/plays/" + play.getId();  // Redirect to the updated play
-}
+	}
 
 
-@GetMapping("/admin/removePlay/{id}")
-public String removePlay(@PathVariable("id") Long id, Model model) {
-	this.playService.remove(this.playService.findById(id));
-	return "admin/successfulRemoval.html";
-}
+	@GetMapping("/admin/removePlay/{id}")
+	public String removePlay(@PathVariable("id") Long id, Model model) {
+		this.playService.remove(this.playService.findById(id));
+		return "admin/successfulRemoval.html";
+	}
 
-@GetMapping("/admin/updateArtists/{idPlay}")
-public String updateArtists(Model model, @PathVariable("idPlay") Long id) {
-	Play play = this.playService.findById(id);
-	model.addAttribute("play", play);
-	model.addAttribute("artists", this.artistService.findAvailableArtists(play.getArtists()));
-	return "admin/updateArtists.html";
-}
+	@GetMapping("/admin/updateArtists/{idPlay}")
+	public String updateArtists(Model model, @PathVariable("idPlay") Long id) {
+		Play play = this.playService.findById(id);
+		model.addAttribute("play", play);
+		model.addAttribute("artists", this.artistService.findAvailableArtists(play.getArtists()));
+		return "admin/updateBookingArtists.html";
+	}
 
-@GetMapping("/admin/setArtistToPlay/{idArtist}/{idPlay}")
-public String setArtistToPlay(Model model, @PathVariable("idArtist") Long idArt, @PathVariable("idPlay") Long idPlay) {
-	Play play = this.playService.findById(idPlay);
-	play.getArtists().add(this.artistService.findById(idArt));
-	this.playService.save(play);
-	model.addAttribute("play", play);
-	model.addAttribute("artists", this.artistService.findAvailableArtists(play.getArtists()));
-	return "admin/updateArtists.html";
-}
+	@GetMapping("/admin/setArtistToPlay/{idArtist}/{idPlay}")
+	public String setArtistToPlay(Model model, @PathVariable("idArtist") Long idArt, @PathVariable("idPlay") Long idPlay) {
+		Play play = this.playService.findById(idPlay);
+		play.getArtists().add(this.artistService.findById(idArt));
+		this.playService.save(play);
+		model.addAttribute("play", play);
+		model.addAttribute("artists", this.artistService.findAvailableArtists(play.getArtists()));
+		return "admin/updateBookingArtists.html";
+	}
 
-@GetMapping("/admin/removeArtistFromPlay/{idArt}/{idPlay}")
-public String removeArtistFromPlay(Model model,@PathVariable("idArt") Long idArt, @PathVariable("idPlay") Long idPlay) {
-	Play play = this.playService.findById(idPlay);
-	play.getArtists().remove(this.artistService.findById(idArt));
-	this.playService.save(play);
-	model.addAttribute("play", play);
-	model.addAttribute("artists", this.artistService.findAvailableArtists(play.getArtists()));
-	return "admin/updateArtists.html";
-}
+	@GetMapping("/admin/removeArtistFromPlay/{idArt}/{idPlay}")
+	public String removeArtistFromPlay(Model model,@PathVariable("idArt") Long idArt, @PathVariable("idPlay") Long idPlay) {
+		Play play = this.playService.findById(idPlay);
+		play.getArtists().remove(this.artistService.findById(idArt));
+		this.playService.save(play);
+		model.addAttribute("play", play);
+		model.addAttribute("artists", this.artistService.findAvailableArtists(play.getArtists()));
+		return "admin/updateBookingArtists.html";
+	}
 
 
 }

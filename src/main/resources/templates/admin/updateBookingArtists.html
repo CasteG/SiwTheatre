@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Modifica artisti</title>
+		<link rel="stylesheet" href="/css/stile.css" />
+	
+	</head>
+
+	<body>
+		
+		<div class="container mt-5">
+			<h1 class="text-center text-uppercase fw-bolder pt-3">Modifica gli artisti dello spettacolo</h1>
+
+			<div class="mt-4">
+				<h3 class="mb-3">Artisti aggiunti</h3>
+				<div th:if="${play.artists.isEmpty()}" class="alert alert-warning">Ancora nessun artista aggiunto</div>
+				<ul class="list-group">
+					<li class="list-group-item d-flex justify-content-between align-items-center" th:each="artist : ${play.artists}">
+						<a th:text="${artist.name} + ' ' + ${artist.surname}" class="fw-bold text-decoration-none"></a>
+						<a th:href="@{'/admin/removeArtistFromPlay' + '/' + ${artist.id} + '/' + ${play.id}}" class="btn btn-danger btn-sm">Cancella</a>
+					</li>
+				</ul>
+			</div>
+
+			<div class="mt-5">
+				<h3 class="mb-3">Artisti disponibili</h3>
+				<div th:if="${artists.isEmpty()}" class="alert alert-info">Non ci sono artisti nel sistema</div>
+				<ul class="list-group">
+					<li class="list-group-item d-flex justify-content-between align-items-center" th:each="artist : ${artists}">
+						<a th:text="${artist.name} + ' ' + ${artist.surname}" class="fw-bold text-decoration-none"></a>
+						<a th:href="@{'/admin/setArtistToPlay' + '/' + ${artist.id} + '/' + ${play.id}}" class="btn btn-success btn-sm">Aggiungi</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<!-- Bootstrap Bundle with Popper -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+	</body>
+</html>
