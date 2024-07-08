@@ -8,13 +8,13 @@
 
 <body>
     <div><a href="/">Home</a></div>
-<h1>Effettua una prenotazione</h1>
-<form th:action="@{/bookings}" method="POST" th:object="${booking}">
-    <div th:if="${#fields.hasGlobalErrors()}">
-        <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
-    </div>
+	<h1>Effettua una prenotazione</h1>
+	<form th:action="@{/bookings}" method="POST" th:object="${booking}">
+	    <div th:if="${#fields.hasGlobalErrors()}">
+	        <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
+	    </div>
 
-   <div>
+   		<div>
             Spettacolo:
             <span th:if="${plays.isEmpty()}">Non ci sono spettacoli nel sistema</span>
             <span th:if="${!plays.isEmpty()}">

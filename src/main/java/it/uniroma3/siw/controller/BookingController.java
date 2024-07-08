@@ -224,7 +224,6 @@ public class BookingController {
 	}
 
 
-	
 	@GetMapping("/admin/updatePlay/{idBooking}")
 	public String updatePlay(Model model, @PathVariable("idBooking") Long id) {
 		Booking booking = this.bookingService.findById(id);
@@ -235,7 +234,13 @@ public class BookingController {
 	
 	@GetMapping("/admin/removeBooking/{id}")
 	public String removeBooking(@PathVariable("id") Long id, Model model) {
-		this.bookingService.remove(this.bookingService.findById(id));
+		Booking booking = this.bookingService.findById(id);
+		/* prima di eliminare la prenotazione riaggiungo allo spettacolo il numero di biglietti prenotati */
+		int bookingTickets = booking.getNumTickets();
+		booking.getPlay().setAvailableTickets(booking.getPlay().getAvailableTickets() + bookingTickets);
+		
+		this.playService.save(booking.getPlay());
+		this.bookingService.remove(booking);
 		return "admin/successfulRemoval.html";
 	}
 	
@@ -293,12 +298,53 @@ public class BookingController {
     	return "user/manageBookings.html";
 	}
 	
-	@GetMapping("/user/formUpdateBooking/{id}")
+	@GetMapping("/user/formUpdateBookingTickets/{id}")
 	public String formUpdateBookingUser(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("booking", this.bookingService.findById(id));
-		model.addAttribute("plays", this.playService.findAll());
-		return "user/formUpdateBooking.html";
+		return "user/formUpdateBookingTickets.html";
 	}
+	
+	@PostMapping("/user/updateBookingTickets/{id}")
+	public String updateBookingTicketsUser(@PathVariable("id") Long id, @RequestParam("numTickets") int numTickets, Model model) {
+	    // Trova la prenotazione esistente
+	    Booking booking = this.bookingService.findById(id);
+	    
+	    if (booking != null) {
+	        int oldNumTickets = booking.getNumTickets();
+	        int difference = numTickets - oldNumTickets;
+	        Play play = booking.getPlay();
+
+	        // Controlla se sono rimasti abbastanza biglietti
+	        if (play.getAvailableTickets() - difference < 0) {
+	            model.addAttribute("errorMessage", "Non sono rimasti biglietti sufficienti");
+	            model.addAttribute("booking", booking);
+	            return "user/formUpdateBookingTickets.html";
+	        } else {
+	            // Aggiorna il numero di biglietti disponibili per lo spettacolo
+	            play.setAvailableTickets(play.getAvailableTickets() - difference);
+
+	            // Aggiorna il numero di biglietti nella prenotazione
+	            booking.setNumTickets(numTickets);
+
+	            // Salva le modifiche
+	            this.playService.save(play);
+	            this.bookingService.save(booking);
+
+	            // Calcola il nuovo prezzo totale
+	            float totalPrice = booking.getNumTickets() * play.getPrice();
+	            model.addAttribute("booking", booking);
+	            model.addAttribute("totalPrice", totalPrice);
+
+	            // Reindirizza alla pagina di dettaglio della prenotazione aggiornata
+	            return "redirect:bookings/" + booking.getId();
+	        }
+	    } else {
+	        // Gestisci il caso in cui la prenotazione non viene trovata 
+	        model.addAttribute("errorMessage", "Prenotazione non trovata.");
+	        return "user/formUpdateBookingTickets.html";
+	    }
+	}
+
 	
 	@GetMapping("/user/updatePlay/{idBooking}")
 	public String updatePlayUser(Model model, @PathVariable("idBooking") Long id) {
@@ -310,7 +356,13 @@ public class BookingController {
 	
 	@GetMapping("/user/removeBooking/{id}")
 	public String removeBookingUser(@PathVariable("id") Long id, Model model) {
-		this.bookingService.remove(this.bookingService.findById(id));
+		Booking booking = this.bookingService.findById(id);
+		/* prima di eliminare la prenotazione riaggiungo allo spettacolo il numero di biglietti prenotati */
+		int bookingTickets = booking.getNumTickets();
+		booking.getPlay().setAvailableTickets(booking.getPlay().getAvailableTickets() + bookingTickets);
+		
+		this.playService.save(booking.getPlay());
+		this.bookingService.remove(booking);
 		return "user/successfulRemoval.html";
 	}
 	
