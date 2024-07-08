@@ -8,20 +8,20 @@
 
 <body>
     <div><a href="/">Home</a></div>
-<h1>Effettua una prenotazione</h1>
-<form th:action="@{/bookings}" method="POST" th:object="${booking}">
-    <div th:if="${#fields.hasGlobalErrors()}">
-        <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
-    </div>
+	<h1>Effettua una prenotazione</h1>
+	<form th:action="@{/bookings}" method="POST" th:object="${booking}">
+	    <div th:if="${#fields.hasGlobalErrors()}">
+	        <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
+	    </div>
 
-   <div>
+   		<div>
             Spettacolo:
             <span th:if="${plays.isEmpty()}">Non ci sono spettacoli nel sistema</span>
             <span th:if="${!plays.isEmpty()}">
                 <select th:field="${booking.play}">
                     <option th:each="play : ${plays}" 
                             th:value="${play.id}" 
-                            th:text="${play.name} + ' (' + ${play.location} + ', ' + ${#temporals.format(play.date, 'dd-MM-yyyy')} + ', ' + ${#temporals.format(play.date, 'HH:mm')} + ')'">
+                            th:text="${play.name} + ' (' + ${play.city} + ', ' + ${#temporals.format(play.date, 'dd-MM-yyyy')} + ', ' + ${#temporals.format(play.date, 'HH:mm')} + ')'">
                         Seleziona uno spettacolo
                     </option>
                 </select>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	
+	<head>
+		<title>Manage Artists</title>
+		<link rel="stylesheet" href="/stile.css?version=2" />
+	</head>
+	
+	<body>
+    <div><a href="/">Home</a></div>
+		<h1>Gestisci artisti</h1>
+		<div th:if="${artists.isEmpty()}">Non ci sono artisti nel sistema</div>
+		<ul>
+        <li th:each="artist : ${artists}">
+			<div>Nome: <a th:text="${artist.name}"></a></div>
+        	<div>Cognome: <a th:text="${artist.surname}"></a></div>
+        	<div>Data di nascita: <a th:text=" ${#temporals.format(artist.dateOfBirth, 'dd-MM-yyyy')}"></a></div>
+        	<div>Ruolo: <a th:text="${artist.role}"></a></div>
+
+			<a th:href="@{'/admin/formUpdateArtist/' + ${artist.id}}">(Aggiorna artista)</a>
+			<a th:href="@{'/admin/removeArtist/' + ${artist.id}}">(Rimuovi)</a>
+        </li>
+        </ul>
+	    </body>
+</html>
