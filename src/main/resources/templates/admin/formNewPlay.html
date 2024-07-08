@@ -48,14 +48,29 @@
 										  <span class="text-orange" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></span>
 										</div>
 										<div class="mb-2">
+										  <label for="time" class="form-label">Orario:</label>
+										  <input type="time" th:field="${play.time}" class="form-control" name="time" id="time" placeholder="21:55">
+										  <span class="text-orange" th:if="${#fields.hasErrors('time')}" th:errors="*{time}"></span>
+										</div>
+										<div class="mb-2">
+										  <label for="city" class="form-label">Città:</label>
+										  <input type="text" th:field="${play.city}" class="form-control" name="city" id="city" placeholder="Roma">
+										  <span class="text-orange" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></span>
+										</div>
+										<div class="mb-2">
 										  <label for="location" class="form-label">Location:</label>
-										  <input type="text" th:field="${play.location}" class="form-control" name="location" id="location" placeholder="Inserisci la location">
+										  <input type="text" th:field="${play.location}" class="form-control" name="location" id="location" placeholder="Teatro Brancaccio:  Via Merulana, 244, 00185">
 										  <span class="text-orange" th:if="${#fields.hasErrors('location')}" th:errors="*{location}"></span>
 										</div>
 										<div class="mb-2">
 										  <label for="availableTickets" class="form-label">Biglietti Disponibili:</label>
 										  <input type="number" th:field="${play.availableTickets}" class="form-control" name="availableTickets" id="availableTickets" placeholder="500">
 										  <span class="text-orange" th:if="${#fields.hasErrors('availableTickets')}" th:errors="*{availableTickets}"></span>
+										</div>
+										<div class="mb-2">
+										  <label for="price" class="form-label">Costo biglietto:</label>
+										  <input type="number" step="0.01" th:field="${play.price}" class="form-control" name="price" id="price" placeholder="23,50">
+										  <span class="text-orange" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
 										</div>
 
 										

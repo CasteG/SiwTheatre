@@ -25,14 +25,6 @@ public class PlayService {
 		this.playRepository.delete(play);
 	}
 	
-	@Transactional
-	public void update(Play play, Play newPlay) {
-		play.setName(newPlay.getName());
-		play.setDescription(newPlay.getDescription());
-		play.setPrice(newPlay.getPrice());
-		this.playRepository.save(play);
-	}
-
 
 	public Play findById(Long id) {
 		return this.playRepository.findById(id).get();

@@ -1,6 +1,8 @@
 package it.uniroma3.siw.model;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Objects;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -11,7 +13,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 public class Play {
@@ -33,32 +38,32 @@ public class Play {
 	@ManyToMany(mappedBy="plays")
 	private Set<Artist> artists;
 	
+	@NotNull
 	private LocalDate date;
 	
-	private String location;
+	@NotNull
+	private LocalTime time;
 	
+	@NotNull
+	private String city;
+	
+	private String location;
+		
+	@Min(value = 0) @NotNull
 	private int availableTickets;
 	
+	@Positive @NotNull
 	private Float price;
 	
     @OneToOne(cascade = CascadeType.ALL)
     private Image image;
-	
-	
+
 	public Long getId() {
 		return id;
 	}
-	
+
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Image getImage() {
-		return image;
-	}
-
-	public void setImage(Image img) {
-		this.image = img;
 	}
 
 	public String getName() {
@@ -93,6 +98,22 @@ public class Play {
 		this.date = date;
 	}
 
+	public LocalTime getTime() {
+		return time;
+	}
+
+	public void setTime(LocalTime time) {
+		this.time = time;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
 	public String getLocation() {
 		return location;
 	}
@@ -117,9 +138,30 @@ public class Play {
 		this.price = price;
 	}
 
+	public Image getImage() {
+		return image;
+	}
+
+	public void setImage(Image image) {
+		this.image = image;
+	}
+
 	@Override
-	public String toString() {
-		return name + " (" + location + ", " + date + ")";
+	public int hashCode() {
+		return Objects.hash(date, location, time);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Play other = (Play) obj;
+		return Objects.equals(date, other.date) && Objects.equals(location, other.location)
+				&& Objects.equals(time, other.time);
 	}
 
 

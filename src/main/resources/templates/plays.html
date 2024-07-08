@@ -1,22 +1,42 @@
+
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-
+<html>
+	
   <head>
-    <title>Plays</title>
-    <link rel="stylesheet" href="/stile.css?version=2" />
+	  <title>Ricette</title>
+	  <link rel="stylesheet" href="/stile.css?version=2" />
+	  <div th:replace="~{fragments :: Stylesheet}"></div>
   </head>
-
+  
   <body>
-    <div><a href="/">Home</a></div>
-    <h1>Spettacoli</h1>
-    <div th:if="${plays.isEmpty()}">Non ci sono spettacoli nel sistema</div>
-    <ul>
-      <li th:each="play : ${plays}">
-        <a th:href="@{'/plays/' + ${play.id}}"
-           th:text="${play.name}"></a>
-        <span th:text=" ' (' + ${play.location} + ', ' + ${#temporals.format(play.date, 'dd-MM-yyyy')} + ')'"></span>
-      </li>
-    </ul>
-  </body>
+	<div th:if="${role!=null && role=='ADMIN'}"><div th:replace="~{fragments :: Navbar-admin}"></div></div>
+	<div th:if="${role!=null && role=='DEFAULT'}"><div th:replace="~{fragments :: Navbar-logged}"></div></div>
+	<div th:if="${#authorization.expression('isAnonymous()')}"><div th:replace="~{fragments :: Navbar}"></div></div>
+
+    <!--div><a href="/"><img src="/images/baked-cake.png" height="50%"/></a></div-->
+    <h1 class="text-center text-uppercase fw-bolder pt-3">Spettacoli</h1>
+    <div th:if="${plays.isEmpty()}" class="d-flex justify-content-center align-items-center py-5" style="height: 50vh;">
+      <h1 class="text-center text-red fw-bolder">Non ci sono Ricette nel sistema</h1>
+    </div>
+    <!-- grid-->
+	<div id="grid">
+	      <div class="container-fluid p-3 mb-4">
+	          <div class="row g-3" >
+	              <div class="col-lg-3 col-sm-6" th:each="play : ${plays}">
+	                  <a class="grid-box" th:href="@{'/plays/' + ${play.id}}">
+	                      <img class="img-fluid rounded-top-4" src="/images/slider/otello-1.png" />
+	                      <div class="grid-caption mt-n2 rounded-bottom-4">
+	                        <div class="grid-caption-heading text-cream" th:text="${play.name}">Otello</div>
+	                        <div class="grid-caption-subheading text-muted" th:text="${play.city}+' '+'('+${#temporals.format(play.date, 'dd-MM-yyyy')}+')'">Roma (11/11/11)</div>
+	                    </div>
+	                  </a>
+	              </div>
+	          </div>
+	      </div>
+	  </div>
+  
+  <div th:replace="~{fragments :: Footer}"></div>
+
+  </body> 
 
 </html>
