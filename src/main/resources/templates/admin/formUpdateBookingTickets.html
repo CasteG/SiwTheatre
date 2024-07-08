@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Booking Tickets</title>
+    <link rel="stylesheet" href="/css/stile.css" />
+    <style>
+        .input-number {
+            width: 50px;
+            text-align: center;
+        }
+        .error-message {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div><a href="/">Home</a></div>
+    <h1>Aggiorna numero biglietti</h1>
+    
+    <div>
+        <h2>Dettagli Prenotazione</h2>
+        <p>Utente: <span th:text="${booking.user.username}"></span></p>
+        <p>Spettacolo: <span th:text="${booking.play.name}"></span></p>
+        <p>Luogo: <span th:text="${booking.play.location}"></span></p>
+        <p>Data: <span th:text="${#temporals.format(booking.play.date, 'dd-MM-yyyy')}"></span></p>
+        <p>Orario: <span th:text="${#temporals.format(booking.play.date, 'HH:mm')}"></span></p>
+    </div>
+
+    <!-- Area di messaggio di errore -->
+    <div th:if="${errorMessage}" class="error-message">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <form th:action="@{'/admin/updateBookingTickets/' + ${booking.id}}" th:object="${booking}" method="post">
+        <div>
+            <label for="numTickets">Numero di biglietti:</label>
+            <div>
+                <button type="button" onclick="decreaseValue()">-</button>
+                <input type="number" id="numTickets" name="numTickets" th:field="*{numTickets}" class="input-number" min="1" />
+                <button type="button" onclick="increaseValue()">+</button>
+            </div>
+        </div>
+        <div>
+            <button type="submit">Aggiorna</button>
+        </div>
+    </form>
+
+    <script>
+        function decreaseValue() {
+            var value = parseInt(document.getElementById('numTickets').value, 10);
+            value = isNaN(value) ? 1 : value;
+            value = value > 1 ? value - 1 : 1;
+            document.getElementById('numTickets').value = value;
+        }
+
+        function increaseValue() {
+            var value = parseInt(document.getElementById('numTickets').value, 10);
+            value = isNaN(value) ? 1 : value;
+            value++;
+            document.getElementById('numTickets').value = value;
+        }
+    </script>
+</body>
+</html>
