@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	
+	<head>
+		<title>Manage Bookings</title>
+		<link rel="stylesheet" href="/stile.css?version=2" />
+	</head>
+	
+	<body>
+    <div><a href="/">Home</a></div>
+		<h1>Gestisci prenotazioni</h1>
+		<div th:if="${bookings.isEmpty()}">Non ci sono prenotazioni nel sistema</div>
+		<ul>
+        <li th:each="booking : ${bookings}">
+			<div>Utente: <a th:text="${booking.user}"></a></div>
+        	<div>Spettacolo: <a th:text="${booking.play.name}"></a></div>
+        	<div>Indirizzo: <a th:text="${booking.play.location} + ', ' +{booking.play.city}"></a></div>
+        	<div>Giorno: <a th:text="${#temporals.format(booking.play.date, 'dd-MM-yyyy')} + ', ore ' + ${#temporals.format(booking.play.date, 'HH:mm')}"></a></div>
+        	<div>Numero biglietti: <a th:text="${booking.numTickets}"></a></div>
+
+			<a th:href="@{'/admin/formUpdateBookingTickets/' + ${booking.id}}">(Aggiorna biglietti)</a>
+			<a th:href="@{'/admin/removeBooking/' + ${booking.id}}">(Rimuovi)</a>
+        </li>
+        </ul>
+	    </body>
+</html>
