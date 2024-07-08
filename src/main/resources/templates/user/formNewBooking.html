@@ -21,7 +21,7 @@
                 <select th:field="${booking.play}">
                     <option th:each="play : ${plays}" 
                             th:value="${play.id}" 
-                            th:text="${play.name} + ' (' + ${play.location} + ', ' + ${#temporals.format(play.date, 'dd-MM-yyyy')} + ', ' + ${#temporals.format(play.date, 'HH:mm')} + ')'">
+                            th:text="${play.name} + ' (' + ${play.city} + ', ' + ${#temporals.format(play.date, 'dd-MM-yyyy')} + ', ' + ${#temporals.format(play.date, 'HH:mm')} + ')'">
                         Seleziona uno spettacolo
                     </option>
                 </select>

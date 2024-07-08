@@ -21,7 +21,7 @@
         <h2>Dettagli Prenotazione</h2>
         <p>Utente: <span th:text="${booking.user.username}"></span></p>
         <p>Spettacolo: <span th:text="${booking.play.name}"></span></p>
-        <p>Luogo: <span th:text="${booking.play.location}"></span></p>
+        <p>Luogo: <span th:text="${booking.play.city} + ', ' + ${booking.play.location}"></span></p>
         <p>Data: <span th:text="${#temporals.format(booking.play.date, 'dd-MM-yyyy')}"></span></p>
         <p>Orario: <span th:text="${#temporals.format(booking.play.date, 'HH:mm')}"></span></p>
     </div>

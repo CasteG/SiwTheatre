@@ -298,7 +298,7 @@ public class BookingController {
     	return "user/manageBookings.html";
 	}
 	
-	@GetMapping("/user/formUpdateBookingTickets/{id}")
+	@GetMapping("/user/updateBookingTickets/{id}")
 	public String formUpdateBookingUser(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("booking", this.bookingService.findById(id));
 		return "user/formUpdateBookingTickets.html";
@@ -336,7 +336,7 @@ public class BookingController {
 	            model.addAttribute("totalPrice", totalPrice);
 
 	            // Reindirizza alla pagina di dettaglio della prenotazione aggiornata
-	            return "redirect:bookings/" + booking.getId();
+	            return "redirect:/bookings/" + booking.getId();
 	        }
 	    } else {
 	        // Gestisci il caso in cui la prenotazione non viene trovata 

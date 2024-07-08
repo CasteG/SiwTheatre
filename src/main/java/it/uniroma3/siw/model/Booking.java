@@ -58,8 +58,8 @@ public class Booking {
 	@Override
 	public String toString() {
 		if(numTickets==1)
-			return play.getName() + " (" + numTickets + "biglietto)";
+			return play.getName() + " (" + numTickets + " biglietto)";
 		else
-			return play.getName() + " (" + numTickets + "biglietti)";
+			return play.getName() + " (" + numTickets + " biglietti)";
 	}
 }

@@ -70,7 +70,6 @@ public class AuthConfiguration {
 		.requestMatchers(HttpMethod.POST,"/bookings").hasAnyAuthority(DEFAULT_ROLE, ADMIN_ROLE)
 		.requestMatchers(HttpMethod.GET,"/bookings/**").hasAnyAuthority(DEFAULT_ROLE, ADMIN_ROLE)
 
-
 		.requestMatchers(HttpMethod.GET,"/admin/**").hasAnyAuthority(ADMIN_ROLE)
 		.requestMatchers(HttpMethod.POST,"/admin/**").hasAnyAuthority(ADMIN_ROLE)
 		// tutti gli utenti autenticati possono accere alle pagine rimanenti 
