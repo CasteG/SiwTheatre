@@ -53,6 +53,17 @@ body{
     width: 100%;
 }
 
+.navbar-nav .nav-item.show .nav-link,
+.navbar-nav .nav-link:focus,
+.navbar-nav .nav-link:active {
+    color: #FFFFFF; /* Colore del testo quando il dropdown è attivo o cliccato */
+}
+
+.card-body{
+	color: #FFFFFF;
+}
+
+
 
 /********************************************GRID HOME*************************************************************/
 
@@ -76,7 +87,7 @@ body{
   text-align: center;
   opacity: 0;
   color: #fff;
-  background: rgba(93, 46, 140, 0.9);
+  background: rgba(219,157,71, 0.8);
   transition: opacity 0.25s ease;
   text-align: center;
 }
@@ -95,7 +106,7 @@ body{
 .grid-caption {
   padding: 1.5rem;
   text-align: center;
-  background-color: #CD4B27;
+  background-color: #A4171F;
 }
 .grid-caption-heading {
   font-size: 1.5rem;
@@ -113,6 +124,7 @@ body{
   display: block;
   overflow: hidden;
   border-radius: 15px;  
+  text-decoration: none;
 }
 
 .grid-box img {
@@ -128,7 +140,7 @@ body{
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(93, 46, 140, 0.8); /* Overlay viola */
+  background: rgba(164,23,31, 0.3); /* Overlay */
   border-radius: 15px;
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -187,5 +199,14 @@ main.flex-fill {
 
 .icon-pref{
   text-align:center;
+}
+
+.standard-image {
+    width: 100%;
+    height: auto;
+    max-width: 500px; /* Set a max-width for the image */
+    max-height: 500px; /* Set a max-height for the image */
+    object-fit: contain;
+    border-radius: 10px;
 }
 
