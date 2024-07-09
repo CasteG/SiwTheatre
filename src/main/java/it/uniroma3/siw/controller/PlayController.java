@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import it.uniroma3.siw.model.Booking;
 import it.uniroma3.siw.model.Image;
 import it.uniroma3.siw.model.Play;
 import it.uniroma3.siw.repository.ImageRepository;
@@ -41,6 +42,7 @@ public class PlayController {
 	public String getPlay(@PathVariable("id") Long id, Model model) {
 		Play play = this.playService.findById(id);
 		model.addAttribute("play", play);
+		model.addAttribute("booking", new Booking());
 		return "play.html";
 	}
 
