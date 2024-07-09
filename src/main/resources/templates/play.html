@@ -19,7 +19,9 @@
                     <div class="card-body bg-black">
                         <div class="row">
                             <div class="col-md-6 text-center align-self-center">
-                                <img th:src="@{'/image/' + ${play.image.id}}" class="img-fluid rounded standard-image" alt="Play Image">
+								<img th:if="${play.image == null}" class="img-fluid standard-image rounded-top-4" src="/images/plays/Notre-Dame-20.png" />
+								<img th:unless="${play.image == null}" class="img-fluid standard-image rounded" th:src="@{'/image/' + ${play.image.id}}" />
+
                             </div>
                             <div class="col-md-6">
 								<p th:text="${play.description}"></p>
