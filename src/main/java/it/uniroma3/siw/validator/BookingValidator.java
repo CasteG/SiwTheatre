@@ -21,7 +21,11 @@ public class BookingValidator implements Validator {
 
 	@Override
 	public void validate(Object target, Errors errors) {
+		Booking booking = (Booking) target;
 		if(this.bookingService.alreadyExists((Booking) target))
 			errors.reject("duplicate.booking");
+		
+		if(booking.getNumTickets()==0)
+			errors.reject("zero.numTickets");
 	}
 }

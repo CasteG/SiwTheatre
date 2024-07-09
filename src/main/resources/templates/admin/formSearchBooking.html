@@ -1,19 +1,36 @@
 <!DOCTYPE html>
 <html>
- <head>
-  <title>Search Booking</title>
-  <link rel="stylesheet" href="/css/stile.css" />
- </head>
+<head>
+    <title>Search Booking</title>
+    <link rel="stylesheet" href="/css/stile.css" />
+    <div th:replace="~{fragments :: Stylesheet}"></div> <!-- Aggiungi se necessario -->
+</head>
 
- <body>
-    <div><a href="/">Home</a></div>
-  <h1>Cerca prenotazione per username</h1>
-  <form th:action="@{/admin/searchBooking}" method="post">
-   <div>Username: <input type="text" th:value="${username}" name="username" />
-   </div>
-   <div><input type="submit" /></div>
-  </form>
-  
-  <div th:if="${errorMessage}" th:text="${errorMessage}" style="color: red;"></div>
- </body>
+<body>
+   <div th:replace="~{fragments :: Navbar-admin}"></div></div>
+
+    <div class="container">
+        <h1 class="text-center text-uppercase fw-bolder pt-3">Cerca prenotazione per username</h1>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6 mb-5">
+                <form th:action="@{/admin/searchBooking}" method="post" class="my-3">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username:</label>
+                        <input type="text" th:value="${username}" class="form-control" id="username" name="username" />
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-success">Cerca</button>
+                    </div>
+                </form>
+
+                <div th:if="${errorMessage}" class="alert alert-danger mb-3" role="alert">
+                    <span th:text="${errorMessage}"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments :: Footer}"></div>
+</body>
 </html>

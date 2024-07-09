@@ -1,17 +1,36 @@
 <!DOCTYPE html>
-<html>
- <head>
-  <title>Search Play</title>
-  <link rel="stylesheet" href="/css/stile.css" />
- </head>
-
- <body>
-    <div><a href="/">Home</a></div>
-  <h1>Cerca spettacolo per nome</h1>
-  <form th:action="@{/searchPlay}" method="post">
-   <div>Nome: <input type="text" th:value="${name}" name="name" />
-   </div>
-   <div><input type="submit" /></div>
-  </form>
- </body>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Search Play</title>
+    <link rel="stylesheet" href="/css/stile.css" />
+    <div th:replace="~{fragments :: Stylesheet}"></div> <!-- Se necessario aggiungi il fragment per lo stile -->
+</head>
+
+<body>
+    <!-- Navbar -->
+ 	<div th:if="${role!=null && role=='ADMIN'}"><div th:replace="~{fragments :: Navbar-admin}"></div></div>
+    <div th:if="${role!=null && role=='DEFAULT'}"><div th:replace="~{fragments :: Navbar-logged}"></div></div>
+
+    <div class="container">
+        <h1 class="text-center text-uppercase fw-bolder pt-3">Cerca spettacolo per nome</h1>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6 mb-5">
+                <form th:action="@{/searchPlay}" method="post" class="my-3">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nome:</label>
+                        <input type="text" th:value="${name}" class="form-control" id="name" name="name" />
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-success">Cerca</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments :: Footer}"></div>
+</body>
 </html>

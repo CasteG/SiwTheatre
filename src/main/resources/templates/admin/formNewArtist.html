@@ -2,42 +2,75 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>New Artist Form</title>
+    <div th:replace="~{fragments :: Stylesheet}"></div> <!-- Includi il fragmento del foglio di stile -->
 </head>
 <body>
-	<h1>Aggiungi artista</h1>
-    <form th:action="@{/artists}" th:object="${artist}" method="post" enctype="multipart/form-data">
-		
-		 <!-- Sezione per la validazione -->
-        <div th:if="${#fields.hasGlobalErrors()}">
-            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" class="text-danger">...</p>
+    <div th:if="${role!=null && role=='ADMIN'}">
+        <div th:replace="~{fragments :: Navbar-admin}"></div>
+    </div>
+    <div th:if="${role!=null && role=='DEFAULT'}">
+        <div th:replace="~{fragments :: Navbar-logged}"></div>
+    </div>
+
+    <section class="generic_section">
+        <div class="container">
+            <div class="mt-2">
+                <h1 class="text-center text-uppercase fw-bolder pt-3">Aggiungi artista</h1>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-md-6 mb-5">
+                    <div th:if="${param.error} and ${session}" th:with="errorMsg=${session['SPRING_SECURITY_LAST_EXCEPTION']}">
+                        <div class="alert alert-dismissible alert-danger error mb-5">
+                            OPS! Errore nella creazione, controlla di aver inserito correttamente i dati!
+                        </div>
+                    </div>
+
+                    <div class="container my-3">
+                        <div class="form_container">
+                            <form th:action="@{/artists}" th:object="${artist}" method="post" enctype="multipart/form-data">
+                                <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger" role="alert">
+                                    <h4 class="text-red fw-semibold" align="center" th:each="err : ${#fields.globalErrors()}" th:text="'Errore: ' + ${err}">...</h4>
+                                </div>
+
+                                <div class="mb-2">
+                                    <label for="name" class="form-label">Nome:</label>
+                                    <input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Nome dell'artista">
+                                    <span class="text-red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                                </div>
+                                <div class="mb-2">
+                                    <label for="surname" class="form-label">Cognome:</label>
+                                    <input type="text" th:field="*{surname}" class="form-control" id="surname" placeholder="Cognome dell'artista">
+                                    <span class="text-red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></span>
+                                </div>
+                                <div class="mb-2">
+                                    <label for="dateOfBirth" class="form-label">Data di nascita:</label>
+                                    <input type="date" th:field="*{dateOfBirth}" class="form-control" id="dateOfBirth">
+                                    <span class="text-red" th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}"></span>
+                                </div>
+                                <div class="mb-2">
+                                    <label for="role" class="form-label">Ruolo:</label>
+                                    <input type="text" th:field="*{role}" class="form-control" id="role" placeholder="Ruolo dell'artista">
+                                    <span class="text-red" th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></span>
+                                </div>
+                                <div class="mb-2">
+                                    <label for="file" class="form-label">Immagine:</label>
+                                    <input type="file" name="file" class="form-control" id="file">
+                                </div>
+
+                                <div class="d-flex justify-content-end align-items-center">
+                                    <div>
+                                        <button type="submit" class="btn btn-success mt-3">Conferma</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>
-            <label for="name">Nome</label>
-            <input type="text" id="name" th:field="*{name}" />
-            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
-        </div>
-        <div>
-            <label for="surname">Cognome</label>
-            <input type="text" id="surname" th:field="*{surname}" />
-            <span th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Surname Error</span>
-        </div>
-        <div>
-            <label for="dateOfBirth">Data di nascita</label>
-            <input type="date" id="dateOfBirth" th:field="*{dateOfBirth}" />
-            <span th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}">Date of Birth Error</span>
-        </div>
-        <div>
-            <label for="role">Ruolo</label>
-            <input type="text" id="role" th:field="*{role}" />
-            <span th:if="${#fields.hasErrors('role')}" th:errors="*{role}">Role Error</span>
-        </div>
-        <div>
-            <label for="file">Immagine</label>
-            <input type="file" id="file" name="file" />
-        </div>
-        <div>
-            <button type="submit">Conferma</button>
-        </div>
-    </form>
+    </section>
+
+    <div th:replace="~{fragments :: Footer}"></div>
 </body>
 </html>

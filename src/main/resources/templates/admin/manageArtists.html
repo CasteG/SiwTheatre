@@ -1,24 +1,41 @@
 <!DOCTYPE html>
 <html>
-	
-	<head>
-		<title>Manage Artists</title>
-		<link rel="stylesheet" href="/stile.css?version=2" />
-	</head>
-	
-	<body>
-    <div><a href="/">Home</a></div>
-		<h1>Gestisci artisti</h1>
-		<div th:if="${artists.isEmpty()}">Non ci sono artisti nel sistema</div>
-		<ul>
-        <li th:each="artist : ${artists}">
-			<div>Nome: <a th:text="${artist.name}"></a></div>
-        	<div>Cognome: <a th:text="${artist.surname}"></a></div>
-        	<div>Data di nascita: <a th:text=" ${#temporals.format(artist.dateOfBirth, 'dd-MM-yyyy')}"></a></div>
-        	<div>Ruolo: <a th:text="${artist.role}"></a></div>
+<head>
+    <title>Gestisci artisti</title>
+    <div th:replace="~{fragments :: Stylesheet}"></div>
+  
+</head>
+<body>
+    <div th:if="${role!=null && role=='ADMIN'}"><div th:replace="~{fragments :: Navbar-admin}"></div></div>
+    <div th:if="${role!=null && role=='DEFAULT'}"><div th:replace="~{fragments :: Navbar-logged}"></div></div>
 
-			<a th:href="@{'/admin/removeArtist/' + ${artist.id}}">(Rimuovi)</a>
-        </li>
-        </ul>
-	    </body>
+    <section class="generic_section">
+        <div class="container">
+            <h1 class="text-center text-uppercase fw-bolder pt-3">Gestisci artisti</h1>
+            <br>
+            
+            <div th:if="${artists.isEmpty()}">Non ci sono artisti nel sistema</div>
+
+            <div class="row">
+                <div th:each="artist : ${artists}" class="col-md-4 mb-4">
+                    <div class="artist-box">
+                        <div class="text-white">Nome: <a th:text="${artist.name}"></a></div>
+                        <div class="text-white">Cognome: <a th:text="${artist.surname}"></a></div>
+                        <div class="text-white">Data di nascita: <a th:text="${#temporals.format(artist.dateOfBirth, 'dd/MM/yyyy')}"></a></div>
+                        <div class="text-white">Ruolo: <a th:text="${artist.role}"></a></div>
+
+                        <!-- Immagine dell'artista -->
+                        <div class="artist-image">
+                            <img th:src="@{'/image/' + ${artist.image.id}}" class="img-fluid rounded" style="width: 100%; height: 300px; object-fit: cover;">
+                        </div>
+						<br>
+                        <a th:href="@{'/admin/removeArtist/' + ${artist.id}}" class="btn btn-danger">Rimuovi</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div th:replace="~{fragments :: Footer}"></div>
+</body>
 </html>

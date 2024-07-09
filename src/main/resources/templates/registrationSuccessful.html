@@ -1,14 +1,24 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<title>Registration Successful</title>
-		<link rel="stylesheet" href="/stile.css?version=2" />
-	</head>
-	
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registration Successful</title>
+    <div th:replace="~{fragments :: Stylesheet}"></div>
+</head>
 <body>
-	<div><a href="/"></div>	
-	<h1>Consulta</h1>
-	<span>Registrazione avvenuta con successo!</span>
-	
+    <!-- Inserire il fragment per la navbar -->
+ 	<div th:if="${role!=null && role=='ADMIN'}"><div th:replace="~{fragments :: Navbar-admin}"></div></div>
+    <div th:if="${role!=null && role=='DEFAULT'}"><div th:replace="~{fragments :: Navbar-logged}"></div></div>
+    <div th:if="${#authorization.expression('isAnonymous()')}"><div th:replace="~{fragments :: Navbar}"></div></div>
+        
+    <!-- Sezione personalizzata per il contenuto principale -->
+    <section class="about-section">
+        <div class="container text-center">
+            <span>Registrazione avvenuta con successo!</span>
+        </div>
+    </section>
+    
+    <!-- Inserire il fragment per il footer -->
+    <div th:replace="~{fragments :: Footer}"></div>
+    
 </body>
 </html>
