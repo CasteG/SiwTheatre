@@ -10,6 +10,10 @@
     <!-- Navbar -->
  	<div th:if="${role!=null && role=='ADMIN'}"><div th:replace="~{fragments :: Navbar-admin}"></div></div>
     <div th:if="${role!=null && role=='DEFAULT'}"><div th:replace="~{fragments :: Navbar-logged}"></div></div>
+	<div th:if="${#authorization.expression('isAnonymous()')}"><div th:replace="~{fragments :: Navbar}"></div></div>
+	<div class="wrapper d-flex flex-column min-vh-100">
+	<main class="flex-fill">	
+
 
     <div class="container">
         <h1 class="text-center text-uppercase fw-bolder pt-3">Cerca spettacolo per nome</h1>
@@ -29,8 +33,9 @@
             </div>
         </div>
     </div>
-
+	</main>
     <!-- Footer -->
     <div th:replace="~{fragments :: Footer}"></div>
+	</div>
 </body>
 </html>

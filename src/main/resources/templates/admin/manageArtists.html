@@ -8,34 +8,40 @@
 <body>
     <div th:if="${role!=null && role=='ADMIN'}"><div th:replace="~{fragments :: Navbar-admin}"></div></div>
     <div th:if="${role!=null && role=='DEFAULT'}"><div th:replace="~{fragments :: Navbar-logged}"></div></div>
+	<div class="wrapper d-flex flex-column min-vh-100">
+	<main class="flex-fill">	
 
     <section class="generic_section">
         <div class="container">
             <h1 class="text-center text-uppercase fw-bolder pt-3">Gestisci artisti</h1>
-            <br>
-            
-            <div th:if="${artists.isEmpty()}">Non ci sono artisti nel sistema</div>
+			<div th:if="${artists.isEmpty()}" class="d-flex justify-content-center align-items-center py-5" style="height: 50vh;">
+			  <h2 class="text-center fw-bolder">Non ci sono Artisti nel sistema</h2>
+			</div>
 
             <div class="row">
                 <div th:each="artist : ${artists}" class="col-md-4 mb-4">
-                    <div class="artist-box">
+                    <div class="artist-box rounded-3 border-2">
+						<!-- Immagine dell'artista -->
+						<div class="artist-image">
+						    <img th:src="@{'/image/' + ${artist.image.id}}" class="img-fluid rounded" style="width: 100%; height: 300px; object-fit: cover;">
+						</div>
+
                         <div class="text-white">Nome: <a th:text="${artist.name}"></a></div>
                         <div class="text-white">Cognome: <a th:text="${artist.surname}"></a></div>
                         <div class="text-white">Data di nascita: <a th:text="${#temporals.format(artist.dateOfBirth, 'dd/MM/yyyy')}"></a></div>
                         <div class="text-white">Ruolo: <a th:text="${artist.role}"></a></div>
 
-                        <!-- Immagine dell'artista -->
-                        <div class="artist-image">
-                            <img th:src="@{'/image/' + ${artist.image.id}}" class="img-fluid rounded" style="width: 100%; height: 300px; object-fit: cover;">
-                        </div>
 						<br>
-                        <a th:href="@{'/admin/removeArtist/' + ${artist.id}}" class="btn btn-danger">Rimuovi</a>
+						<div class="mt-auto text-end">
+						    <a th:href="@{'/admin/removeArtist/' + ${artist.id}}" class="btn btn-danger">Rimuovi</a>
+						</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
+	</main>
     <div th:replace="~{fragments :: Footer}"></div>
+	</div>
 </body>
 </html>
