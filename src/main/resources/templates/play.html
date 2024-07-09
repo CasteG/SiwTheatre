@@ -11,7 +11,7 @@
     <div class="wrapper d-flex flex-column min-vh-100">
         <main class="flex-fill">
             <div class="container my-4">
-                <div th:if="${play}" class="card shadow-lg">
+                <div th:if="${play}" class="card border-3 shadow-lg">
                     <div class="card-header text-center bg-red text-white">
                         <h1 th:text="${play.name}" class="fw-bold text-uppercase"></h1>
 						<h4 th:text="'(' + ${play.city} + ', ' + ${#temporals.format(play.date, 'dd-MM-yyyy')} + ', ' + ${play.time}+')'"></h4>
@@ -19,33 +19,38 @@
                     <div class="card-body bg-black">
                         <div class="row">
                             <div class="col-md-6 text-center align-self-center">
-								<img th:if="${play.image == null}" class="img-fluid standard-image rounded-top-4" src="/images/plays/Notre-Dame-20.png" />
-								<img th:unless="${play.image == null}" class="img-fluid standard-image rounded" th:src="@{'/image/' + ${play.image.id}}" />
+								<img th:if="${play.image == null}" class="img-fluid standard-image rounded-4" src="/images/plays/Notre-Dame-20.png" />
+								<img th:unless="${play.image == null}" class="img-fluid standard-image rounded-3" th:src="@{'/image/' + ${play.image.id}}" />
 
                             </div>
                             <div class="col-md-6">
-								<p th:text="${play.description}"></p>
-								<label class="text-white">Location:</label><h4 th:text="${play.location}"></h4>
-                                <label class="text-white">Numero biglietti disponibili:</label><h4 th:text="${play.availableTickets}"></h4>
-                                <label class="text-white">Prezzo:</label> <h4 th:text="${play.price}+&euro;"></h4>
+								<label class="text-red">Location:</label><h4 th:text="${play.location}"></h4>
+                                <label class="text-red">Numero biglietti disponibili:</label><h4 th:text="${play.availableTickets}"></h4>
+                                <label class="text-red">Prezzo:</label> <h4 th:text="${play.price}+&euro;"></h4>
+								<label class="text-red">Presentazione:</label><h4 th:text="${play.description}"></h4>
                             </div>
                         </div>
-                        <div class="row mt-4">
-                            <div class="col-md-6 text-center">
-                                <h2>Artisti</h2>
-                                <div th:if="${play.artists.isEmpty()}">Nessun artista inserito</div>
-                                <div th:if="${!play.artists.isEmpty()}">
-                                    <ul class="list-group list-group-horizontal justify-content-center">
-                                        <li th:each="artist : ${play.artists}" class="list-group-item">
-                                            <span th:text="${artist}"></span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-							<div class="text-center col-md-6 mt-4">
-							    <a th:href="@{'/bookings/' + ${play.id}}" class="btn btn-lg btn-primary">Prenota Ora</a>
-							</div>
-
+						<div class="row mt-4">
+						    <div class="col-md-6 text-center">
+						        <h2>Artisti</h2>
+						        <div th:if="${play.artists.isEmpty()}">Nessun artista inserito</div>
+						        <div th:if="${!play.artists.isEmpty()}">
+						            <ul class="list-group list-group-horizontal justify-content-center">
+						                <li th:each="artist : ${play.artists}" class="list-group-item">
+						                    <span th:text="${artist}"></span>
+						                </li>
+						            </ul>
+						        </div>
+						    </div>
+						    <div class="col-md-6 text-center align-self-center">
+						        <div th:if="${role!=null && role=='ADMIN'}">
+						            <a th:href="@{/admin/formNewBooking}" class="btn btn-lg btn-danger">Prenota Ora</a>
+						        </div>
+						        <div th:if="${role!=null && role=='DEFAULT'}">
+						            <a th:href="@{/user/formNewBooking}" class="btn btn-lg btn-danger">Prenota Ora</a>
+						        </div>
+						    </div>
+						</div>
                         </div>
                     </div>
                 </div>
