@@ -49,6 +49,10 @@
 						        <div th:if="${role!=null && role=='DEFAULT'}">
 						            <a th:href="@{/user/formNewBooking}" class="btn btn-lg btn-danger">Prenota Ora</a>
 						        </div>
+								<div th:if="${#authorization.expression('isAnonymous()')}">
+									<a th:href="@{/login}" class="btn btn-lg btn-danger">Accedi per prenotarti</a>
+								</div>
+
 						    </div>
 						</div>
                         </div>
