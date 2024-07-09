@@ -21,10 +21,6 @@ import jakarta.validation.constraints.Positive;
 @Entity
 public class Play {
 	
-	public static final String DIR_PAGES_PLAY = "information/play/";
-	public static final String DIR_ADMIN_PAGES_PLAY = "admin/play/";
-	public static final String DIR_FOLDER_IMG = "play/profiles";
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -35,7 +31,7 @@ public class Play {
 	@Column(length = 2000)
 	private String description;
 	
-	@ManyToMany(mappedBy="plays")
+	@ManyToMany(mappedBy="plays", cascade = CascadeType.ALL)
 	private Set<Artist> artists;
 	
 	@NotNull

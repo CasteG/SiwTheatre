@@ -89,10 +89,4 @@ public class ArtistController {
 		return "admin/successfulRemoval.html";
 	}
 	
-	@GetMapping("/admin/formUpdateArtist/{id}")
-	public String updateArtist(@PathVariable("id") Long id, Model model) {
-		model.addAttribute("artist", this.artistService.findById(id));
-		return "admin/formUpdateArtist.html";
-	}
-	
 }

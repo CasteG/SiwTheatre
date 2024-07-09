@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.siw.model.Booking;
+import it.uniroma3.siw.model.Artist;
 import it.uniroma3.siw.model.Image;
 import it.uniroma3.siw.model.Play;
 import it.uniroma3.siw.repository.ImageRepository;
@@ -131,32 +132,42 @@ public class PlayController {
 		return "admin/successfulRemoval.html";
 	}
 
-	@GetMapping("/admin/updateArtists/{idPlay}")
-	public String updateArtists(Model model, @PathVariable("idPlay") Long id) {
+	@GetMapping("/admin/updatePlayArtists/{idPlay}")
+	public String updatePlayArtists(Model model, @PathVariable("idPlay") Long id) {
 		Play play = this.playService.findById(id);
 		model.addAttribute("play", play);
 		model.addAttribute("artists", this.artistService.findAvailableArtists(play.getArtists()));
-		return "admin/updateBookingArtists.html";
+		return "admin/updatePlayArtists.html";
 	}
 
 	@GetMapping("/admin/setArtistToPlay/{idArtist}/{idPlay}")
-	public String setArtistToPlay(Model model, @PathVariable("idArtist") Long idArt, @PathVariable("idPlay") Long idPlay) {
-		Play play = this.playService.findById(idPlay);
-		play.getArtists().add(this.artistService.findById(idArt));
-		this.playService.save(play);
-		model.addAttribute("play", play);
-		model.addAttribute("artists", this.artistService.findAvailableArtists(play.getArtists()));
-		return "admin/updateBookingArtists.html";
+	public String setArtistToPlay(Model model, @PathVariable("idArtist") Long idArtist, @PathVariable("idPlay") Long idPlay) {
+	    Play play = this.playService.findById(idPlay);
+	    Artist artist = this.artistService.findById(idArtist);
+	    
+	    play.getArtists().add(artist);
+	    artist.getPlays().add(play);
+	    this.playService.save(play);
+	    this.artistService.save(artist); 
+	    
+	    model.addAttribute("play", play);
+	    model.addAttribute("artists", this.artistService.findAvailableArtists(play.getArtists()));
+	    return "admin/updatePlayArtists";
 	}
-
+	
 	@GetMapping("/admin/removeArtistFromPlay/{idArt}/{idPlay}")
-	public String removeArtistFromPlay(Model model,@PathVariable("idArt") Long idArt, @PathVariable("idPlay") Long idPlay) {
-		Play play = this.playService.findById(idPlay);
-		play.getArtists().remove(this.artistService.findById(idArt));
-		this.playService.save(play);
-		model.addAttribute("play", play);
-		model.addAttribute("artists", this.artistService.findAvailableArtists(play.getArtists()));
-		return "admin/updateBookingArtists.html";
+	public String removeArtistFromPlay(Model model, @PathVariable("idArt") Long idArt, @PathVariable("idPlay") Long idPlay) {
+	    Play play = this.playService.findById(idPlay);
+	    Artist artist = this.artistService.findById(idArt);
+	    
+	    play.getArtists().remove(artist);
+	    artist.getPlays().remove(play);
+	    this.playService.save(play);
+	    this.artistService.save(artist); 
+	    
+	    model.addAttribute("play", play);
+	    model.addAttribute("artists", this.artistService.findAvailableArtists(play.getArtists()));
+	    return "admin/updatePlayArtists";
 	}
 
 

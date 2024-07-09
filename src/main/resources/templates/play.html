@@ -8,13 +8,14 @@
     <div th:if="${role!=null && role=='ADMIN'}"><div th:replace="~{fragments :: Navbar-admin}"></div></div>
     <div th:if="${role!=null && role=='DEFAULT'}"><div th:replace="~{fragments :: Navbar-logged}"></div></div>
     <div th:if="${#authorization.expression('isAnonymous()')}"><div th:replace="~{fragments :: Navbar}"></div></div>
+    
     <div class="wrapper d-flex flex-column min-vh-100">
         <main class="flex-fill">
             <div class="container my-4">
                 <div th:if="${play}" class="card border-3 shadow-lg">
                     <div class="card-header text-center bg-red text-white">
                         <h1 th:text="${play.name}" class="fw-bold text-uppercase"></h1>
-						<h4 th:text="'(' + ${play.city} + ', ' + ${#temporals.format(play.date, 'dd-MM-yyyy')} + ', ' + ${play.time}+')'"></h4>
+                        <h4 th:text="'(' + ${play.city} + ', ' + ${#temporals.format(play.date, 'dd-MM-yyyy')} + ', ' + ${play.time} + ')'"></h4>
                     </div>
                     <div class="card-body bg-black">
                         <div class="row">
