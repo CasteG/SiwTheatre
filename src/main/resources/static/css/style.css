@@ -210,3 +210,29 @@ main.flex-fill {
     border-radius: 10px;
 }
 
+.about-section {
+    background-color: #333;
+    color: #fff;
+    padding: 30px 0;
+}
+.about-section .container {
+    border: 6px solid #A4171F;
+    padding: 8px;
+    max-width: 97%; /* Aumenta la larghezza massima */
+}
+.about-section h2 {
+    color: #fff;
+    font-weight: bold;
+}
+.about-section p {
+    font-size: 1.2em;
+}
+.about-section .btn {
+    background-color: #A4171F;
+    color: #fff;
+}
+.about-section .btn:hover {
+    background-color: rgb(255, 255, 255, 0.5);
+    color: #A4171F;
+    border: 2px solid #A4171F;
+}
