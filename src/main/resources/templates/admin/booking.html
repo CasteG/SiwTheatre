@@ -1,21 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Booking</title>
     <link rel="stylesheet" href="/stile.css?version=2" />
+    <div th:replace="~{fragments :: Stylesheet}"></div>
 </head>
 
 <body>
-    <div>
-    <div><a href="/">Home</a></div>
-    </div>
+    <div th:if="${role!=null && role=='ADMIN'}"><div th:replace="~{fragments :: Navbar-admin}"></div></div>
+    <div th:if="${role!=null && role=='DEFAULT'}"><div th:replace="~{fragments :: Navbar-logged}"></div></div>
+    <div th:if="${#authorization.expression('isAnonymous()')}"><div th:replace="~{fragments :: Navbar}"></div></div>
+
     <div th:if="${booking}">
-        <h1 th:text="${booking.play.name} + ' (' + ${#temporals.format(booking.play.date, 'dd-MM-yyyy')} + ', ' + ${#temporals.format(booking.play.date, 'HH:mm')} + ')' "></h1>
-        <h2>Utente: <span th:text="${booking.user}"></span></h2>
-        <h2>Luogo: <span th:text="${booking.play.city} + ', ' + ${booking.play.location}"></span></h2>
-        <h2>Numero biglietti: <span th:text="${booking.numTickets}"></span></h2>
-        <h2>Prezzo totale: <span th:text="${totalPrice}"></span></h2>
+        <div class="wrapper d-flex flex-column min-vh-100">
+            <main class="flex-fill">
+                <div class="container my-4">
+                    <div class="card border-3 shadow-lg">
+                        <div class="card-header text-center bg-red text-white">
+                            <h1 th:text="${booking.play.name} + ' (' + ${#temporals.format(booking.play.date, 'dd-MM-yyyy')} + ', ' + ${#temporals.format(booking.play.date, 'HH:mm')} + ')' " class="fw-bold text-uppercase"></h1>
+                        </div>
+                        <div class="card-body bg-black">
+                            <div class="row">
+                                <div class="col-md-6 text-center align-self-center">
+                                    <img th:if="${booking.play.image == null}" class="img-fluid standard-image rounded-4" src="/images/plays/Notre-Dame-20.png" />
+                                    <img th:unless="${booking.play.image == null}" class="img-fluid standard-image rounded-3" th:src="@{'/image/' + ${booking.play.image.id}}" />
+                                </div>
+                                <div class="col-md-6 text-center align-self-center">
+                                    <h2>Dettagli Prenotazione:</h2>
+                                    <br>
+                                    <h4><span class="text-red">Utente:</span> <span th:text="${booking.user}"></span></h4>
+                                    <h4><span class="text-red">Numero biglietti:</span> <span th:text="${booking.numTickets}"></span></h4>
+                                    <h4><span class="text-red">Prezzo totale:</span> <span th:text="${totalPrice}"></span> euro</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <div th:replace="~{fragments :: Footer}"></div>
+        </div>
     </div>
-    <div th:unless="${booking}">Non esiste</div>
+
+    <div th:unless="${booking}" class="alert alert-danger mt-3">Non esiste</div>
 </body>
 </html>

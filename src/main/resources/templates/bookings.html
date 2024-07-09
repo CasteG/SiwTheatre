@@ -1,21 +1,47 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
-  <head>
+<head>
     <title>Bookings</title>
     <link rel="stylesheet" href="/stile.css?version=2" />
-  </head>
+    <div th:replace="~{fragments :: Stylesheet}"></div>
+</head>
 
-  <body>
-    <div><a href="/">Home</a></div>
-    <h1>Prenotazioni</h1>
-    <div th:if="${bookings.isEmpty()}">Non hai effettuato alcuna prenotazione</div>
-    <ul>
-      <li th:each="booking : ${bookings}">
-        <a th:href="@{'/bookings' + '/' + ${booking.id}}"
-           th:text="${booking}"></a>
-      </li>
-    </ul>
-  </body>
+<body>
+    <!-- Navbar -->
+    <div th:if="${role!=null && role=='ADMIN'}"><div th:replace="~{fragments :: Navbar-admin}"></div></div>
+    <div th:if="${role!=null && role=='DEFAULT'}"><div th:replace="~{fragments :: Navbar-logged}"></div></div>
+    <div th:if="${#authorization.expression('isAnonymous()')}"><div th:replace="~{fragments :: Navbar}"></div></div>
+
+    <!-- Titolo -->
+    <h1 class="text-center text-uppercase fw-bolder pt-3">Prenotazioni</h1>
+
+    <!-- Nessuna prenotazione nel sistema -->
+    <div th:if="${bookings.isEmpty()}" class="d-flex justify-content-center align-items-center py-5" style="height: 50vh;">
+        <h1 class="text-center text-red fw-bolder">Non ci sono prenotazioni nel sistema</h1>
+    </div>
+
+    <!-- Lista delle prenotazioni -->
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <ul class="list-group" th:each="booking : ${bookings}">
+                    <li class="list-group-item d-flex justify-content-between align-items-center bg-orange my-2">
+                        <a th:href="@{/admin/bookings/{bookingId}(bookingId=${booking.id})}" class="text-cream fw-bold text-black" th:text="${booking.user} + ' (' + ${booking.play.name} + ')'"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Messaggio alternativo se non ci sono prenotazioni -->
+    <div th:unless="${bookings}" class="text-center py-4">
+        <h2>Non esiste</h2>
+    </div>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments :: Footer}"></div>
+
+</body>
 
 </html>

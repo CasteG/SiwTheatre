@@ -1,25 +1,42 @@
 <!DOCTYPE html>
 <html>
-	
-	<head>
-		<title>Manage Bookings</title>
-		<link rel="stylesheet" href="/stile.css?version=2" />
-	</head>
-	
-	<body>
-    <div><a href="/">Home</a></div>
-		<h1>Gestisci prenotazioni</h1>
-		<div th:if="${bookings.isEmpty()}">Non ci sono prenotazioni nel sistema</div>
-		<ul>
-        <li th:each="booking : ${bookings}">
-        	<div>Spettacolo: <a th:text="${booking.play.name}"></a></div>
-        	<div>Indirizzo: <a th:text="${booking.play.location} + ', ' + ${booking.play.city}"></a></div>
-        	<div>Giorno: <a th:text="${#temporals.format(booking.play.date, 'dd-MM-yyyy')} + ', ore ' + ${#temporals.format(booking.play.date, 'HH:mm')}"></a></div>
-        	<div>Numero biglietti: <a th:text="${booking.numTickets}"></a></div>
+<head>
+    <title>Manage Bookings</title>
+    <link rel="stylesheet" href="/stile.css?version=2" />
+        <div th:replace="~{fragments :: Stylesheet}"></div>
 
-			<a th:href="@{'/user/updateBookingTickets/' + ${booking.id}}">(Aggiorna biglietti)</a>
-			<a th:href="@{'/user/removeBooking/' + ${booking.id}}">(Rimuovi)</a>
-        </li>
-        </ul>
-	    </body>
+</head>
+<body>
+    <div th:replace="~{fragments :: Navbar-logged}"></div>
+
+    <div class="container">
+        <h1 class="text-center">Gestisci prenotazioni</h1>
+        <br>
+        <div th:if="${bookings.isEmpty()}" class="alert alert-danger">Non ci sono prenotazioni nel sistema</div>
+
+            <div class="row">
+                <ul class="list-group col-md-8 offset-md-2">
+                    <li th:each="booking : ${bookings}" class="list-group-item">
+                        <div class="card bg-dark text-white">
+                            <div class="card-body">
+                                <div>Spettacolo: <a th:text="${booking.play.name}"></a></div>
+                                <div>Indirizzo: <a th:text="${booking.play.location + ', ' + booking.play.city}"></a></div>
+                                <div>Giorno: <a th:text="${#temporals.format(booking.play.date, 'dd-MM-yyyy') + ', ore ' + #temporals.format(booking.play.date, 'HH:mm')}"></a></div>
+                                <div>Numero biglietti: <a th:text="${booking.numTickets}"></a></div>
+                                <br>
+                                 <div>
+                                    <a th:href="@{'/user/updateBookingTickets/' + ${booking.id}}" class="btn btn-success">Aggiorna biglietti</a>
+                                    <a th:href="@{'/user/removeBooking/' + ${booking.id}}" class="btn btn-danger">Rimuovi</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div th:replace="~{fragments :: Footer}"></div>
+
+</body>
 </html>

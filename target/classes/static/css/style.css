@@ -17,6 +17,21 @@ body{
   background-color: #54595F;
 }
 
+/************************************ARTIST**************************************/
+.artist-box {
+    border: 1px solid #ccc;
+    padding: 15px;
+    background-color: rgb(0, 0, 0);
+}
+
+.artist-image {
+    margin-top: 10px;
+}
+
+.artist-image img {
+    border-radius: 5px;
+}
+
 /**************************************NAVBAR***********************************/
 .custom-navbar {
   background-color: #141414;

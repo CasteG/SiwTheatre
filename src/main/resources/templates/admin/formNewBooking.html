@@ -1,49 +1,67 @@
 <!DOCTYPE html>
-<html lang="it">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>New Booking</title>
-    <link rel="stylesheet" href="/stile.css?version=3">
+    <title>Nuova Prenotazione</title>
+   	<div th:replace="~{fragments :: Stylesheet}"></div>
+
 </head>
 
 <body>
-    <div><a href="/">Home</a></div>
-    <h1>Effettua una prenotazione</h1>
-    <form th:action="@{/bookings}" method="POST" th:object="${booking}">
-        <div th:if="${#fields.hasGlobalErrors()}">
-            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
-        </div>
+    <!-- Navbar -->
+    <div th:if="${role != null && role == 'ADMIN'}" th:replace="~{fragments :: Navbar-admin}"></div>
 
-        <div>
-            Spettacolo:
-            <span th:if="${plays.isEmpty()}">Non ci sono spettacoli nel sistema</span>
-            <span th:if="${!plays.isEmpty()}">
-                <select th:field="${booking.play}">
-                    <option th:each="play : ${plays}" 
-                            th:value="${play.id}" 
-                            th:text="${play.name} + ' (' + ${play.city} + ', ' + ${#temporals.format(play.date, 'dd-MM-yyyy')} + ', ' + ${#temporals.format(play.date, 'HH:mm')} + ')'">
-                        Seleziona uno spettacolo
-                    </option>
-                </select>
-            </span>
-        </div>
-        
-        <div>
-            Utente:
-            <span th:if="${users.isEmpty()}">Non ci sono utenti nel sistema</span>
-            <span th:if="${!users.isEmpty()}">
-                <select th:field="${booking.user}">
-                    <option th:each="user : ${users}" th:value="${user.id}" th:text="${user}">Seleziona un utente</option>
-                </select>
-            </span>
-        </div>
-        
-        <div>
-            Numero biglietti: <input type="text" th:field="${booking.numTickets}">
-            <span th:if="${#fields.hasErrors('numTickets')}" th:errors="*{numTickets}" class="text-red"></span>
-        </div>
+    <!-- Titolo della pagina -->
+    <section class="generic_section">
+        <div class="container">
+            <div class="mt-2">
+                <h1 class="text-center text-uppercase fw-bolder pt-3">Nuova Prenotazione</h1>
+            </div>
 
-        <span><button type="submit">Conferma</button></span>
-    </form>
+            <!-- Form per la prenotazione -->
+            <div class="row justify-content-center">
+                <div class="col-md-6 mb-5">
+                    <form th:action="@{/bookings}" method="post" th:object="${booking}">
+                        <!-- Gestione degli errori globali -->
+                        <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger" role="alert">
+                            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
+                        </div>
+
+                        <!-- Selezione dello spettacolo -->
+                        <div class="mb-2">
+                            <label for="play" class="form-label">Spettacolo:</label>
+                            <select th:field="${booking.play}" class="form-control" id="play">
+                                <option th:each="play : ${plays}" th:value="${play.id}" th:text="${play.name} + ' (' + ${play.city} + ', ' + ${#temporals.format(play.date, 'dd-MM-yyyy')} + ', ' + ${#temporals.format(play.date, 'HH:mm')} + ')'">Seleziona uno spettacolo</option>
+                            </select>
+                            <span class="text-red" th:if="${#fields.hasErrors('play')}" th:errors="*{play}"></span>
+                        </div>
+
+                        <!-- Selezione dell'utente -->
+                        <div class="mb-2">
+                            <label for="user" class="form-label">Utente:</label>
+                            <select th:field="${booking.user}" class="form-control" id="user">
+                                <option th:each="user : ${users}" th:value="${user.id}" th:text="${user}">Seleziona un utente</option>
+                            </select>
+                            <span class="text-red" th:if="${#fields.hasErrors('user')}" th:errors="*{user}"></span>
+                        </div>
+
+                        <!-- Inserimento del numero di biglietti -->
+                        <div class="mb-2">
+                            <label for="numTickets" class="form-label">Numero biglietti:</label>
+                            <input type="text" th:field="${booking.numTickets}" class="form-control" id="numTickets">
+                            <span class="text-red" th:if="${#fields.hasErrors('numTickets')}" th:errors="*{numTickets}"></span>
+                        </div>
+
+                        <!-- Bottone di conferma -->
+                        <div class="d-flex justify-content-end align-items-center">
+                            <button type="submit" class="btn btn-success mt-3">Conferma</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments :: Footer}"></div>
 </body>
 </html>

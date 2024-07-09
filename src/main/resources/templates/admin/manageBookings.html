@@ -1,32 +1,46 @@
 <!DOCTYPE html>
 <html>
-	
-	<head>
-		<title>Manage Bookings</title>
-		<link rel="stylesheet" href="/stile.css?version=2" />
-	</head>
-	
-	<body>
-    <div><a href="/">Home</a></div>
-		<h1>Gestisci prenotazioni</h1>
-		<div th:if="${bookings.isEmpty()}">Non ci sono prenotazioni nel sistema</div>
-		
-		<div th:if="${!bookings.isEmpty()}" class="d-flex justify-content-center mb-4 mt-4">
-        	<a href="/admin/formSearchBooking" class="btn btn-outline-primary">Cerca prenotazione per username</a>
-      	</div>
-        
-      </div>
-		<ul>
-        <li th:each="booking : ${bookings}">
-			<div>Utente: <a th:text="${booking.user}"></a></div>
-        	<div>Spettacolo: <a th:text="${booking.play.name}"></a></div>
-        	<div>Indirizzo: <a th:text="${booking.play.location} + ', ' +{booking.play.city}"></a></div>
-        	<div>Giorno: <a th:text="${#temporals.format(booking.play.date, 'dd-MM-yyyy')} + ', ore ' + ${#temporals.format(booking.play.date, 'HH:mm')}"></a></div>
-        	<div>Numero biglietti: <a th:text="${booking.numTickets}"></a></div>
+<head>
+    <title>Manage Bookings</title>
+    <link rel="stylesheet" href="/stile.css?version=2" />
+    <div th:replace="~{fragments :: Stylesheet}"></div>
+</head>
+<body>
+    <div th:replace="~{fragments :: Navbar-admin}"></div>
 
-			<a th:href="@{'/admin/formUpdateBookingTickets/' + ${booking.id}}">(Aggiorna biglietti)</a>
-			<a th:href="@{'/admin/removeBooking/' + ${booking.id}}">(Rimuovi)</a>
-        </li>
-        </ul>
-	    </body>
+    <div class="container">
+        <h1 class="text-center">Gestisci prenotazioni</h1>
+		<br>
+        <div th:if="${bookings.isEmpty()}" class="alert alert-danger">Non ci sono prenotazioni nel sistema</div>
+
+        <div th:if="${!bookings.isEmpty()}">
+            <div class="d-flex justify-content-center mb-4 mt-4">
+                <a href="/admin/formSearchBooking" class="btn btn-outline-primary">Cerca prenotazione per username</a>
+            </div>
+
+            <div class="row">
+                <ul class="list-group col-md-8 offset-md-2">
+                    <li th:each="booking : ${bookings}" class="list-group-item">
+                        <div class="card bg-dark text-white">
+                            <div class="card-body">
+                                <div>Utente: <a th:text="${booking.user}"></a></div>
+                                <div>Spettacolo: <a th:text="${booking.play.name}"></a></div>
+                                <div>Indirizzo: <a th:text="${booking.play.location + ', ' + booking.play.city}"></a></div>
+                                <div>Giorno: <a th:text="${#temporals.format(booking.play.date, 'dd-MM-yyyy')} + ', ore ' + ${#temporals.format(booking.play.date, 'HH:mm')}"></a></div>
+                                <div>Numero biglietti: <a th:text="${booking.numTickets}"></a></div>
+                                <br>
+                                <div>
+                                    <a th:href="@{'/admin/formUpdateBookingTickets/' + ${booking.id}}" class="btn btn-success">Aggiorna biglietti</a>
+                                    <a th:href="@{'/admin/removeBooking/' + ${booking.id}}" class="btn btn-danger">Rimuovi</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+      <div th:replace="~{fragments :: Footer}"></div>
+
+</body>
 </html>
