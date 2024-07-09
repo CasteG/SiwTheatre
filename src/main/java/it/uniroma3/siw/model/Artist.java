@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -45,7 +44,7 @@ public class Artist {
 	@OneToOne
 	private Image image;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany
 	private Set<Play> plays;
 	
 	public Artist() {

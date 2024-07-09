@@ -44,9 +44,10 @@ public class BookingController {
 
 	@Autowired
 	private CredentialsService credentialsService;
-	
+
 	@Autowired
 	private ArtistService artistService;
+	
 	
 
 	@PostMapping("/bookings")
@@ -125,7 +126,6 @@ public class BookingController {
 	/*********************************************************************************************/
 	/**************************************** ADMIN ***********************************************/
 	/**********^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^**********************************************/
-	
 
 	@GetMapping("admin/bookings/{id}")
 	public String getBooking(@PathVariable("id") Long id, Model model) {
@@ -227,15 +227,6 @@ public class BookingController {
 	    }
 	}
 
-
-	@GetMapping("/admin/updatePlay/{idBooking}")
-	public String updatePlay(Model model, @PathVariable("idBooking") Long id) {
-		Booking booking = this.bookingService.findById(id);
-		model.addAttribute("booking", booking);
-		model.addAttribute("plays", this.playService.findAll());
-		return "admin/updatePlayBooking.html";
-	}
-	
 	@GetMapping("/admin/removeBooking/{id}")
 	public String removeBooking(@PathVariable("id") Long id, Model model) {
 		Booking booking = this.bookingService.findById(id);
@@ -248,7 +239,6 @@ public class BookingController {
 		return "admin/successfulRemoval.html";
 	}
 	
-
 	/*********************************************************************************************/
 	/**************************************** USER ***********************************************/
 	/**********^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^**********************************************/
@@ -349,15 +339,6 @@ public class BookingController {
 	    }
 	}
 
-	
-	@GetMapping("/user/updatePlay/{idBooking}")
-	public String updatePlayUser(Model model, @PathVariable("idBooking") Long id) {
-		Booking booking = this.bookingService.findById(id);
-		model.addAttribute("booking", booking);
-		model.addAttribute("plays", this.playService.findAll());
-		return "user/updatePlayBooking.html";
-	}
-	
 	@GetMapping("/user/removeBooking/{id}")
 	public String removeBookingUser(@PathVariable("id") Long id, Model model) {
 		Booking booking = this.bookingService.findById(id);

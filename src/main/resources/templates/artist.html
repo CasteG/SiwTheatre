@@ -2,24 +2,48 @@
 <html>
 <head>
     <title>Artist</title>
-    <link rel="stylesheet" href="/stile.css?version=2" />
+	  <div th:replace="~{fragments :: Stylesheet}"></div>
 </head>
 
 <body>
-    <div>
-    <div><a href="/">Home</a></div>
+    <div th:if="${role!=null && role=='ADMIN'}"><div th:replace="~{fragments :: Navbar-admin}"></div></div>
+    <div th:if="${role!=null && role=='DEFAULT'}"><div th:replace="~{fragments :: Navbar-logged}"></div></div>
+    <div th:if="${#authorization.expression('isAnonymous()')}"><div th:replace="~{fragments :: Navbar}"></div></div>
+
+    <div class="wrapper d-flex flex-column min-vh-100">
+        <main class="flex-fill">
+            <div class="container my-4">
+                <div class="card shadow-lg">
+                    <div class="card-header text-center bg-red text-white">
+                        <h1 th:text="${artist.name} + ' ' + ${artist.surname}" class="fw-bold text-uppercase"></h1>
+                        <h4 th:text="'(' + ${#temporals.format(artist.dateOfBirth, 'dd/MM/yyyy')} + ')'"></h4>
+                    </div>
+                    <div class="card-body bg-black">
+                        <div class="row">
+                            <div class="col-md-6 text-center align-self-center">
+                                <img th:src="@{'/image/' + ${artist.image.id}}" class="img-fluid rounded" style="width: 225px; height: 300px; object-fit: cover;">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="text-red">Ruolo:</label> <span th:text="${artist.role}"></span>
+                                <h2 class="text-red">Spettacoli: </h2>
+                                <ul class="plays-list" th:if="${#lists.size(artist.plays) > 0}">
+                                    <li th:each="play : ${artist.plays}">
+                                        <a th:href="@{'/plays/' + ${play.id}}" th:text="${play.name}"></a>
+                                    </li>
+                                </ul>
+                                <p th:unless="${!artist.plays.isEmpty()}" class="text-white">Nessuno spettacolo inserito</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div th:unless="${artist}" class="alert alert-danger mt-3">Non esiste</div>
+            </div>
+        </main>
     </div>
-    <div th:if="${artist}">
-        <h1 th:text="${artist.name} + ' ' + ${artist.surname} + ' (' + ${#temporals.format(artist.dateOfBirth, 'dd-MM-yyyy')} + ')' "></h1>
-        <h2>Ruolo: <span th:text="${artist.role}"></span></h2>
-        <h2>Spettacoli: </h2>
-        <ul>
-      		<li th:each="play : ${artist.plays}">
-        		<a th:href="@{'/plays' + '/' + ${play.id}}"
-           			th:text="${play}"></a>
-      		</li>
-    	</ul>
-    </div>
-    <div th:unless="${artist}">Non esiste</div>
+        <div th:replace="~{fragments :: Footer}"></div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

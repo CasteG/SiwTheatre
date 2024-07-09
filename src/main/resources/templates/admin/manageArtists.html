@@ -17,7 +17,6 @@
         	<div>Data di nascita: <a th:text=" ${#temporals.format(artist.dateOfBirth, 'dd-MM-yyyy')}"></a></div>
         	<div>Ruolo: <a th:text="${artist.role}"></a></div>
 
-			<a th:href="@{'/admin/formUpdateArtist/' + ${artist.id}}">(Aggiorna artista)</a>
 			<a th:href="@{'/admin/removeArtist/' + ${artist.id}}">(Rimuovi)</a>
         </li>
         </ul>

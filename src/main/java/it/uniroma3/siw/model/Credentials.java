@@ -8,7 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
 @Entity
 public class Credentials {
@@ -23,11 +22,9 @@ public class Credentials {
 	
 	@NotBlank
 	@Column (unique = true)
-	@Size(min = 3, max = 15)
 	private String username;
 	
 	@NotBlank
-	@Size(min = 8, max = 255)
 	private String password;
 	
 	private String role;

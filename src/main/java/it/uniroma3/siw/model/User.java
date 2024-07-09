@@ -22,6 +22,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 
 @Entity
 @Table(name = "users")
@@ -39,8 +41,11 @@ public class User{
 	@NotBlank
 	private String surname;
 	
+	@NotBlank
 	private String email;
 	
+	@Past
+	@NotNull
 	private LocalDate dateOfBirth;
 	
     @OneToOne(cascade = CascadeType.ALL)
