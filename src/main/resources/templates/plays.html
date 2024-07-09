@@ -3,7 +3,7 @@
 <html>
 	
   <head>
-	  <title>Ricette</title>
+	  <title>Spettacoli</title>
 	  <link rel="stylesheet" href="/stile.css?version=2" />
 	  <div th:replace="~{fragments :: Stylesheet}"></div>
   </head>
@@ -24,10 +24,11 @@
 	          <div class="row g-3" >
 	              <div class="col-lg-3 col-sm-6" th:each="play : ${plays}">
 	                  <a class="grid-box" th:href="@{'/plays/' + ${play.id}}">
-	                      <img class="img-fluid rounded-top-4" src="/images/slider/otello-1.png" />
+	                      <img th:if="${play.image == null}" class="img-fluid standard-image rounded-top-4" src="/images/plays/Notre-Dame-20.png" />
+						  <img th:unless="${play.image == null}" class="img-fluid standard-image rounded-top-4" th:src="@{'/image/' + ${play.image.id}}" />
 	                      <div class="grid-caption mt-n2 rounded-bottom-4">
-	                        <div class="grid-caption-heading text-cream" th:text="${play.name}">Otello</div>
-	                        <div class="grid-caption-subheading text-muted" th:text="${play.city}+' '+'('+${#temporals.format(play.date, 'dd-MM-yyyy')}+')'">Roma (11/11/11)</div>
+	                        <div class="grid-caption-heading text-white" th:text="${play.name}">Otello</div>
+	                        <div class="grid-caption-subheading text-white" th:text="${play.city}+' '+'('+${#temporals.format(play.date, 'dd-MM-yyyy')}+')'">Roma (11/11/11)</div>
 	                    </div>
 	                  </a>
 	              </div>
