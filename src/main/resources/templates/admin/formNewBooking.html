@@ -9,6 +9,8 @@
 <body>
     <!-- Navbar -->
     <div th:if="${role != null && role == 'ADMIN'}" th:replace="~{fragments :: Navbar-admin}"></div>
+	<div class="wrapper d-flex flex-column min-vh-100">
+	<main class="flex-fill">	
 
     <!-- Titolo della pagina -->
     <section class="generic_section">
@@ -60,8 +62,9 @@
             </div>
         </div>
     </section>
-
+	</main>
     <!-- Footer -->
     <div th:replace="~{fragments :: Footer}"></div>
+	</div>
 </body>
 </html>

@@ -1,37 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Artisti</title>
+    <title>Gestisci artisti</title>
     <div th:replace="~{fragments :: Stylesheet}"></div>
+  
 </head>
 <body>
     <div th:if="${role!=null && role=='ADMIN'}"><div th:replace="~{fragments :: Navbar-admin}"></div></div>
     <div th:if="${role!=null && role=='DEFAULT'}"><div th:replace="~{fragments :: Navbar-logged}"></div></div>
+	<div class="wrapper d-flex flex-column min-vh-100">
+	<main class="flex-fill">	
 
     <section class="generic_section">
         <div class="container">
-            <h1 class="text-center text-uppercase fw-bolder pt-3">Artisti</h1>
-            <br>
-            
-            <div th:if="${artists.isEmpty()}">Non ci sono artisti nel sistema</div>
+            <h1 class="text-center text-uppercase fw-bolder py-3">Artisti</h1>
+			<div th:if="${artists.isEmpty()}" class="d-flex justify-content-center align-items-center py-5" style="height: 50vh;">
+			  <h2 class="text-center fw-bolder">Non ci sono Artisti nel sistema</h2>
+			</div>
 
             <div class="row">
                 <div th:each="artist : ${artists}" class="col-md-4 mb-4">
-                    <div class="artist-box">
-                        <!-- Immagine dell'artista -->
-                        <div class="artist-image">
-                            <img th:src="@{'/image/' + ${artist.image.id}}" class="img-fluid rounded" style="width: 100%; height: 300px; object-fit: cover;">
-                        </div>
-                        <!-- Nome e cognome dell'artista -->
-                        <h2 class="text-center mt-3">
-                            <a th:href="@{'/artists/' + ${artist.id}}" th:text="${artist.name} + ' ' + ${artist.surname}" class="text-white"></a>
-                        </h2>
-                    </div>
+					<div class="artist-box rounded-3 border-2 p-3 text-center">
+					    <!-- Immagine dell'artista -->
+					    <div class="artist-image mb-3">
+					        <img th:src="@{'/image/' + ${artist.image.id}}" class="img-fluid rounded" style="width: 100%; height: 300px; object-fit: cover;">
+					    </div>
+						<h5 class="text-white fw-bold text-uppercase" th:text="${artist.name}+' '+${artist.surname}"></h5>
+					    <div class="text-white">Data di nascita: <span th:text="${#temporals.format(artist.dateOfBirth, 'dd/MM/yyyy')}"></span></div>
+					    <div class="text-white">Ruolo: <span th:text="${artist.role}"></span></div>
+					</div>
                 </div>
             </div>
         </div>
     </section>
-
+	</main>
     <div th:replace="~{fragments :: Footer}"></div>
+	</div>
 </body>
 </html>

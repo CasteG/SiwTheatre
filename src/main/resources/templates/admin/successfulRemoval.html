@@ -1,13 +1,44 @@
 <!DOCTYPE html>
-<html>
-	
-	<head>
-		<title>Successful removal</title>
-		<link rel="stylesheet" href="/stile.css?version=2" />
-	</head>
-	
-	<body>
-    <div><a href="/">Home</a></div>
-		<h1>Rimozione avvenuta con successo!</h1>
-	</body>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Successful Removal</title>
+    <div th:replace="~{fragments :: Stylesheet}"></div>
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+    <!-- Navbar -->
+    <div th:if="${role!=null && role=='ADMIN'}">
+        <div th:replace="~{fragments :: Navbar-admin}"></div>
+    </div>
+    <div th:if="${role!=null && role=='DEFAULT'}">
+        <div th:replace="~{fragments :: Navbar-logged}"></div>
+    </div>
+    <div th:if="${#authorization.expression('isAnonymous()')}">
+        <div th:replace="~{fragments :: Navbar}"></div>
+    </div>
+
+    <!-- Main content -->
+    <main class="flex-fill d-flex align-items-center justify-content-center">
+        <div class="card text-center shadow-lg bg-black text-white" style="max-width: 400px;">
+            <div class="card-body">
+                <h1 class="card-title fw-bold text-red">Successo!</h1>
+                <p class="card-text">La rimozione è avvenuta con successo.</p>
+                <a href="/" class="btn btn-danger btn-lg mt-3">Torna alla Home</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments :: Footer}"></div>
+
+    <!-- Bootstrap JS (Optional) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
 </html>

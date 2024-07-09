@@ -1,12 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="it">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Booking Tickets</title>
-    <link rel="stylesheet" href="/css/stile.css" />
+    <div th:replace="~{fragments :: Stylesheet}"></div>
     <style>
         .input-number {
-            width: 50px;
+            width: 70px;
             text-align: center;
+        }
+        .card-dark {
+            background-color: #000;
+            color: #fff;
         }
         .error-message {
             color: red;
@@ -14,36 +20,50 @@
     </style>
 </head>
 <body>
-    <div><a href="/">Home</a></div>
-    <h1>Aggiorna numero biglietti</h1>
-    
-    <div>
-        <h2>Dettagli Prenotazione</h2>
-        <p>Utente: <span th:text="${booking.user.username}"></span></p>
-        <p>Spettacolo: <span th:text="${booking.play.name}"></span></p>
-        <p>Luogo: <span th:text="${booking.play.city} + ', ' + ${booking.play.location}"></span></p>
-        <p>Data: <span th:text="${#temporals.format(booking.play.date, 'dd-MM-yyyy')}"></span></p>
-        <p>Orario: <span th:text="${#temporals.format(booking.play.date, 'HH:mm')}"></span></p>
-    </div>
+    <div th:if="${role!=null && role=='ADMIN'}"><div th:replace="~{fragments :: Navbar-admin}"></div></div>
+    <div th:if="${role!=null && role=='DEFAULT'}"><div th:replace="~{fragments :: Navbar-logged}"></div></div>
+    <div class="wrapper d-flex flex-column min-vh-100">
+        <main class="flex-fill d-flex justify-content-center align-items-center">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-8 col-lg-6">
+                        <div class="card card-dark p-4">
+                            <h1 class="text-center text-red fw-bold mb-4">Aggiorna numero biglietti</h1>
+                            
+                            <div class="mb-4">
+                                <h2 class="text-center">Dettagli Prenotazione</h2>
+                                <p>Utente: <span th:text="${booking.user.username}"></span></p>
+                                <p>Spettacolo: <span th:text="${booking.play.name}"></span></p>
+                                <p>Luogo: <span th:text="${booking.play.city} + ', ' + ${booking.play.location}"></span></p>
+                                <p>Data: <span th:text="${#temporals.format(booking.play.date, 'dd-MM-yyyy')}"></span></p>
+                                <p>Orario: <span th:text="${#temporals.format(booking.play.date, 'HH:mm')}"></span></p>
+                            </div>
 
-    <!-- Area di messaggio di errore -->
-    <div th:if="${errorMessage}" class="error-message">
-        <p th:text="${errorMessage}"></p>
-    </div>
+                            <!-- Area di messaggio di errore -->
+                            <div th:if="${errorMessage}" class="text-center text-danger mb-3">
+                                <p th:text="${errorMessage}"></p>
+                            </div>
 
-    <form th:action="@{'/admin/updateBookingTickets/' + ${booking.id}}" th:object="${booking}" method="post">
-        <div>
-            <label for="numTickets">Numero di biglietti:</label>
-            <div>
-                <button type="button" onclick="decreaseValue()">-</button>
-                <input type="number" id="numTickets" name="numTickets" th:field="*{numTickets}" class="input-number" min="1" />
-                <button type="button" onclick="increaseValue()">+</button>
+                            <form th:action="@{'/admin/updateBookingTickets/' + ${booking.id}}" th:object="${booking}" method="post" class="text-center">
+                                <div class="mb-3">
+                                    <label for="numTickets" class="form-label">Numero di biglietti:</label>
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <button type="button" class="btn btn-secondary" onclick="decreaseValue()">-</button>
+                                        <input type="number" id="numTickets" name="numTickets" th:field="*{numTickets}" class="form-control mx-2 text-center input-number" min="1" />
+                                        <button type="button" class="btn btn-secondary" onclick="increaseValue()">+</button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button type="submit" class="btn btn-primary">Aggiorna</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div>
-            <button type="submit">Aggiorna</button>
-        </div>
-    </form>
+        </main>
+        <div th:replace="~{fragments :: Footer}"></div>
+    </div>
 
     <script>
         function decreaseValue() {
