@@ -10,6 +10,12 @@
     <div><a href="/">Home</a></div>
 		<h1>Gestisci prenotazioni</h1>
 		<div th:if="${bookings.isEmpty()}">Non ci sono prenotazioni nel sistema</div>
+		
+		<div th:if="${!bookings.isEmpty()}" class="d-flex justify-content-center mb-4 mt-4">
+        	<a href="/admin/formSearchBooking" class="btn btn-outline-primary">Cerca prenotazione per username</a>
+      	</div>
+        
+      </div>
 		<ul>
         <li th:each="booking : ${bookings}">
 			<div>Utente: <a th:text="${booking.user}"></a></div>

@@ -16,8 +16,12 @@
     <!--div><a href="/"><img src="/images/baked-cake.png" height="50%"/></a></div-->
     <h1 class="text-center text-uppercase fw-bolder pt-3">Spettacoli</h1>
     <div th:if="${plays.isEmpty()}" class="d-flex justify-content-center align-items-center py-5" style="height: 50vh;">
-      <h1 class="text-center text-red fw-bolder">Non ci sono Ricette nel sistema</h1>
+      <h1 class="text-center text-red fw-bolder">Non ci sono spettacoli nel sistema</h1>
     </div>
+    <!-- Search play -->
+    <div th:if="${!plays.isEmpty()}" class="d-flex justify-content-center mb-4 mt-4">
+        	<a href="/formSearchPlay" class="btn btn-outline-primary">Cerca spettacolo per nome</a>
+  	</div>
     <!-- grid-->
 	<div id="grid">
 	      <div class="container-fluid p-3 mb-4">

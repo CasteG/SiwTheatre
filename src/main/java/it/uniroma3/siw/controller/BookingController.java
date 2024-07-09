@@ -19,6 +19,7 @@ import it.uniroma3.siw.model.Booking;
 import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.Play;
 import it.uniroma3.siw.model.User;
+import it.uniroma3.siw.service.ArtistService;
 import it.uniroma3.siw.service.BookingService;
 import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.service.PlayService;
@@ -43,6 +44,9 @@ public class BookingController {
 
 	@Autowired
 	private CredentialsService credentialsService;
+	
+	@Autowired
+	private ArtistService artistService;
 	
 
 	@PostMapping("/bookings")
@@ -244,7 +248,7 @@ public class BookingController {
 		return "admin/successfulRemoval.html";
 	}
 	
-	
+
 	/*********************************************************************************************/
 	/**************************************** USER ***********************************************/
 	/**********^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^**********************************************/
