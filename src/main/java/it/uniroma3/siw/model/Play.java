@@ -40,15 +40,18 @@ public class Play {
 	@NotNull
 	private LocalTime time;
 	
-	@NotNull
+	@NotBlank
 	private String city;
 	
+	@NotBlank
 	private String location;
 		
-	@Min(value = 0) @NotNull
+	@Min(value = 0) 
+	@NotNull
 	private int availableTickets;
 	
-	@Positive @NotNull
+	@Positive 
+	@NotNull
 	private Float price;
 	
     @OneToOne(cascade = CascadeType.ALL)

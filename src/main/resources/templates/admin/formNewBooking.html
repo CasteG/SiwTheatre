@@ -40,7 +40,7 @@
         
         <div>
             Numero biglietti: <input type="text" th:field="${booking.numTickets}">
-            <span th:if="${#fields.hasErrors('numTickets')}" th:errors="*{numTickets}"></span>
+            <span th:if="${#fields.hasErrors('numTickets')}" th:errors="*{numTickets}" class="text-red"></span>
         </div>
 
         <span><button type="submit">Conferma</button></span>

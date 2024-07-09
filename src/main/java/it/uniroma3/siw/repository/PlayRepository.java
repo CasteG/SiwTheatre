@@ -11,5 +11,5 @@ public interface PlayRepository extends CrudRepository<Play, Long> {
 	
 	public Play findByName(String name);
 
-	public boolean existsByNameAndDate(String name, LocalDate localDate);
+	public boolean existsByNameAndDateAndCity(String name, LocalDate date, String city);
 }

@@ -45,7 +45,7 @@ public class PlayService {
 	}
 
 	public boolean alreadyExists(Play target) {
-		return this.playRepository.existsByNameAndDate(target.getName(), target.getDate());
+		return this.playRepository.existsByNameAndDateAndCity(target.getName(), target.getDate(), target.getCity());
 	}
 
 }
