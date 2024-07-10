@@ -12,6 +12,8 @@
     <div th:if="${role!=null && role=='ADMIN'}"><div th:replace="~{fragments :: Navbar-admin}"></div></div>
     <div th:if="${role!=null && role=='DEFAULT'}"><div th:replace="~{fragments :: Navbar-logged}"></div></div>
     <div th:if="${#authorization.expression('isAnonymous()')}"><div th:replace="~{fragments :: Navbar}"></div></div>
+	<div class="wrapper d-flex flex-column min-vh-100">
+	<main class="flex-fill">	
 
     <!-- Titolo -->
     <h1 class="text-center text-uppercase fw-bolder pt-3">Prenotazioni</h1>
@@ -38,9 +40,10 @@
     <div th:unless="${bookings}" class="text-center py-4">
         <h2>Non esiste</h2>
     </div>
-
+	</main>
     <!-- Footer -->
     <div th:replace="~{fragments :: Footer}"></div>
+	</div>
 
 </body>
 
